@@ -105,8 +105,8 @@ export const getData = () => {
 
 export const getCriteria = () => {
   const criteria = {
-    ears: { label: "Ohren", options: ["yes", "no"] },
-    hair: { label: "Haarlänge", options: ["short", "long"] },
+    ears: { label: "Ohren", options: ["Ja", "Nein"] },
+    hair: { label: "Haarlänge", options: ["Kurz", "Lang"] },
   };
   return criteria;
 };
