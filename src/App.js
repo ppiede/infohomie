@@ -62,6 +62,62 @@ function App() {
   const [value1, setValue1] = useState("");
   const [value2, setValue2] = useState("");
 
+  const usedCriteria = ["ears", "hair"];
+
+  const sortData1 = (data, level) => {
+    const key = usedCriteria[level];
+    const group1 = [];
+    const group2 = [];
+
+    if (!key) {
+      return;
+    }
+
+    for (let entry of data) {
+      if (entry.criteria[key] === criteria[key].options[0]) {
+        group1.push(entry);
+      } else {
+        group2.push(entry);
+      }
+    }
+    let result = [];
+
+    sortData1(group1, level + 1)
+      ? result.push(...sortData1(group1, level + 1))
+      : result.push(group1);
+    sortData1(group2, level + 1)
+      ? result.push(...sortData1(group2, level + 1))
+      : result.push(group2);
+
+    return result;
+  };
+
+  const sortData2 = (data, level) => {
+    const key = usedCriteria[level];
+    const group1 = [];
+    const group2 = [];
+
+    if (!key) {
+      return;
+    }
+
+    for (let entry of data) {
+      if (entry.criteria[key] === criteria[key].options[0]) {
+        group1.push(entry);
+      } else {
+        group2.push(entry);
+      }
+    }
+
+    let sort1 = sortData2(group1, level + 1);
+    let sort2 = sortData2(group2, level + 1);
+
+    return [sort1 ? sort1 : group1, sort2 ? sort2 : group2];
+  };
+
+  console.log(sortData1(data, 0));
+  console.log(sortData2(data, 0));
+
   const renderLeftSide = (key) => {
     if (!key) {
       return null;
