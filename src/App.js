@@ -7,11 +7,13 @@ import DecisionTree from "./decision-tree-visualizer";
 function App() {
   const data = useMemo(() => getData(), []);
   const criteria = useMemo(() => getCriteria(), []);
+  const [selectedCriteria, setSelectedCriteria] = useState([]);
 
-  const [value1, setValue1] = useState("");
-  const [value2, setValue2] = useState("");
-
-  const usedCriteria = ["ears", "hair"];
+  const handleChange = (event) => {
+    let copy = [...selectedCriteria];
+    copy[event.target.id] = event.target.value;
+    setSelectedCriteria(copy);
+  };
 
   const renderData = () => {
     return data.map((value, index) => {
@@ -20,6 +22,8 @@ function App() {
       );
     });
   };
+
+  console.log("t", selectedCriteria);
 
   return (
     <div className="App">
@@ -31,19 +35,13 @@ function App() {
         Jetzt wollen wir unsere Hunde von unseren Katzen trennen und müssen
         dafür Kriterien festlegen:
       </p>
-      <select
-        value={value1}
-        onChange={(event) => setValue1(event.target.value)}
-      >
+      <select value={selectedCriteria[0]} id={0} onChange={handleChange}>
         <option value="">{"Kriterium1 auswählen"}</option>
         {Object.keys(criteria).map((key, index) => {
           return <option value={key}>{criteria[key].label}</option>;
         })}
       </select>
-      <select
-        value={value2}
-        onChange={(event) => setValue2(event.target.value)}
-      >
+      <select value={selectedCriteria[1]} id={1} onChange={handleChange}>
         <option value="">{"Kriterium2 auswählen"}</option>
         {Object.keys(criteria).map((key, index) => {
           return <option value={key}>{criteria[key].label}</option>;
@@ -53,7 +51,7 @@ function App() {
       <DecisionTree
         data={data}
         criteria={criteria}
-        usedCriteria={usedCriteria}
+        usedCriteria={selectedCriteria}
       />
     </div>
   );
