@@ -52,6 +52,54 @@ function App() {
       name: "Saint Bernard",
       criteria: { ears: "yes", hair: "long" },
     },
+    {
+      id: 9,
+      url: "https://cdn2.thecatapi.com/images/4lXnnfxac.jpg",
+      name: "Burmese",
+      criteria: { ears: "no", hair: "short" },
+    },
+    {
+      id: 10,
+      url: "https://cdn2.thecatapi.com/images/lOl0J96On.jpg",
+      name: "Colorpoint Shorthair",
+      criteria: { ears: "yes", hair: "short" },
+    },
+    {
+      id: 11,
+      url: "https://cdn2.thecatapi.com/images/0iSghgPeZ.jpg",
+      name: "Oriental",
+      criteria: { ears: "no", hair: "long" },
+    },
+    {
+      id: 12,
+      url: "https://cdn2.thecatapi.com/images/qBqs3R_w4.jpg",
+      name: "Ragdoll",
+      criteria: { ears: "no", hair: "short" },
+    },
+    {
+      id: 13,
+      url: "https://cdn2.thecatapi.com/images/6xLEBwiUS.png",
+      name: "Scottish Fold",
+      criteria: { ears: "no", hair: "short" },
+    },
+    {
+      id: 14,
+      url: "https://cdn2.thecatapi.com/images/4d4V586nt.jpg",
+      name: "Snowshoe",
+      criteria: { ears: "yes", hair: "short" },
+    },
+    {
+      id: 15,
+      url: "https://cdn2.thecatapi.com/images/h19-vtIeX.jpg",
+      name: "Aegean",
+      criteria: { ears: "yes", hair: "short" },
+    },
+    {
+      id: 16,
+      url: "https://cdn2.thecatapi.com/images/4ndvXwCiI.jpg",
+      name: "Balinese",
+      criteria: { ears: "no", hair: "long" },
+    },
   ];
 
   const criteria = {
@@ -201,13 +249,13 @@ function App() {
 
   return (
     <div className="App">
-      <p>Unsere Hundepension behaust aktuell folgende Hunde:</p>
+      <p>Unsere Tierpension behaust aktuell folgende Tiere:</p>
       <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
         {renderData()}
       </div>
       <p>
-        Jetzt wollen wir unsere Hunde nach einem Kriterium in zwei Gruppen
-        einteilen:
+        Jetzt wollen wir unsere Hunde von unseren Katzen trennen und müssen
+        dafür Kriterien festlegen:
       </p>
       <select
         value={value1}
