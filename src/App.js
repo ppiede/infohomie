@@ -34,25 +34,25 @@ function App() {
         dafür Kriterien festlegen:
       </p>
       <select value={selectedCriteria[0]} id={0} onChange={handleChange}>
-        <option value="">{"Kriterium1 auswählen"}</option>
+        <option value="">{"Kriterium 1 auswählen"}</option>
         {Object.keys(criteria).map((key, index) => {
           return <option value={key}>{criteria[key].label}</option>;
         })}
       </select>
       <select value={selectedCriteria[1]} id={1} onChange={handleChange}>
-        <option value="">{"Kriterium2 auswählen"}</option>
+        <option value="">{"Kriterium 2 auswählen"}</option>
         {Object.keys(criteria).map((key, index) => {
           return <option value={key}>{criteria[key].label}</option>;
         })}
       </select>
       <select value={selectedCriteria[2]} id={2} onChange={handleChange}>
-        <option value="">{"Kriterium2 auswählen"}</option>
+        <option value="">{"Kriterium 3 auswählen"}</option>
         {Object.keys(criteria).map((key, index) => {
           return <option value={key}>{criteria[key].label}</option>;
         })}
       </select>
       <select value={selectedCriteria[3]} id={3} onChange={handleChange}>
-        <option value="">{"Kriterium2 auswählen"}</option>
+        <option value="">{"Kriterium 4 auswählen"}</option>
         {Object.keys(criteria).map((key, index) => {
           return <option value={key}>{criteria[key].label}</option>;
         })}
