@@ -4,7 +4,6 @@ import Vertex from "./Vertex";
 import DataEntry from "../components/DataEntry";
 
 function DecisionTree({ data, criteria, usedCriteria = [] }) {
-  console.log(usedCriteria);
   const sortData = (data, level) => {
     const key = usedCriteria[level];
     const group1 = [];

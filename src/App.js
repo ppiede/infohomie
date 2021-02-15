@@ -23,8 +23,6 @@ function App() {
     });
   };
 
-  console.log("t", selectedCriteria);
-
   return (
     <div className="App">
       <p>Unsere Tierpension behaust aktuell folgende Tiere:</p>
@@ -47,7 +45,18 @@ function App() {
           return <option value={key}>{criteria[key].label}</option>;
         })}
       </select>
-
+      <select value={selectedCriteria[2]} id={2} onChange={handleChange}>
+        <option value="">{"Kriterium2 auswählen"}</option>
+        {Object.keys(criteria).map((key, index) => {
+          return <option value={key}>{criteria[key].label}</option>;
+        })}
+      </select>
+      <select value={selectedCriteria[3]} id={3} onChange={handleChange}>
+        <option value="">{"Kriterium2 auswählen"}</option>
+        {Object.keys(criteria).map((key, index) => {
+          return <option value={key}>{criteria[key].label}</option>;
+        })}
+      </select>
       <DecisionTree
         data={data}
         criteria={criteria}
