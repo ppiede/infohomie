@@ -1,6 +1,6 @@
 import "./App.css";
 import { React, useState } from "react";
-import FittedImage from "react-fitted-image";
+import DataEntry from "./components/DataEntry";
 
 function App() {
   const data = [
@@ -60,6 +60,7 @@ function App() {
   };
 
   const [value1, setValue1] = useState("");
+  const [value2, setValue2] = useState("");
 
   const renderLeftSide = (key) => {
     if (!key) {
@@ -69,14 +70,7 @@ function App() {
       .filter((data) => data.criteria[key] === criteria[key].options[0])
       .map((value, index) => {
         return (
-          <div>
-            <FittedImage
-              src={value.url}
-              fit="cover"
-              style={{ height: 150, width: 150 }}
-            />
-            <p>{value.name}</p>
-          </div>
+          <DataEntry key={index} url={value.url} name={value.name} size={150} />
         );
       });
     return (
@@ -108,16 +102,14 @@ function App() {
     }
     const renderedData = data
       .filter((data) => data.criteria[key] === criteria[key].options[1])
-      .map((value, index) => {
+      .map((value) => {
         return (
-          <div>
-            <FittedImage
-              src={value.url}
-              fit="cover"
-              style={{ height: 150, width: 150 }}
-            />
-            <p>{value.name}</p>
-          </div>
+          <DataEntry
+            key={value.id}
+            url={value.url}
+            name={value.name}
+            size={150}
+          />
         );
       });
     return (
@@ -146,14 +138,7 @@ function App() {
   const renderData = () => {
     return data.map((value, index) => {
       return (
-        <div>
-          <FittedImage
-            src={value.url}
-            fit="cover"
-            style={{ height: 150, width: 150 }}
-          />
-          <p>{value.name}</p>
-        </div>
+        <DataEntry key={index} url={value.url} name={value.name} size={150} />
       );
     });
   };
@@ -172,7 +157,16 @@ function App() {
         value={value1}
         onChange={(event) => setValue1(event.target.value)}
       >
-        <option value="">{"Kriterium auswählen"}</option>
+        <option value="">{"Kriterium1 auswählen"}</option>
+        {Object.keys(criteria).map((key, index) => {
+          return <option value={key}>{criteria[key].label}</option>;
+        })}
+      </select>
+      <select
+        value={value2}
+        onChange={(event) => setValue2(event.target.value)}
+      >
+        <option value="">{"Kriterium2 auswählen"}</option>
         {Object.keys(criteria).map((key, index) => {
           return <option value={key}>{criteria[key].label}</option>;
         })}
