@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Vertex from "./Vertex";
 import DataEntry from "../components/DataEntry";
 
-function DecisionTree({ data, criteria, usedCriteria }) {
+function DecisionTree({ data, criteria, usedCriteria = [] }) {
   const sortData = (data, level) => {
     const key = usedCriteria[level];
     const group1 = [];
@@ -32,11 +32,13 @@ function DecisionTree({ data, criteria, usedCriteria }) {
     return result;
   };
 
-  const sortedData = React.useMemo(() => sortData(data, 0), [
-    data,
-    criteria,
-    usedCriteria,
-  ]);
+  const sortedData = React.useMemo(() => {
+    if (usedCriteria.length !== 0) {
+      return sortData(data, 0);
+    } else {
+      return [];
+    }
+  }, [data, criteria, usedCriteria]);
 
   const renderVertices = (amount, key) => {
     const result = [];
