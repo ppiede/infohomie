@@ -2,6 +2,7 @@ import "./App.css";
 import { React, useState, useMemo } from "react";
 import { getData, getCriteria } from "./mock";
 import DataEntry from "./components/DataEntry";
+import DecisionTree from "./decision-tree-visualizer";
 
 function App() {
   const data = useMemo(() => getData(), []);
@@ -10,7 +11,7 @@ function App() {
   const [value1, setValue1] = useState("");
   const [value2, setValue2] = useState("");
 
-  const usedCriteria = ["ears", "hair"];
+  const usedCriteria = ["ears", "hair", "ears", "ears"];
 
   const sortData1 = (data, level) => {
     const key = usedCriteria[level];
@@ -175,6 +176,13 @@ function App() {
           return <option value={key}>{criteria[key].label}</option>;
         })}
       </select>
+
+      <DecisionTree
+        data={data}
+        criteria={criteria}
+        usedCriteria={usedCriteria}
+      />
+
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div style={{ flex: 1 }} />
         <div
