@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Vertex from "./Vertex";
 import DataEntry from "../components/DataEntry";
 
-function DecisionTree({ data, criteria, usedCriteria = [] }) {
+function DecisionTreeVisualizer({ data, criteria, usedCriteria = [] }) {
   const sortData = (data, level) => {
     const key = usedCriteria[level];
     const group1 = [];
@@ -123,10 +123,10 @@ function DecisionTree({ data, criteria, usedCriteria = [] }) {
   );
 }
 
-DecisionTree.propTypes = {
+DecisionTreeVisualizer.propTypes = {
   criteria: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired,
   usedCriteria: PropTypes.array,
 };
 
-export default DecisionTree;
+export default DecisionTreeVisualizer;
