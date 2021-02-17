@@ -25,6 +25,41 @@ function App() {
 
   return (
     <div className="App">
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
+          height: 70,
+          alignItems: "center",
+          justifyContent: "space-between",
+          borderBottom: "1px solid grey",
+        }}
+      >
+        <div style={{ paddingLeft: "20px" }}>
+          <p>infohomie</p>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            paddingRight: "20px",
+            height: "100%",
+            justifyContent: "center",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <a style={{ padding: "8px" }} href="/new">
+            Neuer Entscheidungsbaum
+          </a>
+          <a style={{ padding: "8px" }} href="/data">
+            Datensatz bearbeiten
+          </a>
+          <a style={{ padding: "8px" }} href="/help">
+            Hilfe
+          </a>
+        </div>
+      </div>
       <p>Unsere Tierpension behaust aktuell folgende Tiere:</p>
       <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
         {renderData()}
