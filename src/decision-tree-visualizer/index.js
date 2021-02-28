@@ -3,58 +3,89 @@ import PropTypes from "prop-types";
 import Vertex from "./Vertex";
 import DataEntry from "../components/DataEntry";
 
-function DecisionTreeVisualizer({ data, criteria, usedCriteria = [] }) {
-  const sortData = (data, level) => {
-    const key = usedCriteria[level];
-    const group1 = [];
-    const group2 = [];
+// Tasked with visualizing the tree
+function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
 
-    if (!key) {
+  // Splits the Dataset along the currently selected feature into a left and right subtree,
+  // depending on the feature value
+  const splitDataSet = (dataset, level) => {
+
+    const curFeature = selectedFeatures[level];
+
+    const leftTree = [];
+    const rightTree = [];
+    const valLeftTree = 0;
+
+    let postSplitDataset = [];
+
+    // If no feature is currently selected, done with splitting
+    if (!curFeature) {
       return;
     }
 
-    for (let entry of data) {
-      if (entry.criteria[key] === criteria[key].options[0]) {
-        group1.push(entry);
+    // Iterate through all entries of the dataset.
+    // If the value of the current feature of the entry matches the value of the left subtree,
+    // this entry will be sorted into the left subtree.
+    // Else, it will be sorted into to right subtree.
+    for (let entry of dataset) {
+
+      if (entry.features[curFeature] === features[curFeature].values[valLeftTree]) {
+        leftTree.push(entry);
       } else {
-        group2.push(entry);
+        rightTree.push(entry);
       }
     }
-    let result = [];
 
-    sortData(group1, level + 1)
-      ? result.push(...sortData(group1, level + 1))
-      : result.push(group1);
-    sortData(group2, level + 1)
-      ? result.push(...sortData(group2, level + 1))
-      : result.push(group2);
+    // Split left subtree
+    splitDataSet(leftTree, level + 1)
+      ? postSplitDataset.push(...splitDataSet(leftTree, level + 1))
+      : postSplitDataset.push(leftTree);
 
-    return result;
+    // Split right subtree
+    splitDataSet(rightTree, level + 1)
+      ? postSplitDataset.push(...splitDataSet(rightTree, level + 1))
+      : postSplitDataset.push(rightTree);
+
+    return postSplitDataset;
   };
 
-  const sortedData = React.useMemo(() => {
-    if (usedCriteria.length !== 0) {
-      return sortData(data, 0);
+  // Will only update, if there is a change in dataset, features or selectedFeatures
+  const postSplitDataset = React.useMemo(() => {
+
+    // If there are selected features, start splitting at level 0
+    if (selectedFeatures.length !== 0) {
+      return splitDataSet(dataset, 0);
     } else {
       return [];
     }
-  }, [data, criteria, usedCriteria]);
 
-  const renderVertices = (amount, key) => {
-    const result = [];
-    for (let i = 0; i < amount; i++) {
-      result.push(
+  }, [dataset, features, selectedFeatures]);
+
+
+  const renderVertices = (numVertices, curFeature) => {
+
+    const vertices = [];
+
+    // If the current feature is empty,
+    // or has been deselected, done
+    if (!curFeature) {
+      return vertices;
+    }
+
+    for (let i = 0; i < numVertices; i++) {
+
+      vertices.push(
         <Vertex
-          criteria={criteria[key].label}
-          options={criteria[key].options}
+          features={features[curFeature].label}
+          values={features[curFeature].values}
         />
       );
     }
-    return result;
+    return vertices;
   };
 
   const renderTree = () => {
-    return usedCriteria.map((value, index) => {
+    return selectedFeatures.map((value, index) => {
       return (
         <div
           key={index}
@@ -73,7 +104,13 @@ function DecisionTreeVisualizer({ data, criteria, usedCriteria = [] }) {
   };
 
   const renderData = () => {
-    return sortedData.map((group, groupIndex) => {
+
+    // If the first feature has been deseletced, done
+    if (selectedFeatures[0] === "") {
+      return;
+    }
+
+    return postSplitDataset.map((group, groupIndex) => {
       return (
         <div
           key={groupIndex}
@@ -100,6 +137,7 @@ function DecisionTreeVisualizer({ data, criteria, usedCriteria = [] }) {
     });
   };
 
+  //
   return (
     <div
       style={{
@@ -124,9 +162,9 @@ function DecisionTreeVisualizer({ data, criteria, usedCriteria = [] }) {
 }
 
 DecisionTreeVisualizer.propTypes = {
-  criteria: PropTypes.object.isRequired,
-  data: PropTypes.array.isRequired,
-  usedCriteria: PropTypes.array,
+  features: PropTypes.object.isRequired,
+  dataset: PropTypes.array.isRequired,
+  selectedFeatures: PropTypes.array,
 };
 
 export default DecisionTreeVisualizer;

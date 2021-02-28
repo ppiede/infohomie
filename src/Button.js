@@ -4,7 +4,7 @@ function Button(props) {
   const [zahl, setZahl] = useState(props.default);
 
   const data = [
-    { name: "Marc", age: 21 },
+    { name: "Marc", age: 22 },
     { name: "Pascal", age: 24 },
     { name: "Lukas", age: 23 },
   ];
