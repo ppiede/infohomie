@@ -1,6 +1,6 @@
 import { React } from "react";
 
-const Help = () => {
+const Edit = () => {
   return (
     <div>
       <p>
@@ -11,4 +11,4 @@ const Help = () => {
   );
 };
 
-export default Help;
+export default Edit;

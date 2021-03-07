@@ -1,7 +1,7 @@
 import { React } from "react";
 import ModeSelection from "../components/ModeSelection";
 
-const Help = () => {
+const New = () => {
   return (
     <div
       style={{
@@ -55,4 +55,4 @@ const Help = () => {
   );
 };
 
-export default Help;
+export default New;
