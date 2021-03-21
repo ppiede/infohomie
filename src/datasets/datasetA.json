@@ -1,0 +1,25 @@
+{
+  "dataset":[
+    {
+      "id": "1",
+      "url": "./datasetA/cucumber1.jpg",
+      "name": "Gurke1",
+      "features": {
+        "color": "grün",
+        "shape": "lang",
+        "cut": "Scheiben",
+        "number": "einzeln"
+      }
+    },
+    {
+      "id": "2",
+      "url": "./datasetA/cucumber2.jpg",
+      "name": "Gurke2",
+      "features": {
+        "color": "grün",
+        "shape": "lang",
+        "cut": "ganz",
+        "number": "mehrere"
+      }
+    }
+]}
