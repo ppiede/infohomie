@@ -25,42 +25,9 @@ const DecisionTree = () => {
 
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          width: "100%",
-          height: 70,
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderBottom: "1px solid grey",
-        }}
-      >
-        <div style={{ paddingLeft: "20px" }}>
-          <p>infohomie</p>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            paddingRight: "20px",
-            height: "100%",
-            justifyContent: "center",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Link style={{ padding: "8px" }} to="/new">
-            Neuer Entscheidungsbaum
-          </Link>
-          <Link style={{ padding: "8px" }} to="/data">
-            Datensatz bearbeiten
-          </Link>
-          <Link style={{ padding: "8px" }} to="/help">
-            Hilfe
-          </Link>
-        </div>
-      </div>
-      <p>Unsere Tierpension behaust aktuell folgende Tiere:</p>
+      <p style={{ fontSize: 24, fontWeight: "900", marginBottom: 64 }}>
+        Unsere Tierpension behaust aktuell folgende Tiere:
+      </p>
       <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
         {renderData()}
       </div>
@@ -97,7 +64,9 @@ const DecisionTree = () => {
         features={features}
         selectedFeatures={selectedFeatures}
       />
+      <br/>
     </div>
+    
   );
 };
 

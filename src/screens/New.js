@@ -1,5 +1,6 @@
 import { React } from "react";
 import ModeSelection from "../components/ModeSelection";
+import { Card, CardGroup, Col, Container } from 'react-bootstrap';
 
 const New = () => {
   return (
@@ -15,42 +16,62 @@ const New = () => {
       <p style={{ fontSize: 24, fontWeight: "900", marginBottom: 64 }}>
         Welche Modus der Website möchtest du nutzen?
       </p>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          width: "100%",
-          justifyContent: "space-evenly",
-        }}
-      >
-        <ModeSelection
-          headline={"Alles vorgegeben"}
-          text={[
-            "Vollständiger Datensatz vorgegeben",
-            "Kritierien zur Klassifikation bereits eingetragen",
-            "Sofort einen Entscheidungsbaum erstellen",
-          ]}
-          route={"/?mode=1"}
-        />
-        <ModeSelection
-          headline={"Daten vorgegeben"}
-          text={[
-            "Vollständiger Datensatz vorgegeben",
-            "Kritierien selber aussuchen und klassifizieren",
-            "Sofort einen Entscheidungsbaum erstellen",
-          ]}
-          route={"/?mode=2"}
-        />
-        <ModeSelection
-          headline={"Ganz von vorne"}
-          text={[
-            "Datensatz komplett selber erstellen",
-            "Kritierien selber aussuchen und klassifizieren",
-            "Sofort einen Entscheidungsbaum erstellen",
-          ]}
-          route={"/data/?mode=3"}
-        />
-      </div>
+      
+      <Container>
+      <CardGroup>
+        <Col>
+        <Card border="info" style={{ width: '18rem' }}>
+          <Card.Body>
+            <Card.Title style={{textDecorationLine: 'underline'}}>Alles vorgegeben</Card.Title>
+            <Card.Img variant="top" src="holder.js/100px160" />
+            <Card.Text>
+              Vollständiger Datensatz vorgegeben
+            </Card.Text>
+            <Card.Text>
+              Kritierien zur Klassifikation bereits eingetragen
+            </Card.Text>
+            <Card.Text>
+              Sofort einen Entscheidungsbaum erstellen
+            </Card.Text>
+          </Card.Body>
+        </Card>
+        </Col>
+        <Col>
+        <Card border="info" style={{ width: '18rem' }}>
+          <Card.Body>
+            <Card.Title style={{textDecorationLine: 'underline'}}>Daten vorgegeben</Card.Title>
+            <Card.Img variant="top" src="holder.js/100px160" />
+            <Card.Text>
+              Vollständiger Datensatz vorgegeben
+            </Card.Text>
+            <Card.Text>
+              Kritierien selber aussuchen und klassifizieren
+            </Card.Text>
+            <Card.Text>
+              Sofort einen Entscheidungsbaum erstellen
+            </Card.Text>
+          </Card.Body>
+        </Card>
+        </Col>
+        <Col>
+        <Card border="info" style={{ width: '18rem' }}>
+          <Card.Body>
+            <Card.Title style={{textDecorationLine: 'underline'}}>Ganz von vorne</Card.Title>
+            <Card.Img variant="top" src="holder.js/100px160" />
+            <Card.Text>
+              Datensatz komplett selber erstellen
+            </Card.Text>
+            <Card.Text>
+              Kritierien selber aussuchen und klassifizieren
+            </Card.Text>
+            <Card.Text>
+              Sofort einen Entscheidungsbaum erstellen
+            </Card.Text>
+          </Card.Body>
+        </Card>
+        </Col>
+      </CardGroup>
+      </Container>
     </div>
   );
 };
