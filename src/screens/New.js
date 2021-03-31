@@ -1,18 +1,19 @@
 import { React } from "react";
 import ModeSelection from "../components/ModeSelection";
 import { Card, CardGroup, Col, Container } from 'react-bootstrap';
+import Logo from '../img/YouChooseLogo.png';
 
 const New = () => {
   return (
     <div
       style={{
-        display: "flex",
         height: "90vh",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
       }}
     >
+      
       <p style={{ fontSize: 24, fontWeight: "900", marginBottom: 64 }}>
         Welche Modus der Website möchtest du nutzen?
       </p>
@@ -20,7 +21,7 @@ const New = () => {
       <Container>
       <CardGroup>
         <Col>
-        <Card border="info" style={{ width: '18rem' }}>
+        <Card border="info" style={{ width: '18rem'}}>
           <Card.Body>
             <Card.Title style={{textDecorationLine: 'underline'}}>Alles vorgegeben</Card.Title>
             <Card.Img variant="top" src="holder.js/100px160" />

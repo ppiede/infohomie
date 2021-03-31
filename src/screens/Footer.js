@@ -1,8 +1,5 @@
 // Imports
 import { React } from "react";
-import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
-import { Link } from "react-router-dom";
-
 
 const Footer = () => {
   return (
@@ -12,13 +9,13 @@ const Footer = () => {
             Copyright © 2021 All Rights Reserved 
         </a>
         <br/>
-        <a>
+        <a style={{ color: '#007bff' }} href="/">
             Impressum
         </a>
         <a>
         &nbsp; - &nbsp; 
         </a>
-        <a>
+        <a style={{ color: '#007bff' }} href="/">
             Datenschutzerklärung
         </a>
     </div>
