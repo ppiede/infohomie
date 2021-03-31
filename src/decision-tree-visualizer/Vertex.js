@@ -1,10 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function Vertex({ criteria, options }) {
+function Vertex({ features, values }) {
+
+  const valLeftTree = 0;
+  const valRightTree = 1;
+
   return (
     <div style={{ width: 200, border: "1px solid black" }}>
-      <p>{criteria}</p>
+      <p>{features}</p>
       <div
         style={{
           display: "flex",
@@ -12,16 +16,16 @@ function Vertex({ criteria, options }) {
           justifyContent: "space-around",
         }}
       >
-        <p>{options[0]}</p>
-        <p>{options[1]}</p>
+        <p>{values[valLeftTree]}</p>
+        <p>{values[valRightTree]}</p>
       </div>
     </div>
   );
 }
 
 Vertex.propTypes = {
-  criteria: PropTypes.string.isRequired,
-  options: PropTypes.array.isRequired,
+  features: PropTypes.string.isRequired,
+  values: PropTypes.array.isRequired,
 };
 
 export default Vertex;

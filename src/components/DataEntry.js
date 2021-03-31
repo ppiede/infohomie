@@ -2,6 +2,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import FittedImage from "react-fitted-image";
 
+
+
 function DataEntry({ url, name, size }) {
   return (
     <div>

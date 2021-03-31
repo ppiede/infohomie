@@ -10,10 +10,15 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-dropzone": "^11.3.2",
     "react-fitted-image": "^1.0.1",
+    "react-idb": "^0.0.1",
+    "react-indexed-db": "^1.0.12",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
-    "web-vitals": "^1.0.1"
+    "react-table": "^7.6.3",
+    "web-vitals": "^1.0.1",
+    "yarn": "^1.22.10"
   },
   "scripts": {
     "start": "react-scripts start",
