@@ -5,10 +5,14 @@ import { getDatasets } from "../mock";
 import DecisionTree from "./DecisionTree";
 import DecisionTreeVisualizer from "../decision-tree-visualizer";
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
+import { DBConfig } from '../DBConfig';
+import { initDB } from 'react-indexed-db';
+
 
 
 const SelectTreeDataset = () => {
     let html = [];
+    initDB(DBConfig);
 
     let dropDownOptions = getDatasets();
     const header = HeaderFull("show");
@@ -43,6 +47,8 @@ const SelectTreeDataset = () => {
 
     html.push(header);
     html.push(<Menu />)
+    
+
     return html;
 }
 
