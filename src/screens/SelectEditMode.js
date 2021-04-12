@@ -51,7 +51,7 @@ const SelectEditMode = () => {
                         "Bilder selber hochladen",
                         "Kritierien aussuchen und Bilder klassifizieren",
                     ]}
-                    route={"/upload-pictures"}
+                    route={"/new-dataset"}
                 />
             </div>
         </div>

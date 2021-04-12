@@ -1,5 +1,5 @@
 export const DBConfig = {
-    name: 'MyDB',
+    name: 'ImageDB',
     version: 1,
     objectStoresMeta: [
       {
@@ -7,7 +7,7 @@ export const DBConfig = {
         storeConfig: { keyPath: 'id', autoIncrement: true },
         storeSchema: [
           { name: 'name', keypath: 'name', options: { unique: false } },
-          { name: 'email', keypath: 'email', options: { unique: false } }
+          { name: 'binarydata', keypath: 'binarydata', options: { unique: false } }
         ]
       }
     ]

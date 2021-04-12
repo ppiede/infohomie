@@ -1,53 +1,63 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import HeaderFull from "../components/HeaderFull";
 import { getDatasets } from "../mock";
 import DecisionTree from "./DecisionTree";
 import DecisionTreeVisualizer from "../decision-tree-visualizer";
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
-import { DBConfig } from "../DBConfig";
 import { initDB } from "react-indexed-db";
+import { useIndexedDB } from 'react-indexed-db';
+import ls from 'local-storage';
 
-initDB(DBConfig);
+
+
 
 const SelectTreeDataset = () => {
-  let html = [];
-  let dropDownOptions = getDatasets();
-  const header = HeaderFull("show");
-
-  class dropDownMenu extends Component {
-    handleChange = (event) => {
-      console.log(event.target.value);
-      this.props.history.push("/decision-tree?id=" + event.target.value);
-    };
-    render() {
-      return (
-        <div
-          style={{
-            margin: "0",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <select value={dropDownOptions} id={0} onChange={this.handleChange}>
-            <option value="">{"Datensatz auswählen"}</option>
-            {Object.keys(dropDownOptions).map((key, index) => {
-              return <option value={key}>{dropDownOptions[key]}</option>;
-            })}
-          </select>
-        </div>
-      );
+    let html = [];
+    let datasetList = ls.get('datasetList');
+    if(datasetList == null ){
+        datasetList = ["Hunde und Katzen", "Tomaten und Gurken"];
     }
-  }
+    ls.set('datasetList', datasetList)
+    let dropDownOptions = ls.get('datasetList');
+    const header = HeaderFull("show");
 
-  const Menu = withRouter(dropDownMenu);
 
-  html.push(header);
-  html.push(<Menu />);
 
-  return html;
+
+    class dropDownMenu extends Component {
+        handleChange = (event) => {
+            console.log(event.target.value);
+            this.props.history.push("/decision-tree?id=" + event.target.value);
+        };
+        render() {
+            return (
+                <div
+                    style={{
+                        margin: "0",
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                    }}
+                >
+                    <select value={dropDownOptions} id={0} onChange={this.handleChange}>
+                        <option value="">{"Datensatz auswählen"}</option>
+                        {Object.keys(dropDownOptions).map((key, index) => {
+                            return <option value={key}>{dropDownOptions[key]}</option>;
+                        })}
+                    </select>
+                </div>
+            );
+        }
+    }
+
+    const Menu = withRouter(dropDownMenu);
+
+    html.push(header);
+    html.push(<Menu />);
+
+    return html;
 };
 
 export default SelectTreeDataset;
