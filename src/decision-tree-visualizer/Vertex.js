@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {Card} from 'react-bootstrap';
 
 function Vertex({ features, values }) {
 
@@ -7,18 +8,25 @@ function Vertex({ features, values }) {
   const valRightTree = 1;
 
   return (
-    <div style={{ width: 200, border: "1px solid black" }}>
-      <p>{features}</p>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
-        }}
-      >
+    <div style={{ width: 200}}>
+      <Card border="primary">
+        <Card.Header>{features}</Card.Header>
+        <Card.Body>
+          <Card.Text>
+          <div
+            style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-around",
+            }}
+          >
         <p>{values[valLeftTree]}</p>
+        <p></p>
         <p>{values[valRightTree]}</p>
       </div>
+          </Card.Text>
+        </Card.Body>
+      </Card>
     </div>
   );
 }

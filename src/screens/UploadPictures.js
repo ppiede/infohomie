@@ -1,4 +1,3 @@
-import HeaderFull from "../components/HeaderFull";
 import { React, useState, useMemo, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
@@ -195,11 +194,8 @@ const UploadPictures = () => {
 
     let page = [];
 
-    const header = HeaderFull();
-
     const body = Edit();
 
-    page.push(header);
     page.push(body)
 
     return page;

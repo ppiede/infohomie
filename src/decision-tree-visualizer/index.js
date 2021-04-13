@@ -117,9 +117,9 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
           style={{
             flex: 1,
             display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            border: "1px solid black",
+            flexDirection: "row", 
+            justifyContent: "center",
+            flexWrap: "wrap"
           }}
         >
           {group.map((entry, index) => {
@@ -128,7 +128,7 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
                 key={entry.id}
                 url={entry.url}
                 name={entry.name}
-                size={150}
+                size={100}
               />
             );
           })}

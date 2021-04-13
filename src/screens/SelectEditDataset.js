@@ -1,5 +1,4 @@
 import {Component, React} from "react";
-import HeaderFull from "../components/HeaderFull";
 import {withRouter} from "react-router-dom";
 import { getDatasets } from "../mock";
 
@@ -8,7 +7,6 @@ const SelectEditDataset = () => {
     let page = [];
 
     let dropDownOptions = getDatasets();
-    const header = HeaderFull("show");
 
     class dropDownMenu extends Component {
         handleChange = (event) => {
@@ -38,7 +36,6 @@ const SelectEditDataset = () => {
 
     const Menu = withRouter(dropDownMenu)
 
-    page.push(header);
     page.push(<Menu />)
     return page;
 }

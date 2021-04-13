@@ -4,7 +4,7 @@ import { React } from "react";
 const Footer = () => {
   return (
     <>
-    <div>
+    <div class="footer">
         <a>
             Copyright © 2021 All Rights Reserved 
         </a>
