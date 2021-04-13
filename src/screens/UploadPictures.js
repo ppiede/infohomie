@@ -6,313 +6,276 @@ import DataEntry from "../components/DataEntry";
 import Table from "../components/Table";
 import { DBConfig } from "../DBConfig";
 import { initDB } from "react-indexed-db";
-import { useIndexedDB } from 'react-indexed-db';
-import ls from 'local-storage';
+import { useIndexedDB } from "react-indexed-db";
+import ls from "local-storage";
 
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
 
+const UploadPictures = () => {
+  const query = new URLSearchParams(window.location.search);
+  const datasetID = query.get("id");
+  const { add, clear, getAll } = useIndexedDB("gurken");
 
-
-
-const query = new URLSearchParams(window.location.search);
-const datasetID = query.get("id");
-
-if(datasetID !== null){
-initDB({
-    name: datasetID,
-    version: 1,
-    objectStoresMeta: [
-      {
-        store: datasetID,
-        storeConfig: { keyPath: 'id', autoIncrement: true },
-        storeSchema: [
-          { name: 'name', keypath: 'name', options: { unique: false } },
-          { name: 'binarydata', keypath: 'binarydata', options: { unique: false } }
-        ]
-      }
-    ]
-});
-}
-
-
-
-
-function ShowAll() {
-    const { getAll } = useIndexedDB(datasetID);
-    const [persons, setPersons] = useState();
-
-
-    var personsFromDB;
-
-    useEffect(() => {
-        getAll().then(personsFromDB => {      
-            var tmp = []
-            for(var i = 0; i < personsFromDB.length; i++ ){
-                var test = personsFromDB[i]['binarydata']
-                tmp.push(<img width="500" src={'data:image/jpeg;base64,' + btoa(test)}></img>)
-            }
-            setPersons(tmp)
-
-
-
-        });
-    }, []);
-    return <div>{persons}</div>;
-}
-
-
-function ClearAll() {
-    const { clear } = useIndexedDB(datasetID);
-
-    const handleClick = () => {
-        clear().then(() => {
-            alert('All Clear!');
-        });
-        let datasetList = ls.get('datasetList');
-        let index = datasetList.indexOf(datasetID)
-        alert("index"+ index)
-        if (index > -1) {
-            datasetList.splice(index, 1);
-            ls.set("datasetList", datasetList)
+  const [persons, setPersons] = useState();
+  useEffect(() => {
+    getAll().then(
+      (personsFromDB) => {
+        var tmp = [];
+        for (var i = 0; i < personsFromDB.length; i++) {
+          var test = personsFromDB[i]["binarydata"];
+          tmp.push(
+            <img width="500" src={"data:image/jpeg;base64," + btoa(test)}></img>
+          );
         }
-        setTimeout(function(){
-            window.location.href = "/new-dataset";
-        }, 2000);
+        setPersons(tmp);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }, []);
+
+  const ShowAll = () => {
+    return <div>{persons}</div>;
+  };
+
+  const ClearAll = () => {
+    const handleClick = () => {
+      clear().then(() => {
+        alert("All Clear!");
+      });
+      let datasetList = ls.get("datasetList");
+      let index = datasetList.indexOf(datasetID);
+      alert("index" + index);
+      if (index > -1) {
+        datasetList.splice(index, 1);
+        ls.set("datasetList", datasetList);
+      }
+      setTimeout(function () {
+        window.location.href = "/new-dataset";
+      }, 2000);
     };
 
     return <button onClick={handleClick}>Clear All</button>;
-}
+  };
 
-
-function AddImgs(file) {
-
+  const AddImgs = (file) => {
     let bits;
-
-    const { add } = useIndexedDB(datasetID);
 
     var reader = new FileReader();
     reader.readAsBinaryString(file);
-    reader.onload = function(e) {
-            //alert(e.target.result);
-        bits = e.target.result;
-        add({name: "bits", binarydata : bits});
-    }
-}
+    reader.onload = function (e) {
+      //alert(e.target.result);
+      bits = e.target.result;
+      add({ name: "bits", binarydata: bits });
+    };
+  };
+  const [files, setFiles] = useState([]);
+  const [featureName, setFeatureName] = useState("");
+  const [features, setFeatures] = useState(["ears", "eyes", "hair"]);
 
-const Edit = () => {
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: "image/*",
+    onDrop: (acceptedFiles) => {
+      setFiles(
+        acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )
+      );
+    },
+  });
 
-    const [files, setFiles] = useState([]);
-    const [featureName, setFeatureName] = useState("");
-    const [features, setFeatures] = useState(["ears", "eyes", "hair"]);
-
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        accept: "image/*",
-        onDrop: (acceptedFiles) => {
-            setFiles(
-                acceptedFiles.map((file) =>
-                    Object.assign(file, {
-                        preview: URL.createObjectURL(file),
-                    })
-                    
-                )
-            );
-        },
-    });
-
-    
-
-    const acceptedFileImages = files.map((file) => {
-        return (
-            <DataEntry
-                key={file.name}
-                url={file.preview}
-                size={150}
-                name={file.name}
-            />
-        );
-    });
-
-    useEffect(
-        () => () => {
-            // Make sure to revoke the data uris to avoid memory leaks
-            files.forEach((file) => URL.revokeObjectURL(file.preview));
-        },
-        [files]
+  const acceptedFileImages = files.map((file) => {
+    return (
+      <DataEntry
+        key={file.name}
+        url={file.preview}
+        size={150}
+        name={file.name}
+      />
     );
+  });
 
-    const baseStyle = {
-        flex: 1,
-        width: 800,
+  useEffect(
+    () => () => {
+      // Make sure to revoke the data uris to avoid memory leaks
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
+    },
+    [files]
+  );
+
+  const baseStyle = {
+    flex: 1,
+    width: 800,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: 16,
+    borderWidth: 2,
+    borderRadius: 2,
+    borderColor: "grey",
+    borderStyle: "dashed",
+    backgroundColor: "white",
+    color: "grey",
+    outline: "none",
+    transition: "border .24s ease-in-out",
+  };
+
+  const activeStyle = {
+    borderColor: "blue",
+  };
+
+  const style = useMemo(
+    () => ({
+      ...baseStyle,
+      ...(isDragActive ? activeStyle : {}),
+    }),
+    [isDragActive]
+  );
+
+  const makeColumns = () => {
+    const columns = [];
+    columns.push({
+      Header: "Name",
+      accessor: "name",
+    });
+
+    for (let i = 0; i < features.length; i++) {
+      columns.push({
+        Header: features[i],
+        accessor: features[i],
+      });
+    }
+
+    return columns;
+  };
+
+  const columns = useMemo(() => makeColumns(), [features, files]);
+
+  const makeData = () => {
+    const data = [];
+
+    for (let i = 0; i < files.length; i++) {
+      let obj = { name: files[i].name };
+      for (let j = 0; j < features.length; j++) {
+        obj[features[j]] = true;
+      }
+
+      data.push(obj);
+    }
+
+    return data;
+  };
+
+  const [data, setData] = useState(makeData());
+
+  useEffect(() => {
+    setData(makeData);
+  }, [files, features]);
+
+  const handleClick = () => {
+    let copy = [...features];
+    copy.push(featureName);
+    setFeatures(copy);
+    setFeatureName("");
+  };
+
+  const handleUploadClick = () => {
+    for (var i = 0; i < files.length; i++) {
+      console.log(files);
+      AddImgs(files[i]);
+    }
+    setTimeout(function () {
+      window.location.reload();
+    }, 2000);
+  };
+
+  return (
+    <div
+      style={{
+        alignItems: "center",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
-        padding: 16,
-        borderWidth: 2,
-        borderRadius: 2,
-        borderColor: "grey",
-        borderStyle: "dashed",
-        backgroundColor: "white",
-        color: "grey",
-        outline: "none",
-        transition: "border .24s ease-in-out",
-    };
-
-    const activeStyle = {
-        borderColor: "blue",
-    };
-
-    const style = useMemo(
-        () => ({
-            ...baseStyle,
-            ...(isDragActive ? activeStyle : {}),
-        }),
-        [isDragActive]
-    );
-
-    const makeColumns = () => {
-        const columns = [];
-        columns.push({
-            Header: "Name",
-            accessor: "name",
-        });
-
-        for (let i = 0; i < features.length; i++) {
-            columns.push({
-                Header: features[i],
-                accessor: features[i],
-            });
-        }
-
-        return columns;
-    };
-
-    const columns = useMemo(() => makeColumns(), [features, files]);
-
-    const makeData = () => {
-        const data = [];
-
-        for (let i = 0; i < files.length; i++) {
-            let obj = { name: files[i].name };
-            for (let j = 0; j < features.length; j++) {
-                obj[features[j]] = true;
-            }
-
-            data.push(obj);
-        }
-
-        return data;
-    };
-
-    const [data, setData] = useState(makeData());
-
-    useEffect(() => {
-        setData(makeData);
-    }, [files, features]);
-
-    const handleClick = () => {
-        let copy = [...features];
-        copy.push(featureName);
-        setFeatures(copy);
-        setFeatureName("");
-    };
-
-    const handleUploadClick = () => {
-        for(var i = 0; i < files.length; i ++){
-            console.log(files);
-            AddImgs(files[i]);
-        }
-        setTimeout(function(){
-            window.location.reload();
-        }, 2000);
-    };
-
-    return (
-        <div
-            style={{
-                alignItems: "center",
-                display: "flex",
-                flexDirection: "column",
-            }}
-        >
-            {(
-                <div>
-                    <p>Lade deine Bilder für den neuen Datensatz hoch</p>
-                    <div {...getRootProps({ style })}>
-                        <input {...getInputProps()} />
-                        {isDragActive ? (
-                            <p>Platziere die Fotos hierTest ...</p>
-                        ) : (
-                            <p>
-                                Platziere deine Fotos hier, oder klicke und wähle die Fotos aus
-                            </p>
-                        )}
-                    </div>
-                </div>
-            )}
-            {files.length !== 0 ? (
-                <div
-                    style={{
-                        marginTop: 32,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                    }}
-                >
-                    <p>Diese Fotos wurden von dir hochgeladen</p>
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            flexWrap: "wrap",
-                        }}
-                    >
-                        {acceptedFileImages}
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column", width: 200 }}>
-                        <input
-                            type="text"
-                            value={featureName}
-                            onChange={(event) => setFeatureName(event.target.value)}
-                        />
-                        <button onClick={handleClick}>Neue Spalte hinzufügen</button>
-                    </div>
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            width: "100%",
-                            alignItems: "stretch",
-                        }}
-                    >
-                        <Table columns={columns} data={data} />
-                    </div>
-                    <button onClick={handleUploadClick}>Bilder hochladen</button>
-                </div>
-            ) : (
-                <div style={{ marginTop: 32 }}>
-                    <p>Bisher wurden keine Fotos hochgeladen</p>
-                </div>
-            )}
+      }}
+    >
+      {ShowAll()}
+      {ClearAll()}
+      <div>
+        <p>Lade deine Bilder für den neuen Datensatz hoch</p>
+        <div {...getRootProps({ style })}>
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <p>Platziere die Fotos hierTest ...</p>
+          ) : (
+            <p>
+              Platziere deine Fotos hier, oder klicke und wähle die Fotos aus
+            </p>
+          )}
         </div>
-    );
+      </div>
+
+      {files.length !== 0 ? (
+        <div
+          style={{
+            marginTop: 32,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <p>Diese Fotos wurden von dir hochgeladen</p>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+            }}
+          >
+            {acceptedFileImages}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", width: 200 }}>
+            <input
+              type="text"
+              value={featureName}
+              onChange={(event) => setFeatureName(event.target.value)}
+            />
+            <button onClick={handleClick}>Neue Spalte hinzufügen</button>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              alignItems: "stretch",
+            }}
+          >
+            <Table columns={columns} data={data} />
+          </div>
+          <button onClick={handleUploadClick}>Bilder hochladen</button>
+        </div>
+      ) : (
+        <div style={{ marginTop: 32 }}>
+          <p>Bisher wurden keine Fotos hochgeladen</p>
+        </div>
+      )}
+    </div>
+  );
+
+  /*  let page = [];
+
+  const header = HeaderFull();
+
+  const body = Edit();
+
+  // page.push(AddImgs());
+  page.push(ShowAll());
+  page.push(ClearAll());
+  page.push(header);
+  page.push(body);
+
+  return page;*/
 };
-
-
-const UploadPictures = () => {
-
-    let page = [];
-
-    const header = HeaderFull();
-
-    const body = Edit();
-
-    //page.push(AddImgs());
-    page.push(ShowAll());
-    page.push(ClearAll());
-    page.push(header);
-    page.push(body)
-
-    return page;
-}
 
 export default UploadPictures;
