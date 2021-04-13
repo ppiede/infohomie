@@ -7,6 +7,9 @@ import { BrowserRouter, Route, withRouter } from "react-router-dom";
 import { initDB } from "react-indexed-db";
 import { useIndexedDB } from 'react-indexed-db';
 import ls from 'local-storage';
+import Logo from '../img/YouChooseLogo.png';
+import Footer from "../components/Footer.js";
+import { DropdownButton, Dropdown } from 'react-bootstrap';
 
 
 
@@ -19,7 +22,6 @@ const SelectTreeDataset = () => {
     }
     ls.set('datasetList', datasetList)
     let dropDownOptions = ls.get('datasetList');
-    const header = HeaderFull("show");
 
 
 
