@@ -1,6 +1,11 @@
-import {getDataset as getDatasetA, getFeatures as getFeaturesA} from "./datasetA"
-import {getDataset as getDatasetB, getFeatures as getFeaturesB} from "./datasetB"
+import {getDataset as getDatasetA, getFeatures as getFeaturesA} from "./datasetA";
+import {getDataset as getDatasetB, getFeatures as getFeaturesB} from "./datasetB";
 
+let dropDownOptions = ["Hunde und Katzen", "Gurken und Tomaten"]
+
+export function getDatasets() {
+    return dropDownOptions;
+}
 export function getDataset(datasetID) {
     if (datasetID == 0) {
         return getDatasetA();
@@ -15,8 +20,20 @@ export function getFeatures(datasetID) {
         return getFeaturesB();
     }
 }
-export function getDatasets() {
-    let dropDownOptions = ["Gurken und Tomaten", "Katzen und Hunde", "Test"];
-    return dropDownOptions;
+
+export function addDataset(NewDataset) {
+    if(NewDataset != null){
+        //alert("newdataset: " + NewDataset);
+        dropDownOptions.push(NewDataset);
+        
+    } 
 }
+
+export function removeDataset(Dataset) {
+    if(Dataset != null){
+        //alert("removedataset: " + dropDownOptions);
+        dropDownOptions.pop(Dataset);
+    }
+}
+
 

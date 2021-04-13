@@ -1,24 +1,33 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { getDatasets } from "../mock";
 import DecisionTree from "./DecisionTree";
 import DecisionTreeVisualizer from "../decision-tree-visualizer";
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
-import Footer from "../components/Footer.js";
-import {DropdownButton, Dropdown} from 'react-bootstrap';
-import Logo from '../img/YouChooseLogo.png';
+import { initDB } from "react-indexed-db";
+import { useIndexedDB } from 'react-indexed-db';
+import ls from 'local-storage';
+
+
 
 
 const SelectTreeDataset = () => {
     let html = [];
+    let datasetList = ls.get('datasetList');
+    if(datasetList == null ){
+        datasetList = ["Hunde und Katzen", "Tomaten und Gurken"];
+    }
+    ls.set('datasetList', datasetList)
+    let dropDownOptions = ls.get('datasetList');
+    const header = HeaderFull("show");
 
-    let dropDownOptions = getDatasets();
+
+
 
     class dropDownMenu extends Component {
         handleChange = (event) => {
-            console.log(event.target.value)
-            this.props.history.push('/decision-tree?id=' + event.target.value)
-
+            console.log(event.target.value);
+            this.props.history.push("/decision-tree?id=" + event.target.value);
         };
        render() {
            return(
@@ -58,14 +67,14 @@ const SelectTreeDataset = () => {
                         <Footer />
                 </div>
                 </div>
-           )
-       }
+            );
+        }
     }
 
-    const Menu = withRouter(dropDownMenu)
+    const Menu = withRouter(dropDownMenu);
 
     html.push(<Menu />)
     return html;
-}
+};
 
 export default SelectTreeDataset;

@@ -3,10 +3,103 @@ import { useLocation } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import DataEntry from "../components/DataEntry";
 import Table from "../components/Table";
+import { DBConfig } from "../DBConfig";
+import { initDB } from "react-indexed-db";
+import { useIndexedDB } from 'react-indexed-db';
+import ls from 'local-storage';
+
+import { BrowserRouter, Route, withRouter } from "react-router-dom";
+
+
+
+
+const query = new URLSearchParams(window.location.search);
+const datasetID = query.get("id");
+
+if(datasetID !== null){
+initDB({
+    name: datasetID,
+    version: 1,
+    objectStoresMeta: [
+      {
+        store: datasetID,
+        storeConfig: { keyPath: 'id', autoIncrement: true },
+        storeSchema: [
+          { name: 'name', keypath: 'name', options: { unique: false } },
+          { name: 'binarydata', keypath: 'binarydata', options: { unique: false } }
+        ]
+      }
+    ]
+});
+}
+
+
+
+
+function ShowAll() {
+    const { getAll } = useIndexedDB(datasetID);
+    const [persons, setPersons] = useState();
+
+
+    var personsFromDB;
+
+    useEffect(() => {
+        getAll().then(personsFromDB => {      
+            var tmp = []
+            for(var i = 0; i < personsFromDB.length; i++ ){
+                var test = personsFromDB[i]['binarydata']
+                tmp.push(<img width="500" src={'data:image/jpeg;base64,' + btoa(test)}></img>)
+            }
+            setPersons(tmp)
+
+
+
+        });
+    }, []);
+    return <div>{persons}</div>;
+}
+
+
+function ClearAll() {
+    const { clear } = useIndexedDB(datasetID);
+
+    const handleClick = () => {
+        clear().then(() => {
+            alert('All Clear!');
+        });
+        let datasetList = ls.get('datasetList');
+        let index = datasetList.indexOf(datasetID)
+        alert("index"+ index)
+        if (index > -1) {
+            datasetList.splice(index, 1);
+            ls.set("datasetList", datasetList)
+        }
+        setTimeout(function(){
+            window.location.href = "/new-dataset";
+        }, 2000);
+    };
+
+    return <button onClick={handleClick}>Clear All</button>;
+}
+
+
+function AddImgs(file) {
+
+    let bits;
+
+    const { add } = useIndexedDB(datasetID);
+
+    var reader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onload = function(e) {
+            //alert(e.target.result);
+        bits = e.target.result;
+        add({name: "bits", binarydata : bits});
+    }
+}
 
 const Edit = () => {
-    const query = new URLSearchParams(useLocation().search);
-    const mode = query.get("mode");
+
     const [files, setFiles] = useState([]);
     const [featureName, setFeatureName] = useState("");
     const [features, setFeatures] = useState(["ears", "eyes", "hair"]);
@@ -19,10 +112,13 @@ const Edit = () => {
                     Object.assign(file, {
                         preview: URL.createObjectURL(file),
                     })
+                    
                 )
             );
         },
     });
+
+    
 
     const acceptedFileImages = files.map((file) => {
         return (
@@ -119,6 +215,16 @@ const Edit = () => {
         setFeatureName("");
     };
 
+    const handleUploadClick = () => {
+        for(var i = 0; i < files.length; i ++){
+            console.log(files);
+            AddImgs(files[i]);
+        }
+        setTimeout(function(){
+            window.location.reload();
+        }, 2000);
+    };
+
     return (
         <div
             style={{
@@ -179,6 +285,7 @@ const Edit = () => {
                     >
                         <Table columns={columns} data={data} />
                     </div>
+                    <button onClick={handleUploadClick}>Bilder hochladen</button>
                 </div>
             ) : (
                 <div style={{ marginTop: 32 }}>
@@ -196,6 +303,9 @@ const UploadPictures = () => {
 
     const body = Edit();
 
+    //page.push(AddImgs());
+    page.push(ShowAll());
+    page.push(ClearAll());
     page.push(body)
 
     return page;
