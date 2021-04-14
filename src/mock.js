@@ -82,29 +82,24 @@ export function GetDataset(datasetID){
 
 }
 
-function ById(datasetID, id) {
-    const { getByID } = useIndexedDB(datasetID);
-    const [picture, setPicture] = useState();
-   
 
-    getByID(id).then(pictureFromDB => {
-        setPicture(pictureFromDB);
-    });
 
-    return picture;
-}
+
 
 export function EditValues(datasetID, id, newValues) {
+    
+    const { getByID } = useIndexedDB(datasetID);
     const { update } = useIndexedDB(datasetID);
 
-    let oldPicture = ById(datasetID, id);
-
-    let oldName = oldPicture['name'];
-    let oldBinary = oldPicture['binarydata'];
-   
-
-    update({ id: id, name: oldName, binarydata: oldBinary, values: newValues}).then(event => {
-        alert('Edited!');
+    getByID(id).then(pictureFromDB => {
+        console.log("id"+id);
+        console.log(pictureFromDB);
+        
+        let oldName = pictureFromDB['name'];
+        let oldBinary = pictureFromDB['binarydata'];
+        update({ id: id, name: oldName, binarydata: oldBinary, values: newValues}).then(event => {
+            alert('Edited!');
+        });
     });
 
   }
@@ -112,7 +107,7 @@ export function EditValues(datasetID, id, newValues) {
 
 export function getFeatures(datasetID) {
     let datasetList = ls.get('datasetList');
-    if(datasetList == null){return []}
+    if(datasetList == null){return [];}
     var index = -1;
     for(var i = 0; i < datasetList.length; i++){
         if(datasetList[i]['name'] === datasetID){
@@ -129,6 +124,20 @@ export function getFeatures(datasetID) {
         return getFeaturesB();
     }
     */
+}
+
+export function setFeatures(datasetID, features) {
+    let datasetList = ls.get('datasetList');
+    if(datasetList == null){return;}
+    var index = -1;
+    for(var i = 0; i < datasetList.length; i++){
+        if(datasetList[i]['name'] === datasetID){
+            index = i;
+        }
+    }
+    if (index !== -1){
+        datasetList[index]['features'] = features;
+    }
 }
 
   /*

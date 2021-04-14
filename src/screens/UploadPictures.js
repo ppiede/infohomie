@@ -7,10 +7,9 @@ import { getRandomValues, getDefaultValues } from "./NewDataset";
 import { initDB } from "react-indexed-db";
 import { useIndexedDB } from 'react-indexed-db';
 import ls from 'local-storage';
-import { EditValues } from '../mock'
+import { EditValues, ById } from '../mock'
 
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
-
 
 
 
@@ -65,9 +64,11 @@ function ShowAll() {
     return <div>{persons}</div>;
 }
 
-function editFirst(){
+function EditFirst(){
+    
     const handleClick = () => {
-        EditValues(datasetID, 0, getRandomValues())
+        
+        EditValues(datasetID, 1, getRandomValues())
     };
     return <button onClick={handleClick}>EditFirst</button>;
 }
@@ -324,11 +325,12 @@ const UploadPictures = () => {
     let page = [];
 
     const body = Edit();
+    
 
     //page.push(AddImgs());
     page.push(ShowAll());
     page.push(ClearAll());
-    page.push(editFirst());
+    page.push(EditFirst());
     page.push(body)
 
     return page;
