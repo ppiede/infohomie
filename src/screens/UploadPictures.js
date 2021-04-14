@@ -16,7 +16,7 @@ import { BrowserRouter, Route, withRouter } from "react-router-dom";
 const query = new URLSearchParams(window.location.search);
 const datasetID = query.get("id");
 
-if(datasetID !== null){
+
 initDB({
     name: datasetID,
     version: 1,
@@ -31,12 +31,13 @@ initDB({
       }
     ]
 });
-}
+
 
 
 
 
 function ShowAll() {
+
     const { getAll } = useIndexedDB(datasetID);
     const [persons, setPersons] = useState();
 
@@ -61,6 +62,7 @@ function ShowAll() {
 
 
 function ClearAll() {
+
     const { clear } = useIndexedDB(datasetID);
 
     const handleClick = () => {
@@ -99,6 +101,7 @@ function AddImgs(file) {
 }
 
 const Edit = () => {
+
 
     const [files, setFiles] = useState([]);
     const [featureName, setFeatureName] = useState("");

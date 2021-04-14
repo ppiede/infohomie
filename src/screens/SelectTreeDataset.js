@@ -4,7 +4,6 @@ import { getDatasets } from "../mock";
 import DecisionTree from "./DecisionTree";
 import DecisionTreeVisualizer from "../decision-tree-visualizer";
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
-import { initDB } from "react-indexed-db";
 import { useIndexedDB } from 'react-indexed-db';
 import ls from 'local-storage';
 import Logo from '../img/YouChooseLogo.png';
@@ -28,8 +27,7 @@ const SelectTreeDataset = () => {
 
     class dropDownMenu extends Component {
         handleChange = (event) => {
-            console.log(event.target.value);
-            this.props.history.push("/decision-tree?id=" + event.target.value);
+            this.props.history.push("/decision-tree?id=" + dropDownOptions[event.target.value]);
         };
        render() {
            return(

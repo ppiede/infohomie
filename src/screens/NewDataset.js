@@ -1,6 +1,4 @@
 import { React, useState } from "react";
-import { initDB } from "react-indexed-db";
-import { useIndexedDB } from 'react-indexed-db';
 import ls from 'local-storage';
 
 

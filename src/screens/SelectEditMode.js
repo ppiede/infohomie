@@ -68,8 +68,8 @@ const SelectEditMode = () => {
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href="/upload-pictures" style={{ color: '#000', textDecoration: 'none'}}>
-                            <Card border="primary" style={{ width: '18rem', minHeight: '470px' }} route={"/upload-pictures"}>
+                            <a href="/new-dataset" style={{ color: '#000', textDecoration: 'none'}}>
+                            <Card border="primary" style={{ width: '18rem', minHeight: '470px' }} route={"/new-dataset"}>
                                 <Card.Body>
                                     <Card.Title style={{ textDecorationLine: 'underline' }}>Eigenen Bildersatz hochladen und labeln</Card.Title>
                                     <Card.Img variant="top" src="holder.js/100px160" />
