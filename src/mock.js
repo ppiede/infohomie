@@ -3,65 +3,13 @@ import {getDataset as getDatasetA, getFeatures as getFeaturesA} from "./datasetA
 import {getDataset as getDatasetB, getFeatures as getFeaturesB} from "./datasetB";
 import { shuffle } from "lodash";
 import images from "./datasetA/datasetAindex"
+import ls from 'local-storage';
+
 
 
 import { IndexedDB  } from "react-indexed-db";
 import { useIndexedDB  } from "react-indexed-db";
 
-
-let dropDownOptions = ["Hunde und Katzen", "Gurken und Tomaten"]
-
-export function getDatasets() {
-    return dropDownOptions;
-}
-/*
-export function getDataset(datasetID) {
-    if (datasetID == 0) {
-        return getDatasetA();
-    } else {
-        return getDatasetB();
-    }
-}
-*/
-
-export function GetAll(datasetID){
-    InitDB(datasetID);
-    
-    const { getAll } = useIndexedDB(datasetID);
-    const [persons, setPersons] = useState();
-
-
-    useEffect(() => {
-        getAll().then(personsFromDB => {      
-            var tmp = []
-            for(var i = 0; i < personsFromDB.length; i++ ){
-                var test = personsFromDB[i]['binarydata']
-                //tmp.push(<img width="500" src={'data:image/jpeg;base64,' + btoa(test)}></img>)
-                var name = "Gurke"+i;
-                var url = 'data:image/jpeg;base64,' + btoa(test)
-                tmp.push(        
-                    {
-                        id: i + 1,
-                        url: url,
-                        name: name,
-                        features: {
-                            color: "grün",
-                            shape: "lang",
-                            cut: "Scheiben",
-                            number: "einzeln",
-                        },
-                    },
-                );
-            }
-            setPersons(tmp)
-            console.log("tmp: " + tmp);
-
-        });
-    }, []);
-    console.log("persons: "+ persons);
-    return persons;
-
-}
 
 function InitDB(datasetID) {
     return (
@@ -74,14 +22,116 @@ function InitDB(datasetID) {
             storeConfig: { keyPath: 'id', autoIncrement: true },
             storeSchema: [
               { name: 'name', keypath: 'name', options: { unique: false } },
-              { name: 'binarydata', keypath: 'binarydata', options: { unique: false } }
+              { name: 'binarydata', keypath: 'binarydata', options: { unique: false } },
+              { name: 'values', keypath: 'values', options: { unique: false } }
             ]
           }
         ]}>
       </IndexedDB>
     );
+}
+
+
+export function getDatasets() {
+    let datasetList = ls.get('datasetList');
+    if(datasetList == null ){
+       datasetList = [];
+    }
+    ls.set('datasetList', datasetList)
+    datasetList = ls.get('datasetList');
+    var dropDownOptions = [];
+    for(var i = 0; i < datasetList.length; i++){
+        dropDownOptions.push(datasetList[i]['name']);
+    }
+    return dropDownOptions;
+}
+
+
+export function GetDataset(datasetID){
+    InitDB(datasetID);
+    
+    const { getAll } = useIndexedDB(datasetID);
+    const [pictures, setPictures] = useState([]);
+
+    
+    getAll().then(picturesFromDB => {      
+        var tmp = []
+        for(var i = 0; i < picturesFromDB.length; i++ ){
+            var binarydata = picturesFromDB[i]['binarydata']
+            //tmp.push(<img width="500" src={'data:image/jpeg;base64,' + btoa(test)}></img>)
+            var name = picturesFromDB[i]['name'];
+            var url = 'data:image/jpeg;base64,' + btoa(binarydata);
+            var id = picturesFromDB[i]['id'];
+            var label = picturesFromDB[i]['values']
+            tmp.push(        
+                {
+                    id: id,
+                    url: url,
+                    name: name,
+                    features: label,
+                },
+            );
+        }
+        setPictures(tmp)
+        console.log("tmp: " + tmp);
+
+    });
+
+    console.log("pictures: "+ pictures);
+    return pictures;
+
+}
+
+function ById(datasetID, id) {
+    const { getByID } = useIndexedDB(datasetID);
+    const [picture, setPicture] = useState();
+   
+
+    getByID(id).then(pictureFromDB => {
+        setPicture(pictureFromDB);
+    });
+
+    return picture;
+}
+
+export function EditValues(datasetID, id, newValues) {
+    const { update } = useIndexedDB(datasetID);
+
+    let oldPicture = ById(datasetID, id);
+
+    let oldName = oldPicture['name'];
+    let oldBinary = oldPicture['binarydata'];
+   
+
+    update({ id: id, name: oldName, binarydata: oldBinary, values: newValues}).then(event => {
+        alert('Edited!');
+    });
+
   }
 
+
+export function getFeatures(datasetID) {
+    let datasetList = ls.get('datasetList');
+    if(datasetList == null){return []}
+    var index = -1;
+    for(var i = 0; i < datasetList.length; i++){
+        if(datasetList[i]['name'] === datasetID){
+            index = i;
+        }
+    }
+    if (index !== -1){
+        return datasetList[index]['features']
+    }
+    /*
+    if (datasetID == 0) {
+        return getFeaturesA();
+    } else {
+        return getFeaturesB();
+    }
+    */
+}
+
+  /*
 export function getDataset(datasetID) {
     const dataset = [
         {
@@ -198,11 +248,4 @@ export function getDataset(datasetID) {
 
     return shuffle(dataset);
 }
-
-export function getFeatures(datasetID) {
-    if (datasetID == 0) {
-        return getFeaturesA();
-    } else {
-        return getFeaturesB();
-    }
-}
+*/

@@ -1,5 +1,5 @@
 import { React, useState, useMemo } from "react";
-import { getDataset, getFeatures, GetAll } from "../mock";
+import { getFeatures, GetDataset } from "../mock";
 import DataEntry from "../components/DataEntry";
 import DecisionTreeVisualizer from "../decision-tree-visualizer";
 import {Link, useLocation} from "react-router-dom";
@@ -18,17 +18,13 @@ const DecisionTree = () => {
 
 
 
-    const test = GetAll(datasetID);
-    console.log("test");
-    console.log(test);
-
-    const dataset = useMemo(() => getDataset(datasetID), []);
+    const dataset = GetDataset(datasetID);
     console.log("dataset");
     console.log(dataset);
+
     
     const features = useMemo(() => getFeatures(datasetID), []);
     const [selectedFeatures, setSelectedFeatures] = useState([]);
-    //GetAll(datasetID);
 
       const handleChange = (event) => {
         let copy = [...selectedFeatures];

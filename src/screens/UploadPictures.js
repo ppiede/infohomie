@@ -3,10 +3,11 @@ import { useLocation } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import DataEntry from "../components/DataEntry";
 import Table from "../components/Table";
-import { DBConfig } from "../DBConfig";
+import { getRandomValues, getDefaultValues } from "./NewDataset";
 import { initDB } from "react-indexed-db";
 import { useIndexedDB } from 'react-indexed-db';
 import ls from 'local-storage';
+import { EditValues } from '../mock'
 
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
 
@@ -16,21 +17,25 @@ import { BrowserRouter, Route, withRouter } from "react-router-dom";
 const query = new URLSearchParams(window.location.search);
 const datasetID = query.get("id");
 
-
-initDB({
-    name: datasetID,
-    version: 1,
-    objectStoresMeta: [
-      {
-        store: datasetID,
-        storeConfig: { keyPath: 'id', autoIncrement: true },
-        storeSchema: [
-          { name: 'name', keypath: 'name', options: { unique: false } },
-          { name: 'binarydata', keypath: 'binarydata', options: { unique: false } }
+if(datasetID !== null){
+    initDB({
+        name: datasetID,
+        version: 1,
+        objectStoresMeta: [
+          {
+            store: datasetID,
+            storeConfig: { keyPath: 'id', autoIncrement: true },
+            storeSchema: [
+              { name: 'name', keypath: 'name', options: { unique: false } },
+              { name: 'binarydata', keypath: 'binarydata', options: { unique: false } },
+              { name: 'values', keypath: 'values', options: { unique: false } }
+            ]
+          }
+    
         ]
-      }
-    ]
-});
+    });
+}
+
 
 
 
@@ -60,6 +65,13 @@ function ShowAll() {
     return <div>{persons}</div>;
 }
 
+function editFirst(){
+    const handleClick = () => {
+        EditValues(datasetID, 0, getRandomValues())
+    };
+    return <button onClick={handleClick}>EditFirst</button>;
+}
+
 
 function ClearAll() {
 
@@ -70,12 +82,18 @@ function ClearAll() {
             alert('All Clear!');
         });
         let datasetList = ls.get('datasetList');
-        let index = datasetList.indexOf(datasetID)
-        alert("index"+ index)
+        var index;
+        for(var i = 0; i < datasetList.length; i++){
+            if(datasetList[i]['name'] === datasetID){
+                index = i;
+            }
+        }
+
         if (index > -1) {
             datasetList.splice(index, 1);
             ls.set("datasetList", datasetList)
         }
+
         setTimeout(function(){
             window.location.href = "/new-dataset";
         }, 2000);
@@ -96,7 +114,8 @@ function AddImgs(file) {
     reader.onload = function(e) {
             //alert(e.target.result);
         bits = e.target.result;
-        add({name: "bits", binarydata : bits});
+        var values = getDefaultValues();
+        add({name: file.name, binarydata : bits, values: values});
     }
 }
 
@@ -309,6 +328,7 @@ const UploadPictures = () => {
     //page.push(AddImgs());
     page.push(ShowAll());
     page.push(ClearAll());
+    page.push(editFirst());
     page.push(body)
 
     return page;
