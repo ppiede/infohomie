@@ -1,13 +1,13 @@
-import cucumber1 from "./cucumber1.jpg";
-import cucumber2 from "./cucumber2.jpg";
-import cucumber3 from "./cucumber3.jpg";
-import cucumber4 from "./cucumber4.jpg";
-import cucumber5 from "./cucumber5.jpg";
-import tomato1 from "./tomato1.jpg";
-import tomato2 from "./tomato2.jpg";
-import tomato3 from "./tomato3.jpg";
-import tomato4 from "./tomato4.jpg";
-import tomato5 from "./tomato5.jpg";
+import cucumber1 from "./datasetA_pics/cucumber1.jpg";
+import cucumber2 from "./datasetA_pics/cucumber2.jpg";
+import cucumber3 from "./datasetA_pics/cucumber3.jpg";
+import cucumber4 from "./datasetA_pics/cucumber4.jpg";
+import cucumber5 from "./datasetA_pics/cucumber5.jpg";
+import tomato1 from "./datasetA_pics/tomato1.jpg";
+import tomato2 from "./datasetA_pics/tomato2.jpg";
+import tomato3 from "./datasetA_pics/tomato3.jpg";
+import tomato4 from "./datasetA_pics/tomato4.jpg";
+import tomato5 from "./datasetA_pics/tomato5.jpg";
 
 
 const datasetAImgs = {

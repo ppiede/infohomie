@@ -1,10 +1,11 @@
 import { shuffle } from "lodash";
+import images from "./datasetBindex"
 
 export function getDataset() {
     const dataset = [
         {
             id: 1,
-            url: "https://cdn2.thedogapi.com/images/rkZRggqVX_1280.jpg",
+            url: images.dog5,
             name: "Boston Terrier",
             features: {
                 featureOne: "Nein",
@@ -15,7 +16,7 @@ export function getDataset() {
         },
         {
             id: 2,
-            url: "https://cdn2.thedogapi.com/images/BkrJjgcV7_1280.jpg",
+            url: images.dog8,
             name: "Shih Tzu",
             features: {
                 featureOne: "Ja",
@@ -26,7 +27,7 @@ export function getDataset() {
         },
         {
             id: 3,
-            url: "https://cdn2.thedogapi.com/images/hdERN5n5z.jpg",
+            url: images.dog2,
             name: "American Bulldog",
             features: {
                 featureOne: "Nein",
@@ -37,7 +38,7 @@ export function getDataset() {
         },
         {
             id: 4,
-            url: "https://cdn2.thedogapi.com/images/MUGiNcu_Z.jpg",
+            url: images.dog1,
             name: "Akita",
             features: {
                 featureOne: "Ja",
@@ -48,7 +49,7 @@ export function getDataset() {
         },
         {
             id: 5,
-            url: "https://cdn2.thedogapi.com/images/aBlkZ0fo0.jpg",
+            url: images.dog3,
             name: "Australian Cattle Dog",
             features: {
                 featureOne: "Ja",
@@ -58,7 +59,7 @@ export function getDataset() {
         },
         {
             id: 6,
-            url: "https://cdn2.thedogapi.com/images/e4Y3H4WI3.jpg",
+            url: images.dog4,
             name: "Border Collie",
             features: {
                 featureOne: "Nein",
@@ -68,7 +69,7 @@ export function getDataset() {
         },
         {
             id: 7,
-            url: "https://cdn2.thedogapi.com/images/cdvvEvgY1.png",
+            url: images.dog6,
             name: "Finnish Spitz",
             features: {
                 featureOne: "Ja",
@@ -79,7 +80,7 @@ export function getDataset() {
         },
         {
             id: 8,
-            url: "https://cdn2.thedogapi.com/images/jtrRacj_g.jpg",
+            url: images.dog7,
             name: "Saint Bernard",
             features: {
                 featureOne: "Ja",
@@ -89,7 +90,7 @@ export function getDataset() {
         },
         {
             id: 9,
-            url: "https://cdn2.thecatapi.com/images/4lXnnfxac.jpg",
+            url: images.cat3,
             name: "Burmese",
             features: {
                 featureOne: "Nein",
@@ -100,7 +101,7 @@ export function getDataset() {
         },
         {
             id: 10,
-            url: "https://cdn2.thecatapi.com/images/lOl0J96On.jpg",
+            url: images.cat4,
             name: "Colorpoint ShortfeatureTwo",
             features: {
                 featureOne: "Ja",
@@ -110,7 +111,7 @@ export function getDataset() {
         },
         {
             id: 11,
-            url: "https://cdn2.thecatapi.com/images/0iSghgPeZ.jpg",
+            url: images.cat5,
             name: "Oriental",
             features: {
                 featureOne: "Nein",
@@ -121,7 +122,7 @@ export function getDataset() {
         },
         {
             id: 12,
-            url: "https://cdn2.thecatapi.com/images/qBqs3R_w4.jpg",
+            url: images.cat6,
             name: "Ragdoll",
             features: {
                 featureOne: "Nein",
@@ -132,7 +133,7 @@ export function getDataset() {
         },
         {
             id: 13,
-            url: "https://cdn2.thecatapi.com/images/6xLEBwiUS.png",
+            url: images.cat7,
             name: "Scottish Fold",
             features: {
                 featureOne: "Nein",
@@ -142,7 +143,7 @@ export function getDataset() {
         },
         {
             id: 14,
-            url: "https://cdn2.thecatapi.com/images/4d4V586nt.jpg",
+            url: images.cat8,
             name: "Snowshoe",
             features: {
                 featureOne: "Ja",
@@ -152,7 +153,7 @@ export function getDataset() {
         },
         {
             id: 15,
-            url: "https://cdn2.thecatapi.com/images/h19-vtIeX.jpg",
+            url: images.cat1,
             name: "Aegean",
             features: {
                 featureOne: "Ja",
@@ -163,7 +164,7 @@ export function getDataset() {
         },
         {
             id: 16,
-            url: "https://cdn2.thecatapi.com/images/4ndvXwCiI.jpg",
+            url: images.cat2,
             name: "Balinese",
             features: {
                 featureOne: "Nein",
