@@ -8,37 +8,6 @@ import { DropdownButton, Dropdown } from "react-bootstrap";
 const SelectTreeDataset = () => {
   let html = [];
 
-  /*
-    let datasetList = ls.get('datasetList');
-    if(datasetList == null ){
-        /*
-        var hundeUndKatzen = {
-            name: "Hunde und Katzen",
-            features: {
-                color: { label: "Farbe", values: ["grün", "rot", "gelb"] },
-                shape: { label: "Form", values: ["lang", "rund"] },
-                cut: { label: "Schnitt", values: ["ganz", "halbiert", "Scheiben"] },
-                number: { label: "Anzahl", values: ["einzeln", "mehrere"] },
-            }};
-        var tomatenUndGurken = {
-            name: "Tomaten und Gurken",
-            features: {
-                ears: { label: "Ohren", values: ["Ja", "Nein"] },
-                hair: { label: "Haarlänge", values: ["Kurz", "Lang"] },
-                eyes: { label: "Augen", values: ["Offen", "Geschlossen"] },
-                tail: { label: "Schwanz", values: ["Sichtbar", "Versteckt"] },
-            }};
-        datasetList = [hundeUndKatzen, tomatenUndGurken];
-        
-       datasetList = [];
-    }
-    ls.set('datasetList', datasetList)
-    datasetList = ls.get('datasetList');
-    var dropDownOptions = [];
-    for(var i = 0; i < datasetList.length; i++){
-        dropDownOptions.push(datasetList[i]['name']);
-    }
-    */
   let dropDownOptions = getDatasets();
 
   class dropDownMenu extends Component {
