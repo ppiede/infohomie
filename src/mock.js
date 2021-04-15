@@ -11,7 +11,7 @@ import { IndexedDB  } from "react-indexed-db";
 import { useIndexedDB  } from "react-indexed-db";
 
 
-function InitDB(datasetID) {
+export function InitDB(datasetID) {
     return (
       <IndexedDB
         name={datasetID}
@@ -49,7 +49,12 @@ export function getDatasets() {
 
 export function GetDataset(datasetID){
     InitDB(datasetID);
-    
+
+    try {
+        useIndexedDB(datasetID);
+    } catch (Error){
+        window.location.reload();
+    }
     const { getAll } = useIndexedDB(datasetID);
     const [pictures, setPictures] = useState([]);
 
@@ -73,11 +78,11 @@ export function GetDataset(datasetID){
             );
         }
         setPictures(tmp)
-        console.log("tmp: " + tmp);
+        //console.log("tmp: " + tmp);
 
     });
 
-    console.log("pictures: "+ pictures);
+    //console.log("pictures: "+ pictures);
     return pictures;
 
 }

@@ -8,7 +8,9 @@ import Footer from "../components/Footer.js";
 import {DropdownButton, Dropdown} from 'react-bootstrap';
 
 
+
 const DecisionTree = () => {
+
 
     let page = [];
 
@@ -17,10 +19,9 @@ const DecisionTree = () => {
     const datasetID = query.get("id");
 
 
-
     const dataset = GetDataset(datasetID);
-    console.log("dataset");
-    console.log(dataset);
+    //console.log("dataset");
+    //console.log(dataset);
 
     
     const features = useMemo(() => getFeatures(datasetID), []);
