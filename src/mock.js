@@ -6,7 +6,7 @@ import images from "./example-datasets/datasetAindex"
 import ls from 'local-storage';
 import { IndexedDB  } from "react-indexed-db";
 import { useIndexedDB  } from "react-indexed-db";
-
+import { getRandomValues, getDefaultValues } from "./screens/NewDataset";
 
 export function InitDB(datasetID) {
     return (
@@ -19,6 +19,7 @@ export function InitDB(datasetID) {
             storeConfig: { keyPath: 'id', autoIncrement: true },
             storeSchema: [
               { name: 'name', keypath: 'name', options: { unique: false } },
+              { name: 'category', keypath: 'category', options: { unique: false } },
               { name: 'binarydata', keypath: 'binarydata', options: { unique: false } },
               { name: 'values', keypath: 'values', options: { unique: false } }
             ]
@@ -79,11 +80,13 @@ export function GetDataset(datasetID){
             var name = picturesFromDB[i]['name'];
             var url = 'data:image/jpeg;base64,' + btoa(binarydata);
             var id = picturesFromDB[i]['id'];
+            var category = picturesFromDB[i]['category'];
             var label = picturesFromDB[i]['values']
             tmp.push(        
                 {
                     id: id,
                     url: url,
+                    category: category,
                     name: name,
                     features: label,
                 },
@@ -114,7 +117,8 @@ export function EditValues(datasetID, id, newValues) {
         
         let oldName = pictureFromDB['name'];
         let oldBinary = pictureFromDB['binarydata'];
-        update({ id: id, name: oldName, binarydata: oldBinary, values: newValues}).then(event => {
+        let oldCategory = pictureFromDB['category'];
+        update({ id: id, name: oldName, category: oldCategory, binarydata: oldBinary, values: newValues}).then(event => {
             alert('Edited!');
         });
     });
@@ -149,6 +153,24 @@ export function setFeatures(datasetID, features) {
     }
     if (index !== -1){
         datasetList[index]['features'] = features;
+    }
+}
+
+export function AddImgs(datasetID, file, values, category) {
+
+    InitDB(datasetID);
+
+    let bits;
+
+    const { add } = useIndexedDB(datasetID);
+
+    var reader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onload = function(e) {
+            //alert(e.target.result);
+        bits = e.target.result;
+        //var values = getDefaultValues();
+        add({name: file.name, category: category, binarydata : bits, values: values});
     }
 }
 

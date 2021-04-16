@@ -7,7 +7,7 @@ import { getRandomValues, getDefaultValues } from "./NewDataset";
 import { initDB } from "react-indexed-db";
 import { useIndexedDB } from 'react-indexed-db';
 import ls from 'local-storage';
-import { EditValues, ById } from '../mock'
+import { EditValues, ById, AddImgs } from '../mock'
 
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
 
@@ -26,6 +26,7 @@ if(datasetID !== null){
             storeConfig: { keyPath: 'id', autoIncrement: true },
             storeSchema: [
               { name: 'name', keypath: 'name', options: { unique: false } },
+              { name: 'category', keypath: 'category', options: { unique: false } },
               { name: 'binarydata', keypath: 'binarydata', options: { unique: false } },
               { name: 'values', keypath: 'values', options: { unique: false } }
             ]
@@ -103,7 +104,7 @@ function ClearAll() {
     return <button onClick={handleClick}>Clear All</button>;
 }
 
-
+/*
 function AddImgs(file) {
 
     let bits;
@@ -119,6 +120,7 @@ function AddImgs(file) {
         add({name: file.name, binarydata : bits, values: values});
     }
 }
+*/
 
 const Edit = () => {
 
@@ -241,7 +243,7 @@ const Edit = () => {
     const handleUploadClick = () => {
         for(var i = 0; i < files.length; i ++){
             console.log(files);
-            AddImgs(files[i]);
+            AddImgs(datasetID, files[i], getDefaultValues(), Math.round(Math.random()));
         }
         setTimeout(function(){
             window.location.reload();

@@ -8,6 +8,7 @@ export const getDataset = () => {
             id: 1,
             url: images.cucumber1,
             name: "Gurke1",
+            category: 0,
             features: {
                 featureOne: "grün",
                 featureTwo: "lang",
@@ -19,6 +20,7 @@ export const getDataset = () => {
             id: 2,
             url: images.cucumber2,
             name: "Gurke2",
+            category: 0,
             features: {
                 featureOne: "grün",
                 featureTwo: "lang",
@@ -30,6 +32,7 @@ export const getDataset = () => {
             id: 3,
             url: images.cucumber3,
             name: "Gurke3",
+            category: 0,
             features: {
                 featureOne: "grün",
                 featureTwo: "lang",
@@ -41,6 +44,7 @@ export const getDataset = () => {
             id: 4,
             url: images.cucumber4,
             name: "Gurke4",
+            category: 0,
             features: {
                 featureOne: "grün",
                 featureTwo: "lang",
@@ -52,6 +56,7 @@ export const getDataset = () => {
             id: 5,
             url: images.cucumber5,
             name: "Gurke5",
+            category: 0,
             features: {
                 featureOne: "grün",
                 featureTwo: "lang",
@@ -63,6 +68,7 @@ export const getDataset = () => {
             id: 6,
             url: images.tomato1,
             name: "Tomate1",
+            category: 1,
             features: {
                 featureOne: "rot",
                 featureTwo: "rund",
@@ -74,6 +80,7 @@ export const getDataset = () => {
             id: 7,
             url: images.tomato2,
             name: "Tomate2",
+            category: 1,
             features: {
                 featureOne: "grün",
                 featureTwo: "rund",
@@ -85,6 +92,7 @@ export const getDataset = () => {
             id: 8,
             url: images.tomato3,
             name: "Tomate3",
+            category: 1,
             features: {
                 featureOne: "gelb",
                 featureTwo: "rund",
@@ -96,6 +104,7 @@ export const getDataset = () => {
             id: 9,
             url: images.tomato4,
             name: "Tomate4",
+            category: 1,
             features: {
                 featureOne: "rot",
                 featureTwo: "rund",
@@ -107,6 +116,7 @@ export const getDataset = () => {
             id: 10,
             url: images.tomato5,
             name: "Tomate5",
+            category: 1,
             features: {
                 featureOne: "rot",
                 featureTwo: "rund",

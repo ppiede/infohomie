@@ -46,8 +46,59 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
       ? postSplitDataset.push(...splitDataSet(rightTree, level + 1))
       : postSplitDataset.push(rightTree);
 
+    console.log(curFeature);
+    console.log(calcInfGain(dataset, postSplitDataset));
+
     return postSplitDataset;
   };
+
+
+  function calcInfGain(dataset, splitDataset){
+
+    function entropy(entropyDataset){
+      var numPos = 0;
+      var numNeg = 0;
+      var total = entropyDataset.length
+      for(var i = 0; i < entropyDataset.length; i++){
+        if(entropyDataset[i]['category'] == 0){
+          numNeg++;
+        } else {
+          numPos++;
+        }
+      }
+      var leftSide = 0;
+      var rightSide = 0;
+      if(numNeg !== 0){
+        rightSide = -(numNeg)/total * Math.log2(numNeg/total);
+      }
+      if(numPos !== 0){
+        leftSide = -(numPos)/total * Math.log2(numPos/total)
+      }
+
+      return  leftSide + rightSide;
+    }
+
+    
+
+
+    if(splitDataset.length === 2){
+      
+      return entropy(dataset) - (splitDataset[0].length/dataset.length * entropy(splitDataset[0]) + splitDataset[1].length/dataset.length * entropy(splitDataset[1]));
+    
+    } else if (splitDataset.length === 4){
+      let newLeft = [...splitDataset[0], ...splitDataset[1]];
+      let newRight = [...splitDataset[2], ...splitDataset[3]];
+      return calcInfGain(dataset, [newLeft,newRight]);
+    } else if (splitDataset.length === 8){
+      let newLeftOne = [...splitDataset[0], ...splitDataset[1]];
+      let newLeftTwo = [...splitDataset[2], ...splitDataset[3]];
+      let newRightOne = [...splitDataset[4], ...splitDataset[5]];
+      let newRightTwo = [...splitDataset[6], ...splitDataset[7]];
+      return calcInfGain(dataset, [newLeftOne, newLeftTwo, newRightOne, newRightTwo]);
+    }
+    
+
+  }
 
   // Will only update, if there is a change in dataset, features or selectedFeatures
   const postSplitDataset = React.useMemo(() => {
