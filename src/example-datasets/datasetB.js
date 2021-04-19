@@ -9,10 +9,10 @@ export function getDataset() {
             name: "Boston Terrier",
             category: 0,
             features: {
-                featureOne: "Nein",
+                featureOne: "Ja",
                 featureTwo: "Kurz",
                 featureThree: "Offen",
-                featureFour: "Versteckt",
+                featureFour: "Sichtbar",
             },
         },
         {
@@ -21,10 +21,10 @@ export function getDataset() {
             name: "Shih Tzu",
             category: 0,
             features: {
-                featureOne: "Ja",
+                featureOne: "Nein",
                 featureTwo: "Kurz",
-                featureThree: "Geschlossen",
-                featureFour: "Versteckt",
+                featureThree: "Offen",
+                featureFour: "Sichtbar",
             },
         },
         {
@@ -33,10 +33,10 @@ export function getDataset() {
             name: "American Bulldog",
             category: 0,
             features: {
-                featureOne: "Nein",
-                featureTwo: "Lang",
-                featureThree: "Offen",
-                featureFour: "Versteckt",
+                featureOne: "Ja",
+                featureTwo: "Kurz",
+                featureThree: "Geschlossen",
+                featureFour: "Sichtbar",
             },
         },
         {
@@ -48,7 +48,7 @@ export function getDataset() {
                 featureOne: "Ja",
                 featureTwo: "Kurz",
                 featureThree: "Geschlossen",
-                featureFour: "Versteckt",
+                featureFour: "Sichtbar",
             },
         },
         {
@@ -58,9 +58,9 @@ export function getDataset() {
             category: 0,
             features: {
                 featureOne: "Ja",
-                featureTwo: "Lang",
+                featureTwo: "Kurz",
                 featureThree: "Offen",
-                featureFour: "Sichtbar" },
+                featureFour: "Versteckt" },
         },
         {
             id: 6,
@@ -70,8 +70,8 @@ export function getDataset() {
             features: {
                 featureOne: "Nein",
                 featureTwo: "Lang",
-                featureThree: "Offen",
-                featureFour: "Sichtbar" },
+                featureThree: "Geschlossen",
+                featureFour: "Versteckt" },
         },
         {
             id: 7,
@@ -80,8 +80,8 @@ export function getDataset() {
             category: 0,
             features: {
                 featureOne: "Ja",
-                featureTwo: "Kurz",
-                featureThree: "Geschlossen",
+                featureTwo: "Lang",
+                featureThree: "Offen",
                 featureFour: "Sichtbar",
             },
         },
@@ -93,7 +93,7 @@ export function getDataset() {
             features: {
                 featureOne: "Ja",
                 featureTwo: "Lang",
-                featureThree: "Offen",
+                featureThree: "Geschlossen",
                 featureFour: "Versteckt" },
         },
         {
@@ -102,10 +102,10 @@ export function getDataset() {
             name: "Burmese",
             category: 1,
             features: {
-                featureOne: "Nein",
+                featureOne: "Ja",
                 featureTwo: "Kurz",
                 featureThree: "Offen",
-                featureFour: "Versteckt",
+                featureFour: "Sichtbar",
             },
         },
         {
@@ -114,10 +114,10 @@ export function getDataset() {
             name: "Colorpoint Shortfeature",
             category: 1,
             features: {
-                featureOne: "Ja",
+                featureOne: "Nein",
                 featureTwo: "Kurz",
                 featureThree: "Offen",
-                featureFour: "Sichtbar" },
+                featureFour: "Versteckt" },
         },
         {
             id: 11,
@@ -125,10 +125,10 @@ export function getDataset() {
             name: "Oriental",
             category: 1,
             features: {
-                featureOne: "Nein",
-                featureTwo: "Lang",
-                featureThree: "Offen",
-                featureFour: "Versteckt",
+                featureOne: "Ja",
+                featureTwo: "Kurz",
+                featureThree: "Geschlossen",
+                featureFour: "Sichtbar",
             },
         },
         {
@@ -137,8 +137,8 @@ export function getDataset() {
             name: "Ragdoll",
             category: 1,
             features: {
-                featureOne: "Nein",
-                featureTwo: "Kurz",
+                featureOne: "Ja",
+                featureTwo: "Lang",
                 featureThree: "Offen",
                 featureFour: "Versteckt",
             },
@@ -162,8 +162,8 @@ export function getDataset() {
             features: {
                 featureOne: "Ja",
                 featureTwo: "Kurz",
-                featureThree: "Offen",
-                featureFour: "Versteckt" },
+                featureThree: "Geschlossen",
+                featureFour: "Sichtbar" },
         },
         {
             id: 15,
@@ -173,8 +173,8 @@ export function getDataset() {
             features: {
                 featureOne: "Ja",
                 featureTwo: "Kurz",
-                featureThree: "Geschlossen",
-                featureFour: "Versteckt",
+                featureThree: "Offen",
+                featureFour: "Sichtbar",
             },
         },
         {
@@ -183,10 +183,10 @@ export function getDataset() {
             name: "Balinese",
             category: 1,
             features: {
-                featureOne: "Nein",
+                featureOne: "Ja",
                 featureTwo: "Lang",
                 featureThree: "Offen",
-                featureFour: "Versteckt",
+                featureFour: "Sichtbar",
             },
         },
     ];

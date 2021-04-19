@@ -94,7 +94,7 @@ export const getDataset = () => {
             name: "Tomate3",
             category: 1,
             features: {
-                featureOne: "gelb",
+                featureOne: "rot",
                 featureTwo: "rund",
                 featureThree: "ganz",
                 featureFour: "mehrere",
@@ -120,7 +120,7 @@ export const getDataset = () => {
             features: {
                 featureOne: "rot",
                 featureTwo: "rund",
-                featureThree: "halbiert",
+                featureThree: "Scheiben",
                 featureFour: "mehrere",
             },
         },
@@ -131,9 +131,9 @@ export const getDataset = () => {
 
 export const getFeatures = () => {
     const features = {
-        featureOne: { label: "Farbe", values: ["grün", "rot", "gelb"] },
+        featureOne: { label: "Farbe", values: ["grün", "rot"] },
         featureTwo: { label: "Form", values: ["lang", "rund"] },
-        featureThree: { label: "Schnitt", values: ["ganz", "halbiert", "Scheiben"] },
+        featureThree: { label: "Schnitt", values: ["ganz", "Scheiben"] },
         featureFour: { label: "Anzahl", values: ["einzeln", "mehrere"] },
     };
     return features;
