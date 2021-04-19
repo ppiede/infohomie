@@ -46,9 +46,9 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
       ? postSplitDataset.push(...splitDataSet(rightTree, level + 1))
       : postSplitDataset.push(rightTree);
 
-    gains[curFeature] = calcInfGain(dataset, postSplitDataset);
-    console.log(curFeature);
-    console.log(calcInfGain(dataset, postSplitDataset));
+    gains[curFeature + level] = calcInfGain(dataset, postSplitDataset);
+    // console.log(curFeature, level);
+    // console.log(calcInfGain(dataset, postSplitDataset));
 
     return postSplitDataset;
   };
@@ -111,9 +111,8 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
     }
   }, [dataset, features, selectedFeatures]);
 
-  const renderVertices = (numVertices, curFeature) => {
+  const renderVertices = (numVertices, curFeature, level) => {
     const vertices = [];
-
     // If the current feature is empty,
     // or has been deselected, done
     if (!curFeature) {
@@ -123,7 +122,7 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
     for (let i = 0; i < numVertices; i++) {
       vertices.push(
         <Vertex
-          gain={gains[curFeature]}
+          gain={gains[curFeature + level]}
           features={features[curFeature].label}
           values={features[curFeature].values}
         />
@@ -145,7 +144,7 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
             justifyContent: "space-around",
           }}
         >
-          {renderVertices(Math.pow(2, index), value)}
+          {renderVertices(Math.pow(2, index), value, index)}
         </div>
       );
     });
