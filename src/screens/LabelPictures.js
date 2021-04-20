@@ -150,8 +150,6 @@ const Edit = () => {
 
       </div>
       <br />
-      <Button onClick={handleUploadClick}>Kriterien hinzufügen</Button>
-      <br />
       <Footer />
     </div>
   )
