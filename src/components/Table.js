@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { GetDataset, getFeatures, setFeatures } from '../mock'
+import { EditValues, GetDataset, getFeatures, setFeatures } from '../mock'
 import { useTable } from "react-table";
 import "./Table.css";
 import { v4 } from 'uuid';
@@ -18,18 +18,37 @@ const CustomCell = ({
   const [featureOptions, setFeatureOptions] = useState([]);
   const dataset = GetDataset(datasetID);
 
-  const handleChangeInput = (id, event) => {
+  //Update das ausgewählte Kriterium
+  const handleChangeInput = (theFeatureNumber, place, event) => {
 
-    const newFeatureOptions = featureOptions.map(i => {
-      if (id == i.id) {
-
-        i[event.target.name] = event.target.value
+    for(let i = 0; i < dataset.length; i++) {
+      if(index == i) {
+        console.log(dataset[i].features[theFeatureNumber]);
+        if(features[theFeatureNumber].values[place] == dataset[i].features[theFeatureNumber]) {
+          console.log("Nothing happened");
+        } else {
+          EditValues(datasetID, theFeatureNumber, features[theFeatureNumber].values[place]);
+        }
       }
-      return i;
-    })
+    }
 
-    setFeatureOptions(newFeatureOptions);
+  }
 
+  const setValue = (theFeatureNumber, place) => {
+    for(let i = 0; i < dataset.length; i++) {
+      if(index == i) {
+        console.log(dataset[i].features[theFeatureNumber]);
+        if(features[theFeatureNumber].values[place] == dataset[i].features[theFeatureNumber]) {
+          return features[theFeatureNumber].values[place];
+        } else {
+          if(place == 0) {
+            return features[theFeatureNumber].values[1];
+          } else {
+            return features[theFeatureNumber].values[0];
+          }
+        }
+      }
+    }
   }
 
   const checkState = (theFeatureNumber, place) => {
@@ -38,7 +57,6 @@ const CustomCell = ({
       if(index == i) {
 
         if(features[theFeatureNumber].values[place] == dataset[i].features[theFeatureNumber]) {
-
           return "success";
         } else {
           return "primary";
@@ -74,8 +92,8 @@ const CustomCell = ({
       <div>
         <Button 
         variant={checkState(theFeature, 0)}
-        value={featureOptions.option}
-        onClick={event => handleChangeInput(featureOptions[place].id, event)}
+        value={setValue(theFeature, 0)}
+        onClick={event => handleChangeInput(theFeature, 0, event)}
         > 
         {features[theFeature].values[0]}
         </Button>
@@ -83,8 +101,8 @@ const CustomCell = ({
         <br />
         <Button 
         variant={checkState(theFeature, 1)}
-        value={featureOptions.option}
-        onClick={event => handleChangeInput(featureOptions[place].id, event)}
+        value={setValue(theFeature, 1)}
+        onClick={event => handleChangeInput(theFeature, 1, event)}
         > 
         {features[theFeature].values[1]}
         </Button>
