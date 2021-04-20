@@ -6,6 +6,7 @@ import { GetDataset, AddImgs } from '../mock'
 import Logo from "../img/YouChooseLogo.png";
 import Footer from "../components/Footer.js";
 import { Button } from "react-bootstrap";
+import { getFeatures, setFeatures } from '../mock'
 import Table from "../components/Table";
 
 const query = new URLSearchParams(window.location.search);
@@ -22,7 +23,7 @@ const Edit = () => {
 
   const [files, setFiles] = useState([]);
   const [featureName, setFeatureName] = useState("");
-  const [features, setFeatures] = useState([]);
+  const features = useMemo(() => getFeatures(datasetID), []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: "image/*",
@@ -73,10 +74,10 @@ const Edit = () => {
       accessor: "name",
     });
 
-    for (let i = 0; i < features.length; i++) {
+    for (let i = 1; i <= Object.keys(features).length; i++) {
       columns.push({
-        Header: features[i],
-        accessor: features[i],
+        Header: features[i].label,
+        accessor: features[i].label,
       });
     }
 
@@ -98,8 +99,6 @@ const Edit = () => {
       data.push(obj);
 
     }
-    console.log("objdata " + JSON.stringify(data));
-    console.log("objcolumn " + JSON.stringify(columns));
     return data;
   };
 
@@ -133,22 +132,9 @@ const Edit = () => {
       >
         {renderData()}
       </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <table style={{ border: "none", align: "center" }}>
-          <th style={{ border: "none" }}>
-            <input
-              style={{ border: "1px solid #ccc" }}
-              type="text"
-              value={featureName}
-              onChange={(event) => setFeatureName(event.target.value)}
-            />
-          </th>
-          <th style={{ border: "none" }}>
-            <Button onClick={handleClick}>Neues Kriterium hinzufügen</Button>
-          </th>
-        </table>
-        <br />
-      </div>
+      <p>Hier können die Kriterien zugeordnet werden:</p>
+      <div />
+      <div />
       <div
         style={{
           display: "flex",

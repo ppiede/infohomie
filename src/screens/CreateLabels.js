@@ -2,7 +2,7 @@
 import { React, useState, useMemo } from "react";
 import Logo from "../img/YouChooseLogo.png";
 import Footer from "../components/Footer.js";
-import { GetDataset, getFeatures, setFeatures } from '../mock'
+import { GetDataset, getFeatures, setFeatures, EditValues } from '../mock'
 import DataEntry from "../components/DataEntry";
 import { Badge, Button } from "react-bootstrap";
 import { v4 } from 'uuid';
@@ -45,10 +45,7 @@ const CreateLabels = () => {
 
   const handleChangeInput = (id, event) => {
 
-    console.log(featureOptions[0]);
     const newFeatureOptions = featureOptions.map(i => {
-      console.log(id);
-      console.log(i.id);
       if (id == i.id) {
 
         i[event.target.name] = event.target.value
@@ -60,7 +57,7 @@ const CreateLabels = () => {
   }
 
   const handleAddOptions = () => {
-    setFeatureOptions([...featureOptions, { id: v4(), firstName: '', lastName: '' }])
+    setFeatureOptions([...featureOptions, { id: v4(), option1: '', option2: '' }])
   }
 
   const renderNewFeatures = () => {
@@ -103,13 +100,43 @@ const CreateLabels = () => {
   };
 
   const handleUploadClick = (event) => {
-
-    for (var i = 0; i < Object.keys(featureOptions).length; i++) {
-      console.log(Object.keys(featureOptions).length);
-      console.log(featureOptions[0]);
+    
+    const jsonObj = {};
+    const allFeatures = {};
+    var oneElement = {};
+    var somethingEmpty = false;
+    for(var i = 1; i < Object.keys(featureOptions).length; i++) {
+      if(featureOptions[i].option1 == '' || featureOptions[i].option2 == '') {
+        somethingEmpty = true;
+      }
     }
+    if(somethingEmpty == false) {
 
-    //window.location.href = "/label-pictures?id=" + datasetID;
+      //Erstelle die Features
+      for(var i = 0; i < Object.keys(newFeatures).length; i++) {
+        var oneUp = i+1;
+        oneElement["label"] = newFeatures[i];
+        oneElement["values"] = [featureOptions[i+1].option1, featureOptions[i+1].option2];
+        allFeatures[{oneUp}] = oneElement;
+        jsonObj[i] = allFeatures;
+      }
+      console.log(jsonObj);
+      setFeatures(datasetID, jsonObj);
+
+      //Setze initial alle Features auf die erste Option
+      var theElement = {};
+      for(var i = 0; i < dataset.length; i++) {
+        for(var j = 0; i < Object.keys(newFeatures).length; j++) {
+          var oneUp = j+1;
+          theElement[{oneUp}] = featureOptions[i+1].option1;
+        }
+        EditValues(datasetID, i+1, theElement);
+      }
+      window.location.href = "/label-pictures?id=" + datasetID;
+    }
+    
+
+    
 
   };
 
@@ -174,7 +201,11 @@ const CreateLabels = () => {
 
       <br />
       <Button onClick={handleUploadClick}>Kriterien hinzufügen</Button>
+      <br />
+      <br />
+      <Footer />
     </div>
+    
   );
 };
 
