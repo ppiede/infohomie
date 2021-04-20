@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useTable } from "react-table";
 import "./Table.css";
 
+
 const CustomCell = ({
   value: initialValue,
   row: { index },
@@ -10,6 +11,8 @@ const CustomCell = ({
   const [isChecked, setIsChecked] = useState(initialValue);
   const handleInputChange = (event) => {
     setIsChecked(event.target.checked);
+    initialValue = event.target.checked;
+    console.log(index + id + ": " + initialValue);
     // Speichere Wert im Backend
   };
 
@@ -38,7 +41,6 @@ const Table = ({ columns, data }) => {
     data,
     defaultColumn,
   });
-  console.log(data);
 
   return (
     <table {...getTableProps()}>

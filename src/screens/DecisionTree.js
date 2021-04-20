@@ -45,7 +45,7 @@ const DecisionTree = () => {
     <div>
       <br />
 
-      <p>Unsere Tierpension behaust aktuell folgende Tiere:</p>
+      <p>Folgende Bilder existieren im Datensatz:</p>
       <div
         style={{
           display: "flex",
@@ -57,8 +57,7 @@ const DecisionTree = () => {
         {renderData()}
       </div>
       <p>
-        Jetzt wollen wir unsere Hunde von unseren Katzen trennen und müssen
-        dafür Kriterien festlegen:
+        Um nun einen Entscheidungsbaum erstellen zu können, müssern zuerst noch die Kriterien festgelegt werden (bis zu 3):
       </p>
       <table class="center">
         <td class="center">
@@ -71,7 +70,8 @@ const DecisionTree = () => {
           >
             {Object.keys(features).map((key, index) => {
               return (
-                <Dropdown.Item eventKey={key} value={key}>
+                <Dropdown.Item 
+                eventKey={key} value={key}>
                   {features[key].label}
                 </Dropdown.Item>
               );
@@ -88,7 +88,8 @@ const DecisionTree = () => {
           >
             {Object.keys(features).map((key, index) => {
               return (
-                <Dropdown.Item eventKey={key} value={key}>
+                <Dropdown.Item 
+                eventKey={key} value={key}>
                   {features[key].label}
                 </Dropdown.Item>
               );
@@ -105,7 +106,8 @@ const DecisionTree = () => {
           >
             {Object.keys(features).map((key, index) => {
               return (
-                <Dropdown.Item eventKey={key} value={key}>
+                <Dropdown.Item 
+                eventKey={key} value={key}>
                   {features[key].label}
                 </Dropdown.Item>
               );

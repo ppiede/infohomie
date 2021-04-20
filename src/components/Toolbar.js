@@ -17,7 +17,6 @@ const Toolbar = () => {
     </Navbar.Brand>
     <Nav className="mr-auto">
       <Nav.Link href="/">Home</Nav.Link>
-      <Nav.Link href="/new">Neuer Entscheidungsbaum</Nav.Link>
     </Nav>
     <Nav className="ml-auto">
       <Nav.Link href="/help">Hilfe</Nav.Link>
