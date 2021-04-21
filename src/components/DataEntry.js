@@ -1,9 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import FittedImage from "react-fitted-image";
-import {Image} from 'react-bootstrap';
-
-
+import { Image } from "react-bootstrap";
 
 function DataEntry({ url, name, size }) {
   return (
@@ -16,7 +13,7 @@ function DataEntry({ url, name, size }) {
           height: size,
           width: size,
           margin: "6px",
-          objectFit: "cover"
+          objectFit: "cover",
         }}
       />
       <p>{name}</p>

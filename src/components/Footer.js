@@ -4,23 +4,18 @@ import { React } from "react";
 const Footer = () => {
   return (
     <>
-    <div class="footer">
-        <a>
-            Copyright © 2021 All Rights Reserved 
+      <div class="footer">
+        <a>Copyright © 2021 All Rights Reserved</a>
+        <br />
+        <a style={{ color: "#007bff" }} href="/">
+          Impressum
         </a>
-        <br/>
-        <a style={{ color: '#007bff' }} href="/">
-            Impressum
+        <a>&nbsp; - &nbsp;</a>
+        <a style={{ color: "#007bff" }} href="/">
+          Datenschutzerklärung
         </a>
-        <a>
-        &nbsp; - &nbsp; 
-        </a>
-        <a style={{ color: '#007bff' }} href="/">
-            Datenschutzerklärung
-        </a>
-    </div>
-    
-  </>
+      </div>
+    </>
   );
 };
 

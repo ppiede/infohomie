@@ -1,12 +1,7 @@
-import { React } from "react";
-
 const LabelPictures = () => {
+  let page = [];
 
-
-    let page = [];
-
-
-    return page;
-}
+  return page;
+};
 
 export default LabelPictures;
