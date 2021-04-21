@@ -10,10 +10,10 @@ export const getDataset = () => {
             name: "Gurke1",
             category: 0,
             features: {
-                featureOne: "grün",
-                featureTwo: "lang",
-                featureThree: "Scheiben",
-                featureFour: "einzeln",
+                1: "grün",
+                2: "lang",
+                3: "Scheiben",
+                4: "einzeln",
             },
         },
         {
@@ -22,10 +22,10 @@ export const getDataset = () => {
             name: "Gurke2",
             category: 0,
             features: {
-                featureOne: "grün",
-                featureTwo: "lang",
-                featureThree: "ganz",
-                featureFour: "mehrere",
+                1: "grün",
+                2: "lang",
+                3: "ganz",
+                4: "mehrere",
             },
         },
         {
@@ -34,10 +34,10 @@ export const getDataset = () => {
             name: "Gurke3",
             category: 0,
             features: {
-                featureOne: "grün",
-                featureTwo: "lang",
-                featureThree: "Scheiben",
-                featureFour: "einzeln",
+                1: "grün",
+                2: "lang",
+                3: "Scheiben",
+                4: "einzeln",
             },
         },
         {
@@ -46,10 +46,10 @@ export const getDataset = () => {
             name: "Gurke4",
             category: 0,
             features: {
-                featureOne: "grün",
-                featureTwo: "lang",
-                featureThree: "ganz",
-                featureFour: "mehrere",
+                1: "grün",
+                2: "lang",
+                3: "ganz",
+                4: "mehrere",
             },
         },
         {
@@ -58,10 +58,10 @@ export const getDataset = () => {
             name: "Gurke5",
             category: 0,
             features: {
-                featureOne: "grün",
-                featureTwo: "lang",
-                featureThree: "Scheiben",
-                featureFour: "einzeln",
+                1: "grün",
+                2: "lang",
+                3: "Scheiben",
+                4: "einzeln",
             },
         },
         {
@@ -70,10 +70,10 @@ export const getDataset = () => {
             name: "Tomate1",
             category: 1,
             features: {
-                featureOne: "rot",
-                featureTwo: "rund",
-                featureThree: "ganz",
-                featureFour: "mehrere",
+                1: "rot",
+                2: "rund",
+                3: "ganz",
+                4: "mehrere",
             },
         },
         {
@@ -82,10 +82,10 @@ export const getDataset = () => {
             name: "Tomate2",
             category: 1,
             features: {
-                featureOne: "grün",
-                featureTwo: "rund",
-                featureThree: "ganz",
-                featureFour: "mehrere",
+                1: "grün",
+                2: "rund",
+                3: "ganz",
+                4: "mehrere",
             },
         },
         {
@@ -94,10 +94,10 @@ export const getDataset = () => {
             name: "Tomate3",
             category: 1,
             features: {
-                featureOne: "rot",
-                featureTwo: "rund",
-                featureThree: "ganz",
-                featureFour: "mehrere",
+                1: "rot",
+                2: "rund",
+                3: "ganz",
+                4: "mehrere",
             },
         },
         {
@@ -106,10 +106,10 @@ export const getDataset = () => {
             name: "Tomate4",
             category: 1,
             features: {
-                featureOne: "rot",
-                featureTwo: "rund",
-                featureThree: "ganz",
-                featureFour: "mehrere",
+                1: "rot",
+                2: "rund",
+                3: "ganz",
+                4: "mehrere",
             },
         },
         {
@@ -118,23 +118,23 @@ export const getDataset = () => {
             name: "Tomate5",
             category: 1,
             features: {
-                featureOne: "rot",
-                featureTwo: "rund",
-                featureThree: "Scheiben",
-                featureFour: "mehrere",
+                1: "rot",
+                2: "rund",
+                3: "Scheiben",
+                4: "mehrere",
             },
         },
     ];
 
-    return shuffle(dataset);
+    return dataset;
 };
 
 export const getFeatures = () => {
     const features = {
-        featureOne: { label: "Farbe", values: ["grün", "rot"] },
-        featureTwo: { label: "Form", values: ["lang", "rund"] },
-        featureThree: { label: "Schnitt", values: ["ganz", "Scheiben"] },
-        featureFour: { label: "Anzahl", values: ["einzeln", "mehrere"] },
+        1: { label: "Farbe", values: ["grün", "rot"] },
+        2: { label: "Form", values: ["lang", "rund"] },
+        3: { label: "Schnitt", values: ["ganz", "Scheiben"] },
+        4: { label: "Anzahl", values: ["einzeln", "mehrere"] },
     };
     return features;
 };

@@ -8,6 +8,9 @@ import { initDB } from "react-indexed-db";
 import { useIndexedDB } from 'react-indexed-db';
 import ls from 'local-storage';
 import { EditValues, ById, AddImgs } from '../mock'
+import Logo from "../img/YouChooseLogo.png";
+import Footer from "../components/Footer.js";
+import { Button } from "react-bootstrap";
 
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
 
@@ -16,30 +19,25 @@ import { BrowserRouter, Route, withRouter } from "react-router-dom";
 const query = new URLSearchParams(window.location.search);
 const datasetID = query.get("id");
 
-if(datasetID !== null){
+if (datasetID !== null) {
     initDB({
         name: datasetID,
         version: 1,
         objectStoresMeta: [
-          {
-            store: datasetID,
-            storeConfig: { keyPath: 'id', autoIncrement: true },
-            storeSchema: [
-              { name: 'name', keypath: 'name', options: { unique: false } },
-              { name: 'category', keypath: 'category', options: { unique: false } },
-              { name: 'binarydata', keypath: 'binarydata', options: { unique: false } },
-              { name: 'values', keypath: 'values', options: { unique: false } }
-            ]
-          }
-    
+            {
+                store: datasetID,
+                storeConfig: { keyPath: 'id', autoIncrement: true },
+                storeSchema: [
+                    { name: 'name', keypath: 'name', options: { unique: false } },
+                    { name: 'category', keypath: 'category', options: { unique: false } },
+                    { name: 'binarydata', keypath: 'binarydata', options: { unique: false } },
+                    { name: 'values', keypath: 'values', options: { unique: false } }
+                ]
+            }
+
         ]
     });
 }
-
-
-
-
-
 
 function ShowAll() {
 
@@ -50,11 +48,19 @@ function ShowAll() {
     var personsFromDB;
 
     useEffect(() => {
-        getAll().then(personsFromDB => {      
+        getAll().then(personsFromDB => {
             var tmp = []
-            for(var i = 0; i < personsFromDB.length; i++ ){
+            for (var i = 0; i < personsFromDB.length; i++) {
                 var test = personsFromDB[i]['binarydata']
-                tmp.push(<img width="500" src={'data:image/jpeg;base64,' + btoa(test)}></img>)
+                tmp.push(
+
+                    <DataEntry
+                        key={test.name}
+                        url={'data:image/jpeg;base64,' + btoa(test)}
+                        size={150}
+                        name={test.name}
+                    />
+                )
             }
             setPersons(tmp)
 
@@ -65,13 +71,18 @@ function ShowAll() {
     return <div>{persons}</div>;
 }
 
-function EditFirst(){
-    
+function redirect(event) {
+    console.log(event.target.value)
+    this.props.history.push('/create-labels?id=' + event.target.value)
+}
+
+function EditFirst() {
+
     const handleClick = () => {
-        
+
         EditValues(datasetID, 1, getRandomValues())
     };
-    return <button onClick={handleClick}>EditFirst</button>;
+    return <Button onClick={handleClick}>Edit First</Button>;
 }
 
 
@@ -85,8 +96,8 @@ function ClearAll() {
         });
         let datasetList = ls.get('datasetList');
         var index;
-        for(var i = 0; i < datasetList.length; i++){
-            if(datasetList[i]['name'] === datasetID){
+        for (var i = 0; i < datasetList.length; i++) {
+            if (datasetList[i]['name'] === datasetID) {
                 index = i;
             }
         }
@@ -96,12 +107,12 @@ function ClearAll() {
             ls.set("datasetList", datasetList)
         }
 
-        setTimeout(function(){
+        setTimeout(function () {
             window.location.href = "/new-dataset";
         }, 2000);
     };
 
-    return <button onClick={handleClick}>Clear All</button>;
+    return <Button onClick={handleClick}>Alle Daten löschen</Button>;
 }
 
 /*
@@ -127,7 +138,7 @@ const Edit = () => {
 
     const [files, setFiles] = useState([]);
     const [featureName, setFeatureName] = useState("");
-    const [features, setFeatures] = useState(["ears", "eyes", "hair"]);
+    const [features, setFeatures] = useState([]);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: "image/*",
@@ -137,13 +148,13 @@ const Edit = () => {
                     Object.assign(file, {
                         preview: URL.createObjectURL(file),
                     })
-                    
+
                 )
             );
         },
     });
 
-    
+
 
     const acceptedFileImages = files.map((file) => {
         return (
@@ -215,15 +226,18 @@ const Edit = () => {
     const makeData = () => {
         const data = [];
 
+
         for (let i = 0; i < files.length; i++) {
             let obj = { name: files[i].name };
             for (let j = 0; j < features.length; j++) {
-                obj[features[j]] = true;
+                obj[features[j]] = false;
             }
 
             data.push(obj);
-        }
 
+        }
+        console.log("objdata " + JSON.stringify(data[0]));
+        console.log("objcolumn " + JSON.stringify(columns));
         return data;
     };
 
@@ -240,14 +254,13 @@ const Edit = () => {
         setFeatureName("");
     };
 
-    const handleUploadClick = () => {
-        for(var i = 0; i < files.length; i ++){
+    const handleUploadClick = (event) => {
+        for (var i = 0; i < files.length; i++) {
             console.log(files);
             AddImgs(datasetID, files[i], getDefaultValues(), Math.round(Math.random()));
+
         }
-        setTimeout(function(){
-            window.location.reload();
-        }, 2000);
+        window.location.href = "/create-labels?id=" + datasetID;
     };
 
     return (
@@ -264,7 +277,7 @@ const Edit = () => {
                     <div {...getRootProps({ style })}>
                         <input {...getInputProps()} />
                         {isDragActive ? (
-                            <p>Platziere die Fotos hierTest ...</p>
+                            <p>Platziere die Fotos hier ...</p>
                         ) : (
                             <p>
                                 Platziere deine Fotos hier, oder klicke und wähle die Fotos aus
@@ -273,6 +286,7 @@ const Edit = () => {
                     </div>
                 </div>
             )}
+
             {files.length !== 0 ? (
                 <div
                     style={{
@@ -288,35 +302,28 @@ const Edit = () => {
                             display: "flex",
                             flexDirection: "row",
                             flexWrap: "wrap",
+                            justifyContent: "center"
                         }}
                     >
                         {acceptedFileImages}
                     </div>
-                    <div style={{ display: "flex", flexDirection: "column", width: 200 }}>
-                        <input
-                            type="text"
-                            value={featureName}
-                            onChange={(event) => setFeatureName(event.target.value)}
-                        />
-                        <button onClick={handleClick}>Neue Spalte hinzufügen</button>
-                    </div>
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            width: "100%",
-                            alignItems: "stretch",
-                        }}
-                    >
-                        <Table columns={columns} data={data} />
-                    </div>
-                    <button onClick={handleUploadClick}>Bilder hochladen</button>
+
+                    <br />
+                    <Button onClick={handleUploadClick}>Bilder hochladen</Button>
+                    <br />
+                    <Footer />
                 </div>
             ) : (
-                <div style={{ marginTop: 32 }}>
-                    <p>Bisher wurden keine Fotos hochgeladen</p>
+                <div>
+                    <div style={{ marginTop: 32 }}>
+                        <p>Bisher wurden keine Fotos hochgeladen</p>
+                    </div>
+                    <div style={{ bottom: "0" }}>
+                        <Footer />
+                    </div>
                 </div>
             )}
+
         </div>
     );
 };
@@ -327,12 +334,23 @@ const UploadPictures = () => {
     let page = [];
 
     const body = Edit();
-    
+
 
     //page.push(AddImgs());
+    page.push(
+        <img
+            src={Logo}
+            height="150"
+            className="d-inline-block align-top"
+            alt="You choose Logo"
+        />
+    )
     page.push(ShowAll());
     page.push(ClearAll());
-    page.push(EditFirst());
+    page.push(
+        <a>
+            &nbsp;
+        </a>)
     page.push(body)
 
     return page;

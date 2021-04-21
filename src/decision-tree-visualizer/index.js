@@ -49,35 +49,35 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
     splitDataSet(rightTree, level + 1)
       ? postSplitDataset.push(...splitDataSet(rightTree, level + 1))
       : postSplitDataset.push(rightTree);
-	
-	if(calledCounters[level] == null){
-		calledCounters[level] = 0;
-	}
-	if(gains[level] == null){
-		gains[level] = [];
-	}
-	if(gainIndex[level] == null){
-		gainIndex[level] = 0;
-	}
-	
-	let hasBeenThere = false;
-	
-	for(let i = 1; i <= level; i++){
-		if(Math.trunc(calledCounters[level]/(Math.pow(4,level - i))) % 2 !== 0){
-			hasBeenThere = true;
-		}
-	}
-	
-	if(!hasBeenThere){
-		gains[level][gainIndex[level]] = calcInfGain(dataset, postSplitDataset);
-		gainIndex[level]++;
-	}
-	calledCounters[level]++;
-	
+
+    if (calledCounters[level] == null) {
+      calledCounters[level] = 0;
+    }
+    if (gains[level] == null) {
+      gains[level] = [];
+    }
+    if (gainIndex[level] == null) {
+      gainIndex[level] = 0;
+    }
+
+    let hasBeenThere = false;
+
+    for (let i = 1; i <= level; i++) {
+      if (Math.trunc(calledCounters[level] / (Math.pow(4, level - i))) % 2 !== 0) {
+        hasBeenThere = true;
+      }
+    }
+
+    if (!hasBeenThere) {
+      gains[level][gainIndex[level]] = calcInfGain(dataset, postSplitDataset);
+      gainIndex[level]++;
+    }
+    calledCounters[level]++;
+
     //gains[curFeature + level] = calcInfGain(dataset, postSplitDataset);
     //console.log(curFeature, level);
     //console.log(calcInfGain(dataset, postSplitDataset));
-	//console.log(gains);
+    //console.log(gains);
 
     return postSplitDataset;
   };
@@ -147,25 +147,25 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
     if (!curFeature) {
       return vertices;
     }
-	
-		console.log(numVertices);
-		console.log(curFeature);
-		console.log(level);
-		console.log(gains);
-		
+
+    console.log(numVertices);
+    console.log(curFeature);
+    console.log(level);
+    console.log(gains);
+
 
     for (let i = 0; i < numVertices; i++) {
 
       vertices.push(
         <Vertex
           //gain={gains[curFeature + level]}
-		  gain={gains[level][i]}
+          gain={gains[level][i]}
           features={features[curFeature].label}
           values={features[curFeature].values}
         />
       );
     }
-	//console.log(vertices);
+    //console.log(vertices);
     return vertices;
   };
 

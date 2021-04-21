@@ -1,4 +1,4 @@
-import { React, useState, useMemo } from "react";
+import { React, useState, setState, useMemo } from "react";
 import { getFeatures, GetDataset } from "../mock";
 import DataEntry from "../components/DataEntry";
 import DecisionTreeVisualizer from "../decision-tree-visualizer";
@@ -16,11 +16,16 @@ const DecisionTree = () => {
 
   const features = useMemo(() => getFeatures(datasetID), []);
   const [selectedFeatures, setSelectedFeatures] = useState([]);
+  const button1 = useState("Kriterium 1 auswählen");
+  const button2 = useState("Kriterium 2 auswählen");
+  const button3 = useState("Kriterium 3 auswählen");
 
   const handleChange1 = (event) => {
     let copy = [...selectedFeatures];
     copy[0] = event;
     setSelectedFeatures(copy);
+    console.log(copy);
+
   };
   const handleChange2 = (event) => {
     let copy = [...selectedFeatures];
@@ -45,7 +50,7 @@ const DecisionTree = () => {
     <div>
       <br />
 
-      <p>Unsere Tierpension behaust aktuell folgende Tiere:</p>
+      <p>Folgende Bilder existieren im Datensatz:</p>
       <div
         style={{
           display: "flex",
@@ -57,21 +62,22 @@ const DecisionTree = () => {
         {renderData()}
       </div>
       <p>
-        Jetzt wollen wir unsere Hunde von unseren Katzen trennen und müssen
-        dafür Kriterien festlegen:
+        Um nun einen Entscheidungsbaum erstellen zu können, müssern zuerst noch die Kriterien festgelegt werden (bis zu 3):
       </p>
       <table class="center">
         <td class="center">
           <DropdownButton
             id="dropdown-basic-button"
-            title="Kriterium 1 auswählen"
+            title={button1}
             value={selectedFeatures[0]}
             id={0}
             onSelect={handleChange1}
           >
             {Object.keys(features).map((key, index) => {
               return (
-                <Dropdown.Item eventKey={key} value={key}>
+                <Dropdown.Item 
+                eventKey={key} value={key}
+                >
                   {features[key].label}
                 </Dropdown.Item>
               );
@@ -81,14 +87,15 @@ const DecisionTree = () => {
         <td class="center">
           <DropdownButton
             id="dropdown-basic-button"
-            title="Kriterium 2 auswählen"
+            title={button2}
             value={selectedFeatures[1]}
             id={1}
             onSelect={handleChange2}
           >
             {Object.keys(features).map((key, index) => {
               return (
-                <Dropdown.Item eventKey={key} value={key}>
+                <Dropdown.Item 
+                eventKey={key} value={key}>
                   {features[key].label}
                 </Dropdown.Item>
               );
@@ -98,14 +105,15 @@ const DecisionTree = () => {
         <td class="center">
           <DropdownButton
             id="dropdown-basic-button"
-            title="Kriterium 3 auswählen"
+            title={button3}
             value={selectedFeatures[2]}
             id={2}
             onSelect={handleChange3}
           >
             {Object.keys(features).map((key, index) => {
               return (
-                <Dropdown.Item eventKey={key} value={key}>
+                <Dropdown.Item 
+                eventKey={key} value={key}>
                   {features[key].label}
                 </Dropdown.Item>
               );
