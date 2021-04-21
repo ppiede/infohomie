@@ -79,10 +79,11 @@ const CustomCell = ({
     return <p>{initialValue}</p>;
   } else {
     for (var i = 1; i <= Object.keys(features).length; i++) {
+      console.log("ZEst", id, index);
       if (id == features[i].label) {
         //da 1 als undefined gespeichert wird
         if (Object.keys(features)[i] == undefined) {
-          place = 1 + index * 4;
+          place = 1 + index * 4; // 4 steht für die anzahl an features
           theFeature = 1;
         } else {
           place = Object.keys(features)[i] + index * 4;

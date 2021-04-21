@@ -8,6 +8,7 @@ import Footer from "../components/Footer.js";
 import { getFeatures, setFeatures } from "../mock";
 import Table from "../components/Table";
 
+// Wenn man auf einen Button drückt, dann speichert der nicht
 const query = new URLSearchParams(window.location.search);
 const datasetID = query.get("id");
 
@@ -16,6 +17,7 @@ function redirect(event) {
   this.props.history.push("/create-labels?id=" + event.target.value);
 }
 
+//Grün ist eingespeichert
 const Edit = () => {
   const [files, setFiles] = useState([]);
   const [featureName, setFeatureName] = useState("");
@@ -43,28 +45,6 @@ const Edit = () => {
   );
 
   const dataset = GetDataset(datasetID);
-
-  const handleClick = () => {
-    let copy = [...features];
-    copy.push(featureName);
-    setFeatures(copy);
-    setFeatureName("");
-  };
-
-  const handleUploadClick = (event) => {
-    for (var i = 0; i < files.length; i++) {
-      console.log(files);
-      AddImgs(
-        datasetID,
-        files[i],
-        getDefaultValues(),
-        Math.round(Math.random())
-      );
-    }
-    setTimeout(function () {
-      window.location.href = "/create-labels?id=" + datasetID;
-    }, 2000);
-  };
 
   const makeColumns = () => {
     const columns = [];

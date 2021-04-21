@@ -7,18 +7,20 @@ import DataEntry from "../components/DataEntry";
 import { Button } from "react-bootstrap";
 import { v4 } from "uuid";
 
+// TODO: Nachdem Kritierien eingegeben wurden, funktioniert "Kriterien hinzufügen" nicht. Funktion von Marc scheint fehlerhaft zu sein
+
 const query = new URLSearchParams(window.location.search);
 const datasetID = query.get("id");
 
 const CreateLabels = () => {
   const dataset = GetDataset(datasetID);
 
-  const features = useMemo(() => getFeatures(datasetID), []);
-  const [newFeatures, setFeatures] = useState([]);
+  const features = useMemo(() => getFeatures(datasetID), []); // Alle Features die wir besitzen
+  const [newFeatures, setFeatures] = useState([]); // neuen features(titel) die hinzugefügt werden
   const [featureOptions, setFeatureOptions] = useState([
     { id: v4(), option1: "", option2: "" },
-  ]);
-  const [featureName, setFeatureName] = useState("");
+  ]); // Optionen der Features
+  const [featureName, setFeatureName] = useState(""); // input
 
   const renderData = () => {
     return dataset.map((value, index) => {
@@ -104,31 +106,37 @@ const CreateLabels = () => {
     return <div>{tmp}</div>;
   };
 
+  // Das funktioniert noch nicht
   const handleUploadClick = (event) => {
     const jsonObj = {};
     const allFeatures = {};
     var oneElement = {};
     var somethingEmpty = false;
+
     for (var i = 1; i < Object.keys(featureOptions).length; i++) {
       if (featureOptions[i].option1 == "" || featureOptions[i].option2 == "") {
         somethingEmpty = true;
       }
     }
-    if (somethingEmpty == false) {
+    if (!somethingEmpty) {
+      // Features unten im Datensatz
+      // Das oneUp muss auf die Anzahl der Features gesetzt werden + i + 1
+      var oneUp = Object.keys(features).length;
       //Erstelle die Features
       for (var i = 0; i < Object.keys(newFeatures).length; i++) {
-        var oneUp = i + 1;
         oneElement["label"] = newFeatures[i];
         oneElement["values"] = [
           featureOptions[i + 1].option1,
           featureOptions[i + 1].option2,
         ];
-        allFeatures[{ oneUp }] = oneElement;
+        let wert = oneUp + i + 1;
+        allFeatures[{ wert }] = oneElement;
         jsonObj[i] = allFeatures;
       }
-      console.log(jsonObj);
-      setFeatures(datasetID, jsonObj);
+      console.log("jsonObj", jsonObj);
+      setFeatures(datasetID, jsonObj); // Das hier soll in der Datenbank speichern
 
+      // Bilder
       //Setze initial alle Features auf die erste Option
       var theElement = {};
       for (var i = 0; i < dataset.length; i++) {
@@ -180,26 +188,24 @@ const CreateLabels = () => {
 
       <br />
 
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <table style={{ border: "none", align: "center" }}>
-          <th style={{ border: "none" }}>
-            <input
-              style={{ border: "1px solid #ccc" }}
-              type="text"
-              value={featureName}
-              onChange={(event) => setFeatureName(event.target.value)}
-            />
-          </th>
-          <th style={{ border: "none" }}>
-            <Button onClick={handleClick}>Neues Kriterium hinzufügen</Button>
-          </th>
-        </table>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "row",
+        }}
+      >
+        <input
+          style={{ border: "1px solid #ccc", marginRight: "16px" }}
+          type="text"
+          value={featureName}
+          onChange={(event) => setFeatureName(event.target.value)}
+        />
+        <Button onClick={handleClick}>Neues Kriterium hinzufügen</Button>
         <br />
       </div>
       <p>Neue Kriterien:</p>
-
       {renderNewFeatures()}
-
       <br />
       <Button onClick={handleUploadClick}>Kriterien hinzufügen</Button>
       <br />

@@ -5,7 +5,7 @@ import { getRandomValues, getDefaultValues } from "./NewDataset";
 import { initDB } from "react-indexed-db";
 import { useIndexedDB } from "react-indexed-db";
 import ls from "local-storage";
-import { EditValues, ById, AddImgs } from "../mock";
+import { EditValues, AddImgs } from "../mock";
 import Logo from "../img/YouChooseLogo.png";
 import Footer from "../components/Footer.js";
 import { Button } from "react-bootstrap";
