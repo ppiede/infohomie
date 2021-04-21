@@ -44,7 +44,7 @@ export function getDatasets() {
   let datasetList = ls.get("datasetList");
 
   if (datasetList == null || datasetList == []) {
-    datasetList = [];
+    //datasetList = [];
     var hundeUndKatzen = {
       name: "Hunde und Katzen",
       features: featuresDogCat,
@@ -53,9 +53,11 @@ export function getDatasets() {
       name: "Tomaten und Gurken",
       features: featuresCucumberTomato,
     };
-    datasetList = [hundeUndKatzen, tomatenUndGurken];
+    
+    setFeatures("Hunde und Katzen", featuresDogCat);
+    setFeatures("Tomaten und Gurken", featuresCucumberTomato);
   }
-  ls.set("datasetList", datasetList);
+
   datasetList = ls.get("datasetList");
   var dropDownOptions = [];
   for (var i = 0; i < datasetList.length; i++) {
@@ -148,19 +150,37 @@ export function getFeatures(datasetID) {
 
 // Diese Funktion funkioniert nicht
 export function setFeatures(datasetID, features) {
-  console.log("FEATURESDB", datasetID, features);
+
   let datasetList = ls.get("datasetList");
-  if (datasetList == null) {
-    return;
-  }
-  var index = -1;
-  for (var i = 0; i < datasetList.length; i++) {
-    if (datasetList[i]["name"] === datasetID) {
-      index = i;
+
+
+  if (datasetList === null) {
+    //Zusätzliche Fehlerbahandlung
+    var newEntry = {
+      name: datasetID,
+      features: features,
+    };
+    datasetList = [newEntry];
+    ls.set("datasetList", datasetList);  
+  } else {
+    var index = -1;
+    for (var i = 0; i < datasetList.length; i++) {
+      if (datasetList[i]["name"] === datasetID) {
+        index = i;
+      }
     }
-  }
-  if (index !== -1) {
-    datasetList[index]["features"] = features;
+    if (index !== -1) {
+      datasetList[index]["features"] = features;
+      ls.set("datasetList", datasetList); //<-- Diese Zeile hat gefehlt.
+
+    } else {
+      var newEntry = {
+        name: datasetID,
+        features: features,
+      };
+      datasetList.push(newEntry);
+      ls.set("datasetList", datasetList);  
+    }
   }
 }
 
