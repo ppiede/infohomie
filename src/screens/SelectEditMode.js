@@ -17,7 +17,7 @@ const SelectEditMode = () => {
         justifyContent: "center",
       }}
     >
-      <div class="row-md-4" style={{ marginTop: "8em" }}>
+      <div className="row-md-4" style={{ marginTop: "8em" }}>
         <img
           src={Logo}
           height="150"
@@ -25,7 +25,7 @@ const SelectEditMode = () => {
           alt="You choose Logo"
         />
       </div>
-      <div class="row-md-4">
+      <div className="row-md-4">
         Willkommen auf unserer Seite.
         <br />
         Wählen Sie bitte die Option, mit welcher Sie einen Entscheidungsbaum
@@ -33,9 +33,9 @@ const SelectEditMode = () => {
         <br />
         &nbsp;
       </div>
-      <div class="row-md-4">
+      <div className="row-md-4">
         <CardGroup>
-          <div class="col-md-4">
+          <div className="col-md-4">
             <a
               href="/select-tree-dataset"
               style={{ color: "#000", textDecoration: "none" }}
@@ -57,7 +57,7 @@ const SelectEditMode = () => {
               </Card>
             </a>
           </div>
-          <div class="col-md-4">
+          <div className="col-md-4">
             <a
               href="/select-edit-dataset"
               style={{ color: "#000", textDecoration: "none" }}
@@ -79,7 +79,7 @@ const SelectEditMode = () => {
               </Card>
             </a>
           </div>
-          <div class="col-md-4">
+          <div className="col-md-4">
             <a
               href="/new-dataset"
               style={{ color: "#000", textDecoration: "none" }}

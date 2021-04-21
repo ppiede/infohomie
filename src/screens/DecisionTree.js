@@ -64,8 +64,8 @@ const DecisionTree = () => {
         Um nun einen Entscheidungsbaum erstellen zu können, müssern zuerst noch
         die Kriterien festgelegt werden (bis zu 3):
       </p>
-      <table class="center">
-        <td class="center">
+      <table className="center">
+        <td className="center">
           <DropdownButton
             id="dropdown-basic-button"
             title={button1}
@@ -82,7 +82,7 @@ const DecisionTree = () => {
             })}
           </DropdownButton>
         </td>
-        <td class="center">
+        <td className="center">
           <DropdownButton
             id="dropdown-basic-button"
             title={button2}
@@ -99,7 +99,7 @@ const DecisionTree = () => {
             })}
           </DropdownButton>
         </td>
-        <td class="center">
+        <td className="center">
           <DropdownButton
             id="dropdown-basic-button"
             title={button3}
