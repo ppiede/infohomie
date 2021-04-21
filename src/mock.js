@@ -1,11 +1,11 @@
 import { React, useState } from "react";
 import {
-  getDataset as getDatasetA,
-  getFeatures as getFeaturesA,
+  dataset as datasetCucumberTomato,
+  features as featuresCucumberTomato,
 } from "./example-datasets/cucumber-tomato";
 import {
-  getDataset as getDatasetB,
-  getFeatures as getFeaturesB,
+  dataset as datasetDogCat,
+  features as featuresDogCat,
 } from "./example-datasets/dog-cat";
 import ls from "local-storage";
 import { IndexedDB } from "react-indexed-db";
@@ -47,11 +47,11 @@ export function getDatasets() {
     datasetList = [];
     var hundeUndKatzen = {
       name: "Hunde und Katzen",
-      features: getFeaturesB(),
+      features: featuresDogCat,
     };
     var tomatenUndGurken = {
       name: "Tomaten und Gurken",
-      features: getFeaturesA(),
+      features: featuresCucumberTomato,
     };
     datasetList = [hundeUndKatzen, tomatenUndGurken];
   }
@@ -76,9 +76,9 @@ export function GetDataset(datasetID) {
   const [pictures, setPictures] = useState([]);
 
   if (datasetID === "Hunde und Katzen") {
-    return getDatasetB();
+    return datasetDogCat;
   } else if (datasetID === "Tomaten und Gurken") {
-    return getDatasetA();
+    return datasetCucumberTomato;
   }
 
   getAll().then((picturesFromDB) => {
