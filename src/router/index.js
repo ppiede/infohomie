@@ -7,7 +7,6 @@ import SelectEditDataset from "../screens/SelectEditDataset";
 import SelectEditMode from "../screens/SelectEditMode";
 import UploadPictures from "../screens/UploadPictures";
 import Help from "../screens/Help";
-import Edit from "../screens/Edit";
 import NewDataset from "../screens/NewDataset";
 
 const Routes = (props) => (
@@ -21,7 +20,6 @@ const Routes = (props) => (
     <Route path="/select-tree-dataset" component={SelectTreeDataset} />
     <Route path="/upload-pictures" component={UploadPictures} />
     <Route path="/decision-tree" component={DecisionTree} />
-    <Route path="/edit" component={Edit} />
     <Route path="/new-dataset" component={NewDataset} />
   </Router>
 );
