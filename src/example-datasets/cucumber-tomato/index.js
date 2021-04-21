@@ -1,6 +1,6 @@
-import images from "./datasetAindex";
+import images from "./img";
 
-export const getDataset = () => {
+const getDataset = () => {
   const dataset = [
     {
       id: 1,
@@ -127,7 +127,7 @@ export const getDataset = () => {
   return dataset;
 };
 
-export const getFeatures = () => {
+const getFeatures = () => {
   const features = {
     1: { label: "Farbe", values: ["grün", "rot"] },
     2: { label: "Form", values: ["lang", "rund"] },
@@ -136,3 +136,5 @@ export const getFeatures = () => {
   };
   return features;
 };
+
+export { getDataset, getFeatures };

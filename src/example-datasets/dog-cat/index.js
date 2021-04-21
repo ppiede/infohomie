@@ -1,6 +1,6 @@
-import images from "./datasetBindex";
+import images from "./img";
 
-export function getDataset() {
+function getDataset() {
   const dataset = [
     {
       id: 1,
@@ -199,7 +199,7 @@ export function getDataset() {
   return dataset;
 }
 
-export function getFeatures() {
+function getFeatures() {
   const features = {
     1: { label: "Ohren", values: ["Ja", "Nein"] },
     2: { label: "Haarlänge", values: ["Kurz", "Lang"] },
@@ -208,3 +208,5 @@ export function getFeatures() {
   };
   return features;
 }
+
+export { getDataset, getFeatures };

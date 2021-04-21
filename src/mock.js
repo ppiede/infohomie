@@ -2,11 +2,11 @@ import { React, useState } from "react";
 import {
   getDataset as getDatasetA,
   getFeatures as getFeaturesA,
-} from "./example-datasets/datasetA";
+} from "./example-datasets/cucumber-tomato";
 import {
   getDataset as getDatasetB,
   getFeatures as getFeaturesB,
-} from "./example-datasets/datasetB";
+} from "./example-datasets/dog-cat";
 import ls from "local-storage";
 import { IndexedDB } from "react-indexed-db";
 import { useIndexedDB } from "react-indexed-db";
