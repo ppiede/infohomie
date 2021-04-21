@@ -1,4 +1,4 @@
-import { React, useState, setState, useMemo } from "react";
+import { React, useState, useMemo } from "react";
 import { getFeatures, GetDataset } from "../mock";
 import DataEntry from "../components/DataEntry";
 import DecisionTreeVisualizer from "../decision-tree-visualizer";
@@ -25,7 +25,6 @@ const DecisionTree = () => {
     copy[0] = event;
     setSelectedFeatures(copy);
     console.log(copy);
-
   };
   const handleChange2 = (event) => {
     let copy = [...selectedFeatures];
@@ -62,7 +61,8 @@ const DecisionTree = () => {
         {renderData()}
       </div>
       <p>
-        Um nun einen Entscheidungsbaum erstellen zu können, müssern zuerst noch die Kriterien festgelegt werden (bis zu 3):
+        Um nun einen Entscheidungsbaum erstellen zu können, müssern zuerst noch
+        die Kriterien festgelegt werden (bis zu 3):
       </p>
       <table class="center">
         <td class="center">
@@ -75,9 +75,7 @@ const DecisionTree = () => {
           >
             {Object.keys(features).map((key, index) => {
               return (
-                <Dropdown.Item 
-                eventKey={key} value={key}
-                >
+                <Dropdown.Item eventKey={key} value={key}>
                   {features[key].label}
                 </Dropdown.Item>
               );
@@ -94,8 +92,7 @@ const DecisionTree = () => {
           >
             {Object.keys(features).map((key, index) => {
               return (
-                <Dropdown.Item 
-                eventKey={key} value={key}>
+                <Dropdown.Item eventKey={key} value={key}>
                   {features[key].label}
                 </Dropdown.Item>
               );
@@ -112,8 +109,7 @@ const DecisionTree = () => {
           >
             {Object.keys(features).map((key, index) => {
               return (
-                <Dropdown.Item 
-                eventKey={key} value={key}>
+                <Dropdown.Item eventKey={key} value={key}>
                   {features[key].label}
                 </Dropdown.Item>
               );

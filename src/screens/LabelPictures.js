@@ -2,25 +2,21 @@ import { React, useState, useMemo, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import DataEntry from "../components/DataEntry";
 import { getDefaultValues } from "./NewDataset";
-import { GetDataset, AddImgs } from '../mock'
+import { GetDataset, AddImgs } from "../mock";
 import Logo from "../img/YouChooseLogo.png";
 import Footer from "../components/Footer.js";
-import { Button } from "react-bootstrap";
-import { getFeatures, setFeatures } from '../mock'
+import { getFeatures, setFeatures } from "../mock";
 import Table from "../components/Table";
 
 const query = new URLSearchParams(window.location.search);
 const datasetID = query.get("id");
 
-
 function redirect(event) {
-  console.log(event.target.value)
-  this.props.history.push('/create-labels?id=' + event.target.value)
+  console.log(event.target.value);
+  this.props.history.push("/create-labels?id=" + event.target.value);
 }
 
 const Edit = () => {
-
-
   const [files, setFiles] = useState([]);
   const [featureName, setFeatureName] = useState("");
   const features = useMemo(() => getFeatures(datasetID), []);
@@ -33,7 +29,6 @@ const Edit = () => {
           Object.assign(file, {
             preview: URL.createObjectURL(file),
           })
-
         )
       );
     },
@@ -59,8 +54,12 @@ const Edit = () => {
   const handleUploadClick = (event) => {
     for (var i = 0; i < files.length; i++) {
       console.log(files);
-      AddImgs(datasetID, files[i], getDefaultValues(), Math.round(Math.random()));
-
+      AddImgs(
+        datasetID,
+        files[i],
+        getDefaultValues(),
+        Math.round(Math.random())
+      );
     }
     setTimeout(function () {
       window.location.href = "/create-labels?id=" + datasetID;
@@ -89,7 +88,6 @@ const Edit = () => {
   const makeData = () => {
     const data = [];
 
-
     for (let i = 0; i < dataset.length; i++) {
       let obj = { name: dataset[i].name };
       for (let j = 0; j < features.length; j++) {
@@ -97,7 +95,6 @@ const Edit = () => {
       }
 
       data.push(obj);
-
     }
     return data;
   };
@@ -143,21 +140,15 @@ const Edit = () => {
           alignItems: "stretch",
         }}
       >
-
         <Table columns={columns} data={data} />
-
-
-
       </div>
       <br />
       <Footer />
     </div>
-  )
+  );
 };
 
-
 const LabelPictures = () => {
-
   let page = [];
 
   const body = Edit();
@@ -169,16 +160,13 @@ const LabelPictures = () => {
       className="d-inline-block align-top"
       alt="You choose Logo"
     />
-  )
+  );
 
   //page.push(AddImgs());
-  page.push(
-    <a>
-      &nbsp;
-        </a>)
-  page.push(body)
+  page.push(<a>&nbsp;</a>);
+  page.push(body);
 
   return page;
-}
+};
 
 export default LabelPictures;

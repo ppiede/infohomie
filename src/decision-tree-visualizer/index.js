@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Vertex from "./Vertex";
 import DataEntry from "../components/DataEntry";
 
-
 // Tasked with visualizing the tree
 function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
   //const gains = {};
@@ -63,7 +62,10 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
     let hasBeenThere = false;
 
     for (let i = 1; i <= level; i++) {
-      if (Math.trunc(calledCounters[level] / (Math.pow(4, level - i))) % 2 !== 0) {
+      if (
+        Math.trunc(calledCounters[level] / Math.pow(4, level - i)) % 2 !==
+        0
+      ) {
         hasBeenThere = true;
       }
     }
@@ -153,9 +155,7 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
     console.log(level);
     console.log(gains);
 
-
     for (let i = 0; i < numVertices; i++) {
-
       vertices.push(
         <Vertex
           //gain={gains[curFeature + level]}
