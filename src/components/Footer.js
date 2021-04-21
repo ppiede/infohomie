@@ -8,15 +8,9 @@ const Footer = () => {
         <a>
             Copyright © 2021 All Rights Reserved 
         </a>
-        <br/>
-        <a style={{ color: '#007bff' }} href="/">
-            Impressum
-        </a>
+        <br />
         <a>
-        &nbsp; - &nbsp; 
-        </a>
-        <a style={{ color: '#007bff' }} href="/">
-            Datenschutzerklärung
+          Made with &hearts; by lkoehl, mfranke, ppiede
         </a>
     </div>
     

@@ -171,6 +171,7 @@ export function AddImgs(datasetID, file, values, category) {
         bits = e.target.result;
         //var values = getDefaultValues();
         add({name: file.name, category: category, binarydata : bits, values: values});
+        //setFeatures(datasetID, '');
     }
 }
 

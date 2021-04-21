@@ -1,32 +1,23 @@
 import { React, useState } from "react";
 import ls from 'local-storage';
+import Logo from "../img/YouChooseLogo.png";
+import Footer from "../components/Footer.js";
+import { Button } from "react-bootstrap";
 
 export const defaultFeatures = {
-    featureOne: { label: "Farbe", values: ["grün", "rot"] },
-    featureTwo: { label: "Form", values: ["lang", "rund"] },
-    featureThree: { label: "Schnitt", values: ["ganz", "halbiert"] },
-    featureFour: { label: "Anzahl", values: ["einzeln", "mehrere"] },
+
 };
 
-export function getDefaultValues(){
+export function getDefaultValues() {
     return {
-        featureOne: "blau",
-        featureTwo: "lang",
-        featureThree: "Scheiben",
-        featureFour: "einzeln",
+
     };
 }
 
-export function getRandomValues(){
-    let randFeatureOne = defaultFeatures['featureOne']['values'][Math.round(Math.random())];
-    let randFeatureTwo = defaultFeatures['featureTwo']['values'][Math.round(Math.random())];
-    let randFeatureThree = defaultFeatures['featureThree']['values'][Math.round(Math.random())];
-    let randFeatureFour = defaultFeatures['featureFour']['values'][Math.round(Math.random())];
+export function getRandomValues() {
+
     return {
-        featureOne: randFeatureOne,
-        featureTwo: randFeatureTwo,
-        featureThree: randFeatureThree,
-        featureFour: randFeatureFour,
+
     };
 }
 
@@ -42,28 +33,28 @@ function ContinueButton() {
             features: defaultFeatures
         }
 
-        if(datasetList == null ){
+        if (datasetList == null) {
 
             datasetList = [newEntry];
 
         } else {
             var index = -1;
-            for(var i = 0; i < datasetList.length; i++){
-                if(datasetList[i]['name'] === value){
+            for (var i = 0; i < datasetList.length; i++) {
+                if (datasetList[i]['name'] === value) {
                     index = i;
                 }
             }
-            if (index == -1){
+            if (index == -1) {
                 datasetList.push(newEntry);
             }
-        } 
+        }
 
         ls.set('datasetList', datasetList)
 
         window.location.href = "/upload-pictures?id=" + value;
     };
 
-    return <button onClick={handleClick}>Datensatz anlegen</button>;
+    return <Button variant="primary" onClick={handleClick}>Datensatz anlegen</Button>;
 }
 
 
@@ -71,8 +62,35 @@ const NewDataset = () => {
 
     let page = [];
 
-    page.push(<input type="text" id="dataset-name"/>)
-    page.push(ContinueButton());
+    const body = (
+        <div>
+            <img
+                src={Logo}
+                height="150"
+                className="d-inline-block align-top"
+                alt="You choose Logo"
+            />
+            <br />
+            <p>
+                Bitte geben Sie dem neuen Datensatz einen Namen:
+            </p>
+        </div>
+        
+    )
+    page.push(body);
+
+    page.push(<input type="text" id="dataset-name" />)
+    page.push(
+        <a>
+            &nbsp; 
+        </a>)
+    page.push(ContinueButton())
+    page.push(
+        <div style={{ position: "absolute", bottom: "0", width: "100%" }}>
+            <Footer />
+        </div>
+    )
+    
 
     return page;
 }
