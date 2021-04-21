@@ -146,7 +146,9 @@ export function getFeatures(datasetID) {
   }
 }
 
+// Diese Funktion funkioniert nicht
 export function setFeatures(datasetID, features) {
+  console.log("FEATURESDB", datasetID, features);
   let datasetList = ls.get("datasetList");
   if (datasetList == null) {
     return;

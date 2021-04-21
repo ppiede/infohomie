@@ -1,26 +1,47 @@
 // Imports
-import { React, useState, useMemo } from "react";
+import { React, useState } from "react";
 import Logo from "../img/YouChooseLogo.png";
 import Footer from "../components/Footer.js";
 import { GetDataset, getFeatures, EditValues } from "../mock";
 import DataEntry from "../components/DataEntry";
 import { Button } from "react-bootstrap";
 import { v4 } from "uuid";
-
-// TODO: Nachdem Kritierien eingegeben wurden, funktioniert "Kriterien hinzufügen" nicht. Funktion von Marc scheint fehlerhaft zu sein
+import { setFeatures as setFeaturesInDB } from "../mock";
 
 const query = new URLSearchParams(window.location.search);
 const datasetID = query.get("id");
 
 const CreateLabels = () => {
   const dataset = GetDataset(datasetID);
+  const features = getFeatures(datasetID); // Alle Features die wir besitzen
 
-  const features = useMemo(() => getFeatures(datasetID), []); // Alle Features die wir besitzen
   const [newFeatures, setFeatures] = useState([]); // neuen features(titel) die hinzugefügt werden
   const [featureOptions, setFeatureOptions] = useState([
     { id: v4(), option1: "", option2: "" },
   ]); // Optionen der Features
   const [featureName, setFeatureName] = useState(""); // input
+
+  const handleChangeInput = (id, event) => {
+    const newFeatureOptions = featureOptions.map((i) => {
+      if (id === i.id) {
+        i[event.target.name] = event.target.value;
+      }
+      return i;
+    });
+    setFeatureOptions(newFeatureOptions);
+  };
+
+  const handleClick = () => {
+    if (!featureName) {
+      return;
+    }
+    setFeatures([...newFeatures, featureName]);
+    setFeatureOptions([
+      ...featureOptions,
+      { id: v4(), option1: "", option2: "" },
+    ]);
+    setFeatureName("");
+  };
 
   const renderData = () => {
     return dataset.map((value, index) => {
@@ -31,51 +52,37 @@ const CreateLabels = () => {
   };
 
   const renderFeatures = () => {
-    var tmp = [];
     if (Object.keys(features).length == 0) {
-      tmp.push(<a>Bisher existieren keine Kriterien</a>);
-    } else {
-      for (var i = 1; i <= Object.keys(features).length; i++) {
-        tmp.push(
-          <a>
-            {i}. {features[i].label} &nbsp; &nbsp;
-          </a>
-        );
-      }
+      return <a>Bisher existieren keine Kriterien</a>;
     }
-    return <div>{tmp}</div>;
-  };
 
-  const handleChangeInput = (id, event) => {
-    const newFeatureOptions = featureOptions.map((i) => {
-      if (id == i.id) {
-        i[event.target.name] = event.target.value;
-      }
-      return i;
+    return Object.keys(features).map((key) => {
+      return (
+        <a>
+          {key}. {features[key].label} &nbsp; &nbsp;
+        </a>
+      );
     });
-
-    setFeatureOptions(newFeatureOptions);
-  };
-
-  const handleAddOptions = () => {
-    setFeatureOptions([
-      ...featureOptions,
-      { id: v4(), option1: "", option2: "" },
-    ]);
   };
 
   const renderNewFeatures = () => {
-    var tmp = [];
-    if (Object.keys(newFeatures).length == 0) {
-      tmp.push(<a>Bisher existieren keine Kriterien</a>);
-    } else {
-      for (var i = 0; i < Object.keys(newFeatures).length; i++) {
-        tmp.push(
-          <div>
-            <a style={{ textDecoration: "underline", fontWeight: "bold" }}>
-              {newFeatures[i]}:
-            </a>
-            <br />
+    if (newFeatures.length === 0) {
+      return <a>Bisher existieren keine Kriterien</a>;
+    }
+
+    return newFeatures.map((feature, index) => {
+      return (
+        <div>
+          <a
+            style={{
+              textDecoration: "underline",
+              fontWeight: "bold",
+            }}
+          >
+            {feature}:
+          </a>
+          <br />
+          <div style={{ marginTop: 16, marginBottom: 32 }}>
             <a>Option 1: </a>
             <input
               name="option1"
@@ -83,82 +90,63 @@ const CreateLabels = () => {
               type="text"
               value={featureOptions.option1}
               onChange={(event) =>
-                handleChangeInput(featureOptions[i].id, event)
+                handleChangeInput(featureOptions[index].id, event)
               }
             />
-            <a> </a>
-            <a>Option 2: </a>
+            <a style={{ marginLeft: 16 }}>Option 2: </a>
             <input
               name="option2"
               style={{ border: "1px solid #ccc" }}
               type="text"
               value={featureOptions.option2}
               onChange={(event) =>
-                handleChangeInput(featureOptions[i].id, event)
+                handleChangeInput(featureOptions[index].id, event)
               }
             />
-            <br />
-            <br />
           </div>
-        );
-      }
-    }
-    return <div>{tmp}</div>;
+        </div>
+      );
+    });
   };
 
-  // Das funktioniert noch nicht
-  const handleUploadClick = (event) => {
-    const jsonObj = {};
-    const allFeatures = {};
-    var oneElement = {};
+  const handleUploadClick = () => {
     var somethingEmpty = false;
 
-    for (var i = 1; i < Object.keys(featureOptions).length; i++) {
+    console.log(featureOptions);
+    for (let i = 0; i < featureOptions.length - 1; i++) {
       if (featureOptions[i].option1 == "" || featureOptions[i].option2 == "") {
         somethingEmpty = true;
       }
     }
-    if (!somethingEmpty) {
-      // Features unten im Datensatz
-      // Das oneUp muss auf die Anzahl der Features gesetzt werden + i + 1
-      var oneUp = Object.keys(features).length;
-      //Erstelle die Features
-      for (var i = 0; i < Object.keys(newFeatures).length; i++) {
-        oneElement["label"] = newFeatures[i];
-        oneElement["values"] = [
-          featureOptions[i + 1].option1,
-          featureOptions[i + 1].option2,
-        ];
-        let wert = oneUp + i + 1;
-        allFeatures[{ wert }] = oneElement;
-        jsonObj[i] = allFeatures;
-      }
-      console.log("jsonObj", jsonObj);
-      setFeatures(datasetID, jsonObj); // Das hier soll in der Datenbank speichern
 
-      // Bilder
-      //Setze initial alle Features auf die erste Option
-      var theElement = {};
-      for (var i = 0; i < dataset.length; i++) {
-        for (var j = 0; i < Object.keys(newFeatures).length; j++) {
-          var oneUp = j + 1;
-          theElement[{ oneUp }] = featureOptions[i + 1].option1;
-        }
-        EditValues(datasetID, i + 1, theElement);
-      }
-      window.location.href = "/label-pictures?id=" + datasetID;
+    if (somethingEmpty) {
+      return;
     }
-  };
 
-  const handleClick = () => {
-    if (featureName != "") {
-      let copy = [...newFeatures];
-      copy.push(featureName);
-      setFeatures(copy);
-      setFeatureName("");
-      //if (Object.keys(newFeatures).length != 0) {
-      handleAddOptions();
-      //}
+    const allFeatures = { ...features };
+
+    for (let i = 0; i < newFeatures.length; i++) {
+      let element = {};
+      element["label"] = newFeatures[i];
+      element["values"] = [
+        featureOptions[i].option1,
+        featureOptions[i].option2,
+      ];
+      allFeatures[`${Object.keys(features).length + i + 1}`] = element;
+    }
+    setFeaturesInDB(datasetID, allFeatures); // Der Aufruf klappt nicht
+
+    for (let i = 0; i < dataset.length; i++) {
+      let element = {};
+      for (const [key, value] of Object.entries(features)) {
+        element[`${key}`] = value.values[0];
+      }
+      for (let j = 0; j < newFeatures.length; j++) {
+        element[`${Object.entries(features).length + j + 1}`] =
+          featureOptions[j].option1;
+      }
+      console.log(element);
+      EditValues(datasetID, i + 1, element); // Geht auch nicht
     }
   };
 
@@ -182,10 +170,10 @@ const CreateLabels = () => {
         {renderData()}
       </div>
 
-      <p>Folgende Kriterien existieren bereits:</p>
-
-      {renderFeatures()}
-
+      <div>
+        <p>Folgende Kriterien existieren bereits:</p>
+        {renderFeatures()}
+      </div>
       <br />
 
       <div
@@ -202,8 +190,8 @@ const CreateLabels = () => {
           onChange={(event) => setFeatureName(event.target.value)}
         />
         <Button onClick={handleClick}>Neues Kriterium hinzufügen</Button>
-        <br />
       </div>
+      <br />
       <p>Neue Kriterien:</p>
       {renderNewFeatures()}
       <br />
