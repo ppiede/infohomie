@@ -19,22 +19,8 @@ function redirect(event) {
 
 //Grün ist eingespeichert
 const Edit = () => {
-  const [files, setFiles] = useState([]);
-  const [featureName, setFeatureName] = useState("");
+  const [files] = useState([]);
   const features = useMemo(() => getFeatures(datasetID), []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: "image/*",
-    onDrop: (acceptedFiles) => {
-      setFiles(
-        acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        )
-      );
-    },
-  });
 
   useEffect(
     () => () => {
@@ -46,6 +32,7 @@ const Edit = () => {
 
   const dataset = GetDataset(datasetID);
 
+  // Erstellt die Ueberschriften der Tabelle
   const makeColumns = () => {
     const columns = [];
     columns.push({
@@ -65,6 +52,7 @@ const Edit = () => {
 
   const columns = useMemo(() => makeColumns(), [features, files]);
 
+  // Erstellt Array mit allen Bildernamen und Featurenamen
   const makeData = () => {
     const data = [];
 
@@ -79,8 +67,9 @@ const Edit = () => {
     return data;
   };
 
-  const [data, setData] = useState(makeData());
+  const [data] = useState(makeData());
 
+  // Rendert die noetigen Daten
   const renderData = () => {
     return dataset.map((value, index) => {
       return (
