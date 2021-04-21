@@ -1,7 +1,12 @@
-const LabelPictures = () => {
-  let page = [];
+import { React } from "react";
 
-  return page;
-};
+const LabelPictures = () => {
+
+
+    let page = [];
+
+
+    return page;
+}
 
 export default LabelPictures;
