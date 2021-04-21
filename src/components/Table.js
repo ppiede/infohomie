@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { GetDataset, getFeatures } from "../mock";
+import { GetDataset, getFeatures, EditValues } from "../mock";
 import { useTable } from "react-table";
 import "./Table.css";
 import { Button } from "react-bootstrap";
@@ -40,11 +40,11 @@ const CustomCell = ({
           console.log("Die neue Liste", updatedOptions);
           // TODO Hier ist die Methode, die nicht aufgerufen werden kann !!!!!!
 
-          //EditValues(
-          //  datasetID,
-          //  theFeatureNumber,
-          //  updatedOptions
-          //);
+          EditValues(
+            datasetID,
+            theFeatureNumber,
+            updatedOptions
+          );
         }
       }
     }
