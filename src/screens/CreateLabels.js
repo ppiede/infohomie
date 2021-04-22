@@ -109,6 +109,18 @@ const CreateLabels = () => {
     });
   };
 
+  const getLowestID = () => {
+
+    let theLowestID = dataset[0].id;
+
+    for (let i = 1; i < dataset.length; i++) {
+      if(dataset[i].id < theLowestID) {
+        theLowestID = dataset[i].id;
+      }
+    }
+    return theLowestID;
+  }
+
   const handleUploadClick = () => {
     var somethingEmpty = false;
 
@@ -145,13 +157,13 @@ const CreateLabels = () => {
         element[`${Object.entries(features).length + j + 1}`] =
           featureOptions[j].option1;
       }
-      console.log(element);
-      console.log("Hallo",element);
-      EditValues(datasetID, i + 1, element); // Geht auch nicht
+      let lowestID = getLowestID();
+      EditValues(datasetID, lowestID + i, element); // Geht auch nicht
     }
+    alert("Kriterien wurden hinzugefügt");
     setTimeout(function(){
-      //window.location.href = "/label-pictures?id=" + datasetID;
-  }, 500);
+      window.location.href = "/label-pictures?id=" + datasetID;
+  }, 2000);
   };
 
   return (

@@ -50,7 +50,6 @@ const Edit = () => {
         accessor: features[i].label,
       });
     }
-
     return columns;
   };
 
