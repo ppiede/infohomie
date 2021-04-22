@@ -133,6 +133,7 @@ export function EditValues(datasetID, id, newValues) {
 }
 
 export function getFeatures(datasetID) {
+  
   let datasetList = ls.get("datasetList");
   if (datasetList == null) {
     return [];
@@ -143,6 +144,7 @@ export function getFeatures(datasetID) {
       index = i;
     }
   }
+  console.log("index"+index);
   if (index !== -1) {
     return datasetList[index]["features"];
   }

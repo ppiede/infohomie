@@ -21,6 +21,7 @@ function redirect(event) {
 const Edit = () => {
   const [files] = useState([]);
   const features = useMemo(() => getFeatures(datasetID), []);
+  
 
   useEffect(
     () => () => {
@@ -31,6 +32,9 @@ const Edit = () => {
   );
 
   const dataset = GetDataset(datasetID);
+
+  console.log(dataset);
+
 
   // Erstellt die Ueberschriften der Tabelle
   const makeColumns = () => {
@@ -55,13 +59,22 @@ const Edit = () => {
   // Erstellt Array mit allen Bildernamen und Featurenamen
   const makeData = () => {
     const data = [];
-
+    
     for (let i = 0; i < dataset.length; i++) {
+      
       let obj = { name: dataset[i].name };
+
+      for(var feature in features){
+
+        obj[feature] = dataset[i]["features"][feature];
+      }
+      /*
       for (let j = 0; j < features.length; j++) {
+        
         obj[features[j]] = false;
       }
-
+      */
+      console.log(obj);
       data.push(obj);
     }
     return data;
