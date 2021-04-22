@@ -25,21 +25,18 @@ const CustomCell = ({
           features[theFeatureNumber].values[place] ==
           dataset[i].features[theFeatureNumber]
         ) {
-          //console.log("Nothing happened");
+          // Es passiert nichts, da der Wert schon gespeichert ist
         } else {
           let updatedOptions = {};
           // Setze alle Optionen des Bildes in ein JSON Format
-          for(let j = 1; j <= Object.keys(features).length; j++) {
+          for (let j = 1; j <= Object.keys(features).length; j++) {
             // Setze alle alten Optionen, die nicht geupdatet ein, sonst die neue Option
-            if(theFeatureNumber != j) {
+            if (theFeatureNumber != j) {
               updatedOptions[`${j}`] = dataset[i].features[j];
             } else {
               updatedOptions[`${j}`] = features[j].values[place];
             }
           }
-          //console.log("Die neue Liste", updatedOptions);
-          // TODO Hier ist die Methode, die nicht aufgerufen werden kann !!!!!!
-
           EditValues(
             datasetID,
             dataset[i].name,
@@ -59,34 +56,26 @@ const CustomCell = ({
           features[theFeatureNumber].values[place] ==
           dataset[i].features[theFeatureNumber]
         ) {
-          return "success";
-        } else {
           return "primary";
+        } else {
+          return "outline-primary";
         }
       }
     }
   };
+
   // Setzt alle Daten in die Tabelle
-  var place;
   var theFeature;
   if (id === "name") {
     return <p>{initialValue}</p>;
   } else {
-    
-    for (var i = 1; i <= Object.keys(features).length; i++) {
-      //console.log(id, features[i].label);
-      if (id == features[i].label) {
-        //da 1 als undefined gespeichert wird
-        if (Object.keys(features)[i] == undefined) {
-          place = 1 + index * Object.keys(features).length; // 4 steht für die anzahl an features
-          theFeature = 1;
-        } else {
-          place = Object.keys(features)[i] + index * Object.keys(features).length;
-          theFeature = Object.keys(features)[i];
-        }
+
+    for (var i = 0; i < Object.keys(features).length; i++) {
+      if (id == features[i + 1].label) {
+        theFeature = Object.keys(features)[i];
+
       }
     }
-    //console.log(place, theFeature);
     // Erstelle die Buttons mit allen noetigen Informationen
     return (
       //<input type="checkbox" checked={isChecked} onChange={handleInputChange} />
