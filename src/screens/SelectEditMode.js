@@ -20,7 +20,7 @@ const SelectEditMode = () => {
         justifyContent: "center",
       }}
     >
-      <div className="row-md-4" style={{ marginTop: "8em" }}>
+      <div className="row-md-4">
         <img
           src={Logo}
           height="150"
