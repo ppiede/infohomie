@@ -1,6 +1,9 @@
 import { React } from "react";
 import { Card, CardGroup } from "react-bootstrap";
 import Logo from "../img/YouChooseLogo.png";
+import Pencil from "../img/pencil.png";
+import Tree from "../img/tree.png";
+import Upload from "../img/upload.png";
 import Footer from "../components/Footer.js";
 import "./SelectEditMode.css";
 
@@ -42,13 +45,19 @@ const SelectEditMode = () => {
             >
               <Card
                 border="primary"
-                style={{ width: "18rem", minHeight: "470px" }}
+                style={{ width: "18rem", minHeight: "350px" }}
               >
                 <Card.Body>
                   <Card.Title style={{ textDecorationLine: "underline" }}>
                     Entscheidungsbaum erstellen
                   </Card.Title>
-                  <Card.Img variant="top" src="holder.js/100px160" />
+                  <img
+                    src={Tree}
+                    height="100"
+                    className="d-inline-block align-top"
+                    alt="Tree icon"
+                  />
+                  <br />
                   <Card.Text>
                     Einen Entscheidungsbaum aus einem gelabelten Bildersatz
                     erstellen
@@ -64,13 +73,20 @@ const SelectEditMode = () => {
             >
               <Card
                 border="primary"
-                style={{ width: "18rem", minHeight: "470px" }}
+                style={{ width: "18rem", minHeight: "350px" }}
               >
                 <Card.Body>
                   <Card.Title style={{ textDecorationLine: "underline" }}>
                     Bestehenden Bildersatz labeln
                   </Card.Title>
-                  <Card.Img variant="top" src="holder.js/100px160" />
+                  <img
+                    src={Pencil}
+                    height="80"
+                    className="d-inline-block align-top"
+                    alt="Pencil icon"
+                  />
+                  <br />
+                  <br />
                   <Card.Text>Einen vorhandenen Bildersatz nutzen</Card.Text>
                   <Card.Text>
                     Kritierien editieren und Bilder klassifizieren
@@ -86,14 +102,21 @@ const SelectEditMode = () => {
             >
               <Card
                 border="primary"
-                style={{ width: "18rem", minHeight: "470px" }}
+                style={{ width: "18rem", minHeight: "350px" }}
                 route={"/new-dataset"}
               >
                 <Card.Body>
                   <Card.Title style={{ textDecorationLine: "underline" }}>
                     Eigenen Bildersatz hochladen und labeln
                   </Card.Title>
-                  <Card.Img variant="top" src="holder.js/100px160" />
+                  <img
+                    src={Upload}
+                    height="80"
+                    className="d-inline-block align-top"
+                    alt="Upload icon"
+                  />
+                  <br />
+                  <br />
                   <Card.Text>Bilder selber hochladen</Card.Text>
                   <Card.Text>
                     Kritierien aussuchen und Bilder klassifizieren
