@@ -89,10 +89,15 @@ export function GetDataset(datasetID) {
       var binarydata = picturesFromDB[i]["binarydata"];
       //tmp.push(<img width="500" src={'data:image/jpeg;base64,' + btoa(test)}></img>)
       var name = picturesFromDB[i]["name"];
+      let datasetValues = ls.get(datasetID);
+      if(datasetValues == null){
+        datasetValues = {};
+      }
+      var label = datasetValues[name];
       var url = "data:image/jpeg;base64," + btoa(binarydata);
       var id = picturesFromDB[i]["id"];
       var category = picturesFromDB[i]["category"];
-      var label = picturesFromDB[i]["values"];
+      //var label = picturesFromDB[i]["values"];
       tmp.push({
         id: id,
         url: url,
@@ -109,7 +114,15 @@ export function GetDataset(datasetID) {
   return pictures;
 }
 
-export function EditValues(datasetID, id, newValues) {
+export function EditValues(datasetID, name, newValues) {
+  let datasetValues = ls.get(datasetID);
+  if(datasetValues == null){
+    datasetValues = {};
+  }
+  datasetValues[name] = newValues;
+  ls.set(datasetID, datasetValues);
+
+  /*
   const { getByID } = useIndexedDB(datasetID);
   const { update } = useIndexedDB(datasetID);
 
@@ -130,6 +143,7 @@ export function EditValues(datasetID, id, newValues) {
       alert("Edited!");
     });
   });
+  */
 }
 
 export function getFeatures(datasetID) {
@@ -188,6 +202,13 @@ export function setFeatures(datasetID, features) {
 
 export function AddImgs(datasetID, file, values, category) {
   InitDB(datasetID);
+
+  let datasetValues = ls.get(datasetID);
+  if(datasetValues == null){
+    datasetValues = {};
+  }
+  datasetValues[file.name] = values;
+  ls.set(datasetID, datasetValues);
 
   let bits;
 

@@ -159,9 +159,8 @@ const CreateLabels = () => {
           featureOptions[j].option1;
       }
       let lowestID = getLowestID();
-      EditValues(datasetID, lowestID + i, element).then((pictureFromDB) => {
-        window.location.href = "/label-pictures?id=" + datasetID;
-      });
+      
+      EditValues(datasetID, dataset[i].name, element);
       //console.log(test);
     }
     alert("Kriterien wurden hinzugefügt");

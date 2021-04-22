@@ -15,7 +15,6 @@ const CustomCell = ({
 }) => {
   const features = useMemo(() => getFeatures(datasetID), []);
   const dataset = GetDataset(datasetID);
-  console.log("place0");
 
   // Update das ausgewaehlte Kriterium
   const handleChangeInput = (theFeatureNumber, place, event) => {
@@ -26,24 +25,24 @@ const CustomCell = ({
           features[theFeatureNumber].values[place] ==
           dataset[i].features[theFeatureNumber]
         ) {
-          console.log("Nothing happened");
+          //console.log("Nothing happened");
         } else {
           let updatedOptions = {};
           // Setze alle Optionen des Bildes in ein JSON Format
           for(let j = 1; j <= Object.keys(features).length; j++) {
             // Setze alle alten Optionen, die nicht geupdatet ein, sonst die neue Option
             if(theFeatureNumber != j) {
-              updatedOptions[`${j}`] = [dataset[i].features[j]];
+              updatedOptions[`${j}`] = dataset[i].features[j];
             } else {
-              updatedOptions[`${j}`] = [features[j].values[place]];
+              updatedOptions[`${j}`] = features[j].values[place];
             }
           }
-          console.log("Die neue Liste", updatedOptions);
+          //console.log("Die neue Liste", updatedOptions);
           // TODO Hier ist die Methode, die nicht aufgerufen werden kann !!!!!!
 
           EditValues(
             datasetID,
-            theFeatureNumber,
+            dataset[i].name,
             updatedOptions
           );
         }
@@ -75,7 +74,7 @@ const CustomCell = ({
   } else {
     
     for (var i = 1; i <= Object.keys(features).length; i++) {
-      console.log(id, features[i].label);
+      //console.log(id, features[i].label);
       if (id == features[i].label) {
         //da 1 als undefined gespeichert wird
         if (Object.keys(features)[i] == undefined) {
@@ -87,7 +86,7 @@ const CustomCell = ({
         }
       }
     }
-    console.log(place, theFeature);
+    //console.log(place, theFeature);
     // Erstelle die Buttons mit allen noetigen Informationen
     return (
       //<input type="checkbox" checked={isChecked} onChange={handleInputChange} />
