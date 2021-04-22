@@ -161,9 +161,14 @@ const CreateLabels = () => {
       EditValues(datasetID, lowestID + i, element); // Geht auch nicht
     }
     alert("Kriterien wurden hinzugefügt");
+    /*
     setTimeout(function(){
       window.location.href = "/label-pictures?id=" + datasetID;
-  }, 2000);
+  }, 2000);*/
+  };
+
+  const handleContinueClick = () => {
+      window.location.href = "/label-pictures?id=" + datasetID;
   };
 
   return (
@@ -212,6 +217,7 @@ const CreateLabels = () => {
       {renderNewFeatures()}
       <br />
       <Button onClick={handleUploadClick}>Kriterien hinzufügen</Button>
+      <Button onClick={handleContinueClick}>Weiter</Button>
       <br />
       <br />
       <Footer />
