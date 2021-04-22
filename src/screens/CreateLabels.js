@@ -145,9 +145,12 @@ const CreateLabels = () => {
         element[`${Object.entries(features).length + j + 1}`] =
           featureOptions[j].option1;
       }
-      console.log(element);
+      console.log("Hallo",element);
       EditValues(datasetID, i + 1, element); // Geht auch nicht
     }
+    setTimeout(function(){
+      window.location.href = "/label-pictures?id=" + datasetID;
+  }, 500);
   };
 
   return (

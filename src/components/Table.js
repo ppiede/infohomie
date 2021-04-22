@@ -70,7 +70,9 @@ const CustomCell = ({
   // Setzt alle Daten in die Tabelle
   var place;
   var theFeature;
+  console.log(id);
   if (id === "name") {
+    console.log("Hallo");
     return <p>{initialValue}</p>;
   } else {
     for (var i = 1; i <= Object.keys(features).length; i++) {
@@ -85,6 +87,7 @@ const CustomCell = ({
         }
       }
     }
+    console.log(place, theFeature);
     // Erstelle die Buttons mit allen noetigen Informationen
     return (
       //<input type="checkbox" checked={isChecked} onChange={handleInputChange} />

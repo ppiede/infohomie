@@ -79,7 +79,7 @@ function ClearAll() {
 
   const handleClick = () => {
     clear().then(() => {
-      alert("All Clear!");
+      alert("Alle Daten wurden gelöscht!");
     });
     let datasetList = ls.get("datasetList");
     var index;
@@ -244,7 +244,11 @@ const Edit = () => {
         Math.round(Math.random())
       );
     }
-    window.location.href = "/create-labels?id=" + datasetID;
+    alert("Daten wurden hochgeladen.");
+    setTimeout(function(){
+      window.location.href = "/create-labels?id=" + datasetID;
+  }, 2000);
+    
   };
 
   return (

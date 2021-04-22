@@ -17,7 +17,6 @@ export function getRandomValues() {
 function ContinueButton() {
   const handleClick = () => {
     var value = document.getElementById("dataset-name").value;
-    alert(value);
     let datasetList = ls.get("datasetList");
     var newEntry = {
       name: value,
