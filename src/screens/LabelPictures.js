@@ -1,12 +1,10 @@
 import { React, useState, useMemo, useEffect } from "react";
-import { useDropzone } from "react-dropzone";
 import DataEntry from "../components/DataEntry";
-import { getDefaultValues } from "./NewDataset";
-import { GetDataset, AddImgs } from "../mock";
+import { GetDataset, getFeatures } from "../mock";
 import Logo from "../img/YouChooseLogo.png";
 import Footer from "../components/Footer.js";
-import { getFeatures, setFeatures } from "../mock";
 import Table from "../components/Table";
+import { Button } from "react-bootstrap";
 
 // Wenn man auf einen Button drückt, dann speichert der nicht
 const query = new URLSearchParams(window.location.search);
@@ -70,6 +68,10 @@ const LabelPictures = () => {
     return data;
   };
 
+  const redirect = () => {
+    window.location.href = "/decision-tree?id=" + datasetID;
+  }
+
   const data = makeData();
 
   // Rendert die noetigen Daten
@@ -125,6 +127,8 @@ const LabelPictures = () => {
       >
         <Table columns={columns} data={data} />
       </div>
+      <br />
+      <Button onClick={redirect}>Zum Entscheidungsbaum</Button>
       <br />
       <Footer />
     </div>

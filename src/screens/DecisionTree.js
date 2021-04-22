@@ -24,7 +24,6 @@ const DecisionTree = () => {
     let copy = [...selectedFeatures];
     copy[0] = event;
     setSelectedFeatures(copy);
-    console.log(copy);
   };
   const handleChange2 = (event) => {
     let copy = [...selectedFeatures];
