@@ -46,7 +46,6 @@ const Edit = () => {
         accessor: features[i].label,
       });
     }
-
     return columns;
   };
 
@@ -57,11 +56,10 @@ const Edit = () => {
     const data = [];
 
     for (let i = 0; i < dataset.length; i++) {
-      let obj = { name: dataset[i].name };
+      let obj = {name: dataset[i].name };
       for (let j = 0; j < features.length; j++) {
         obj[features[j]] = false;
       }
-
       data.push(obj);
     }
     return data;

@@ -70,12 +70,11 @@ const CustomCell = ({
   // Setzt alle Daten in die Tabelle
   var place;
   var theFeature;
-  console.log(id);
   if (id === "name") {
-    console.log("Hallo");
     return <p>{initialValue}</p>;
   } else {
     for (var i = 1; i <= Object.keys(features).length; i++) {
+      console.log(id, features[i].label);
       if (id == features[i].label) {
         //da 1 als undefined gespeichert wird
         if (Object.keys(features)[i] == undefined) {
