@@ -144,7 +144,7 @@ export function getFeatures(datasetID) {
       index = i;
     }
   }
-  console.log("index"+index);
+  
   if (index !== -1) {
     return datasetList[index]["features"];
   }

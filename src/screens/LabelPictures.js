@@ -32,7 +32,7 @@ const LabelPictures = () => {
 
   const dataset = GetDataset(datasetID);
 
-  console.log(dataset);
+
 
   // Erstellt die Ueberschriften der Tabelle
   const makeColumns = () => {
@@ -69,7 +69,7 @@ const LabelPictures = () => {
         obj[features[j]] = false;
       }
       */
-      console.log(obj);
+     console.log(obj);
       data.push(obj);
     }
     return data;

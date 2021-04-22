@@ -15,6 +15,7 @@ const CustomCell = ({
 }) => {
   const features = useMemo(() => getFeatures(datasetID), []);
   const dataset = GetDataset(datasetID);
+  console.log("place0");
 
   // Update das ausgewaehlte Kriterium
   const handleChangeInput = (theFeatureNumber, place, event) => {
@@ -66,13 +67,13 @@ const CustomCell = ({
       }
     }
   };
-
   // Setzt alle Daten in die Tabelle
   var place;
   var theFeature;
   if (id === "name") {
     return <p>{initialValue}</p>;
   } else {
+    
     for (var i = 1; i <= Object.keys(features).length; i++) {
       console.log(id, features[i].label);
       if (id == features[i].label) {
