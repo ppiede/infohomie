@@ -133,7 +133,7 @@ export function EditValues(datasetID, id, newValues) {
 }
 
 export function getFeatures(datasetID) {
-  
+
   let datasetList = ls.get("datasetList");
   if (datasetList == null) {
     return [];

@@ -67,19 +67,14 @@ const Edit = () => {
 
         obj[feature] = dataset[i]["features"][feature];
       }
-      /*
-      for (let j = 0; j < features.length; j++) {
-        
-        obj[features[j]] = false;
-      }
-      */
-     console.log(obj);
+
       data.push(obj);
     }
+    //console.log(data);
     return data;
   };
 
-  const [data] = useState(makeData());
+  const data = makeData();
 
   // Rendert die noetigen Daten
   const renderData = () => {

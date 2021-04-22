@@ -11,10 +11,11 @@ import { setFeatures as setFeaturesInDB } from "../mock";
 const query = new URLSearchParams(window.location.search);
 const datasetID = query.get("id");
 
-const CreateLabels = () => {
-  const dataset = GetDataset(datasetID);
-  const features = getFeatures(datasetID); // Alle Features die wir besitzen
 
+const features = getFeatures(datasetID);
+const CreateLabels = () => {
+ // Alle Features die wir besitzen
+ const dataset = GetDataset(datasetID);
   const [newFeatures, setFeatures] = useState([]); // neuen features(titel) die hinzugefügt werden
   const [featureOptions, setFeatureOptions] = useState([
     { id: v4(), option1: "", option2: "" },
@@ -158,7 +159,10 @@ const CreateLabels = () => {
           featureOptions[j].option1;
       }
       let lowestID = getLowestID();
-      EditValues(datasetID, lowestID + i, element); // Geht auch nicht
+      EditValues(datasetID, lowestID + i, element).then((pictureFromDB) => {
+        window.location.href = "/label-pictures?id=" + datasetID;
+      });
+      //console.log(test);
     }
     alert("Kriterien wurden hinzugefügt");
     /*
