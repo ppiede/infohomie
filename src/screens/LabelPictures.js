@@ -16,12 +16,11 @@ function redirect(event) {
   console.log(event.target.value);
   this.props.history.push("/create-labels?id=" + event.target.value);
 }
+const LabelPictures = () => {
+  let page = [];
 
-//Grün ist eingespeichert
-const Edit = () => {
   const [files] = useState([]);
   const features = useMemo(() => getFeatures(datasetID), []);
-  
 
   useEffect(
     () => () => {
@@ -32,7 +31,6 @@ const Edit = () => {
   );
 
   const dataset = GetDataset(datasetID);
-
 
 
 
@@ -58,13 +56,11 @@ const Edit = () => {
   // Erstellt Array mit allen Bildernamen und Featurenamen
   const makeData = () => {
     const data = [];
-    
+
     for (let i = 0; i < dataset.length; i++) {
-      
       let obj = { name: dataset[i].name };
 
-      for(var feature in features){
-
+      for (var feature in features) {
         obj[feature] = dataset[i]["features"][feature];
       }
 
@@ -85,7 +81,18 @@ const Edit = () => {
     });
   };
 
-  return (
+  page.push(
+    <img
+      src={Logo}
+      height="150"
+      className="d-inline-block align-top"
+      alt="You choose Logo"
+    />
+  );
+
+  //page.push(AddImgs());
+  page.push(<a>&nbsp;</a>);
+  page.push(
     <div
       style={{
         marginTop: 32,
@@ -122,25 +129,6 @@ const Edit = () => {
       <Footer />
     </div>
   );
-};
-
-const LabelPictures = () => {
-  let page = [];
-
-  const body = Edit();
-
-  page.push(
-    <img
-      src={Logo}
-      height="150"
-      className="d-inline-block align-top"
-      alt="You choose Logo"
-    />
-  );
-
-  //page.push(AddImgs());
-  page.push(<a>&nbsp;</a>);
-  page.push(body);
 
   return page;
 };
