@@ -11,6 +11,12 @@ import ls from "local-storage";
 import { IndexedDB } from "react-indexed-db";
 import { useIndexedDB } from "react-indexed-db";
 
+/**
+ * Initializes a IndexedDB with the given datasetID and an objectStore with the same
+ * ID
+ * 
+ * @param {*} datasetID Id of the DB and the objectStore
+ */
 export function InitDB(datasetID) {
   return (
     <IndexedDB
@@ -40,21 +46,15 @@ export function InitDB(datasetID) {
   );
 }
 
+/**
+ * Getter for a List of existing Datasets. Creates the 
+ * example Datasets if they don't exist. 
+ * @returns An array of the Dataset names.
+ */
 export function getDatasets() {
   let datasetList = ls.get("datasetList");
 
   if (datasetList == null || datasetList === []) {
-    //datasetList = [];
-    /*
-    var hundeUndKatzen = {
-      name: "Hunde und Katzen",
-      features: featuresDogCat,
-    };
-    var tomatenUndGurken = {
-      name: "Tomaten und Gurken",
-      features: featuresCucumberTomato,
-    };
-    */
     setFeatures("Hunde und Katzen", featuresDogCat);
     setFeatures("Tomaten und Gurken", featuresCucumberTomato);
   }
@@ -67,6 +67,13 @@ export function getDatasets() {
   return dropDownOptions;
 }
 
+/**
+ * Getter for a specific dataset. The dataset is returned in JSON format.
+ * Part of the dataset (image, name, id) is read from IndexedDB, the values 
+ * of the pictures are read from Localstorage. 
+ * 
+ * @param {} datasetID 
+ */
 export function GetDataset(datasetID) {
   InitDB(datasetID);
 
@@ -78,6 +85,8 @@ export function GetDataset(datasetID) {
   const { getAll } = useIndexedDB(datasetID);
   const [pictures, setPictures] = useState([]);
 
+  // Special treatment of example Datasets, because they
+  // are not stored in the IndexedDB.
   if (datasetID === "Hunde und Katzen") {
     copyValuesIntoLS(datasetID);
     let tmp = []
@@ -108,6 +117,7 @@ export function GetDataset(datasetID) {
     return tmp;
   }
 
+  // Other Datasets are handeled here
   getAll().then((picturesFromDB) => {
     var tmp = [];
     for (var i = 0; i < picturesFromDB.length; i++) {
@@ -136,6 +146,15 @@ export function GetDataset(datasetID) {
   return pictures;
 }
 
+/**
+ * Edit the values of a picture in a dataset. For example,
+ * change a cat from having visible ears to having not 
+ * visible ears.
+ * 
+ * @param {*} datasetID The Name of the Dataset
+ * @param {*} name The filename of the image
+ * @param {*} newValues The new Values for the Image (JSON)
+ */
 export function EditValues(datasetID, name, newValues) {
   let datasetValues = ls.get(datasetID);
   if(datasetValues == null){
@@ -146,6 +165,13 @@ export function EditValues(datasetID, name, newValues) {
 
 }
 
+/**
+ * Get the features of a dataset including all possible
+ * values for that feature. For example, for cats and dogs 
+ * one feature would be "ears" with values "visible" and 
+ * "invisible"
+ * @param {*} datasetID The name of the dataset.
+ */
 export function getFeatures(datasetID) {
 
   let datasetList = ls.get("datasetList");
@@ -164,19 +190,24 @@ export function getFeatures(datasetID) {
   }
 }
 
+/**
+ * Change the features of a dataset. 
+ * @param {*} datasetID The name of the dataset
+ * @param {*} features The new features.
+ */
 export function setFeatures(datasetID, features) {
 
   let datasetList = ls.get("datasetList");
   var newEntry;
 
   if (datasetList === null) {
-    //Zusätzliche Fehlerbahandlung
     newEntry = {
       name: datasetID,
       features: features,
     };
     datasetList = [newEntry];
     ls.set("datasetList", datasetList);  
+
   } else {
     var index = -1;
     for (var i = 0; i < datasetList.length; i++) {
@@ -199,6 +230,17 @@ export function setFeatures(datasetID, features) {
   }
 }
 
+/**
+ * Add a picture to the IndexedDB. Also needed are the dataset
+ * to store the Image in, the picture file, the values of the picture
+ * (no longer used) and the category, so if a picture is a dog (0) or 
+ * a cat (1).
+ * 
+ * @param {*} datasetID The name of the dataset
+ * @param {*} file The imagefile
+ * @param {*} values The values (no longer used)
+ * @param {*} category The category (0 or 1 for example cat or dog)
+ */
 export function AddImgs(datasetID, file, values, category) {
   InitDB(datasetID);
 
@@ -226,6 +268,11 @@ export function AddImgs(datasetID, file, values, category) {
   };
 }
 
+/**
+ * Copies the values for the example-datasets from the hardcoded JSON 
+ * into the localstorage, so it can be edited by the user.
+ * @param {*} datasetID Name of the Example-Dataset
+ */
 function copyValuesIntoLS(datasetID){
   
   let datasetValues = ls.get(datasetID);
