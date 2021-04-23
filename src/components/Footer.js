@@ -4,9 +4,9 @@ import { React } from "react";
 const Footer = () => {
   return (
     <div className="footer">
-      <a>Copyright © 2021 All Rights Reserved</a>
+      <p>Copyright © 2021 All Rights Reserved
       <br />
-      <a>Made with &hearts; by lkoehl, marfranke, ppiede</a>
+      Made with &hearts; by lkoehl, marfranke, ppiede</p>
     </div>
   );
 };
