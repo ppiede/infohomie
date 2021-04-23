@@ -76,10 +76,6 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
     }
     calledCounters[level]++;
 
-    //gains[curFeature + level] = calcInfGain(dataset, postSplitDataset);
-    //console.log(curFeature, level);
-    //console.log(calcInfGain(dataset, postSplitDataset));
-    //console.log(gains);
 
     return postSplitDataset;
   };
@@ -90,7 +86,7 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
       var numNeg = 0;
       var total = entropyDataset.length;
       for (var i = 0; i < entropyDataset.length; i++) {
-        if (entropyDataset[i]["category"] == 0) {
+        if (entropyDataset[i]["category"] === 0) {
           numNeg++;
         } else {
           numPos++;
@@ -150,10 +146,6 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
       return vertices;
     }
 
-    console.log(numVertices);
-    console.log(curFeature);
-    console.log(level);
-    console.log(gains);
 
     for (let i = 0; i < numVertices; i++) {
       vertices.push(
@@ -165,7 +157,7 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
         />
       );
     }
-    //console.log(vertices);
+
     return vertices;
   };
 
