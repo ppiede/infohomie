@@ -6,14 +6,13 @@ import Footer from "../components/Footer.js";
 import Table from "../components/Table";
 import { Button } from "react-bootstrap";
 
-// Wenn man auf einen Button drückt, dann speichert der nicht
 const query = new URLSearchParams(window.location.search);
 const datasetID = query.get("id");
 
-function redirect(event) {
-  console.log(event.target.value);
-  this.props.history.push("/create-labels?id=" + event.target.value);
-}
+/**
+ * bereitet alle Daten für die Tabelle vor und schickt diese dann an Table 
+ * @returns die anzuzeigende Seite
+ */
 const LabelPictures = () => {
   let page = [];
 
@@ -32,7 +31,10 @@ const LabelPictures = () => {
 
 
 
-  // Erstellt die Ueberschriften der Tabelle
+  /**
+   * Erstellt die Ueberschriften der Tabelle
+   * @returns columns
+   */
   const makeColumns = () => {
     const columns = [];
     columns.push({
@@ -40,6 +42,7 @@ const LabelPictures = () => {
       accessor: "name",
     });
 
+    // Setze alle Featurenamen in columns
     for (let i = 1; i <= Object.keys(features).length; i++) {
       columns.push({
         Header: features[i].label,
@@ -51,30 +54,41 @@ const LabelPictures = () => {
 
   const columns = useMemo(() => makeColumns(), [features, files]);
 
-  // Erstellt Array mit allen Bildernamen und Featurenamen
+  /**
+   * Erstellt Array mit allen Bildernamen und Featurenamen
+   * @returns data
+   */
   const makeData = () => {
     const data = [];
 
+    // Setze alle Bildernamen in obj
     for (let i = 0; i < dataset.length; i++) {
       let obj = { name: dataset[i].name };
 
+      // Setze die Features in obj
       for (var feature in features) {
         obj[feature] = dataset[i]["features"][feature];
       }
 
+      // packe alle Daten von obj in data
       data.push(obj);
     }
-    //console.log(data);
     return data;
   };
 
+  /**
+   * Weiterleitung zum Entscheidungsbaum
+   */
   const redirect = () => {
     window.location.href = "/decision-tree?id=" + datasetID;
   }
 
   const data = makeData();
 
-  // Rendert die noetigen Daten
+  /**
+   * Rendert alle nötigen Daten
+   * @returns die fertige Seite
+   */
   const renderData = () => {
     return dataset.map((value, index) => {
       return (
@@ -92,7 +106,6 @@ const LabelPictures = () => {
     />
   );
 
-  //page.push(AddImgs());
   page.push(<a>&nbsp;</a>);
   page.push(
     <div
@@ -114,7 +127,7 @@ const LabelPictures = () => {
       >
         {renderData()}
       </div>
-      <p>Hier können die Kriterien zugeordnet werden:</p>
+      <p>Hier können die Kriterien zugeordnet werden (blau = aktuelle Information):</p>
       <div />
       <div />
       <div

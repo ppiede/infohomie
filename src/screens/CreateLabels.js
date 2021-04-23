@@ -10,10 +10,14 @@ import { setFeatures as setFeaturesInDB } from "../mock";
 
 const query = new URLSearchParams(window.location.search);
 const datasetID = query.get("id");
-
-
 const features = getFeatures(datasetID);
+
+/**
+ * Ermöglicht den User die Erstellung neuer Features und deren Optionen
+ * @returns die fertige Seite
+ */
 const CreateLabels = () => {
+
  // Alle Features die wir besitzen
  const dataset = GetDataset(datasetID);
   const [newFeatures, setFeatures] = useState([]); // neuen features(titel) die hinzugefügt werden
@@ -22,8 +26,14 @@ const CreateLabels = () => {
   ]); // Optionen der Features
   const [featureName, setFeatureName] = useState(""); // input
 
+  /**
+   * Überprüft die Eingabe in das Textfeld und Updatet die Daten
+   * @param {*} id die ID des jeweiligen Optionsatzes
+   * @param {*} event das getriggerte Event
+   */
   const handleChangeInput = (id, event) => {
     const newFeatureOptions = featureOptions.map((i) => {
+      // Updatet nur, wenn die ID übereinstimmt
       if (id === i.id) {
         i[event.target.name] = event.target.value;
       }
@@ -32,6 +42,10 @@ const CreateLabels = () => {
     setFeatureOptions(newFeatureOptions);
   };
 
+  /**
+   * Bei Klick auf dem Button wird das neue Feature mitsamt den zwei Optionen erstellt
+   * @returns wenn kein Name gesetzt wurde
+   */
   const handleClick = () => {
     if (!featureName) {
       return;
@@ -44,6 +58,10 @@ const CreateLabels = () => {
     setFeatureName("");
   };
 
+  /**
+   * Rendert alle Bilder
+   * @returns 
+   */
   const renderData = () => {
     return dataset.map((value, index) => {
       return (
@@ -52,11 +70,16 @@ const CreateLabels = () => {
     });
   };
 
+  /**
+   * Rendert alle schon bestehenden Features
+   * @returns 
+   */
   const renderFeatures = () => {
     if (Object.keys(features).length == 0) {
       return <a>Bisher existieren keine Kriterien</a>;
     }
 
+    // Nehme alle Features und zeige sie an
     return Object.keys(features).map((key) => {
       return (
         <a>
@@ -66,6 +89,10 @@ const CreateLabels = () => {
     });
   };
 
+  /**
+   * Rendert alle neu gesetzten Features
+   * @returns 
+   */
   const renderNewFeatures = () => {
     if (newFeatures.length === 0) {
       return <a>Bisher existieren keine Kriterien</a>;
@@ -110,6 +137,11 @@ const CreateLabels = () => {
     });
   };
 
+  /**
+   * Um ID-Setzprobleme vorzubeugen
+   * Macs setzen die ID zum Teil nicht bei 1 
+   * @returns die niedrigste ID im Datensatz
+   */
   const getLowestID = () => {
 
     let theLowestID = dataset[0].id;
@@ -122,10 +154,15 @@ const CreateLabels = () => {
     return theLowestID;
   }
 
+  /**
+   * Setzt alle neue Features in den Datensatz
+   * @returns 
+   */
   const handleUploadClick = () => {
+
+    // Hilfsvariable zur Prüfung, ob irgendeine Option noch nicht gesetzt wurde
     var somethingEmpty = false;
 
-    console.log(featureOptions);
     for (let i = 0; i < featureOptions.length - 1; i++) {
       if (featureOptions[i].option1 == "" || featureOptions[i].option2 == "") {
         somethingEmpty = true;
@@ -138,6 +175,8 @@ const CreateLabels = () => {
 
     const allFeatures = { ...features };
 
+    // Übersetze alle Inputs in das richtige JSON-Format, 
+    // um die Informationen in der Datenbank zu updaten
     for (let i = 0; i < newFeatures.length; i++) {
       let element = {};
       element["label"] = newFeatures[i];
@@ -165,6 +204,7 @@ const CreateLabels = () => {
     }
     alert("Kriterien wurden hinzugefügt");
 
+    // Verzögerung zum richtigen Updaten der Daten
     setTimeout(function(){
       window.location.href = "/label-pictures?id=" + datasetID;
   }, 2000);

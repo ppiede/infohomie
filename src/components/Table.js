@@ -7,7 +7,10 @@ import { Button } from "react-bootstrap";
 const query = new URLSearchParams(window.location.search);
 const datasetID = query.get("id");
 
-// Erstellung der Zeilen und Spalten
+/**
+ * Erstellung der Zeilen und Spalten
+ * @returns Zeilen und Spalten
+ */
 const CustomCell = ({
   value: initialValue,
   row: { index },
@@ -16,7 +19,12 @@ const CustomCell = ({
   const features = useMemo(() => getFeatures(datasetID), []);
   const dataset = GetDataset(datasetID);
 
-  // Update das ausgewaehlte Kriterium
+  /**
+   * Behandelt das Klicken auf die Buttons
+   * @param {*} theFeatureNumber die Nummer des Features
+   * @param {*} place die an den Button gebundene Option
+   * @param {*} event das getriggerte Event
+   */
   const handleChangeInput = (theFeatureNumber, place, event) => {
     for (let i = 0; i < dataset.length; i++) {
       if (index == i) {
@@ -37,6 +45,7 @@ const CustomCell = ({
               updatedOptions[`${j}`] = features[j].values[place];
             }
           }
+          // Update die Daten in der Datenbank
           EditValues(
             datasetID,
             dataset[i].name,
@@ -47,8 +56,13 @@ const CustomCell = ({
     }
   };
 
-  // Ueberprueft, ob die jeweilige Option des Buttons fuer das Bild ausgewaehlt sind
-  // Wenn ja: zeige Button gruen an, sonst blau
+  /**
+   * Ueberprueft, ob die jeweilige Option des Buttons fuer das Bild ausgewaehlt sind
+   * Wenn Ja: Button Blau, wenn Nein: Button nur umrandet
+   * @param {*} theFeatureNumber die Nummer des Features
+   * @param {*} place die an den Button gebundene Option
+   * @returns die Farbe des Buttons
+   */
   const checkState = (theFeatureNumber, place) => {
     for (let i = 0; i < dataset.length; i++) {
       if (index == i) {
@@ -64,12 +78,13 @@ const CustomCell = ({
     }
   };
 
-  // Setzt alle Daten in die Tabelle
+  // Setzt alle Namen der Bilder in die Tabelle
   var theFeature;
   if (id === "name") {
     return <p>{initialValue}</p>;
   } else {
 
+    // Kriege die Nummer des Features
     for (var i = 0; i < Object.keys(features).length; i++) {
       if (id == features[i + 1].label) {
         theFeature = Object.keys(features)[i];
@@ -78,7 +93,6 @@ const CustomCell = ({
     }
     // Erstelle die Buttons mit allen noetigen Informationen
     return (
-      //<input type="checkbox" checked={isChecked} onChange={handleInputChange} />
       <div>
         <Button
           variant={checkState(theFeature, 0)}
@@ -88,6 +102,7 @@ const CustomCell = ({
         </Button>
         <br />
         <br />
+        
         <Button
           variant={checkState(theFeature, 1)}
           onClick={(event) => handleChangeInput(theFeature, 1, event)}
@@ -99,7 +114,10 @@ const CustomCell = ({
   }
 };
 
-// Erstellt die Tabelle endgueltig
+/**
+ * Die Erstellung der gesamten Tabelle
+ * @returns die fertige Tabelle
+ */
 const Table = ({ columns, data }) => {
   const defaultColumn = {
     Cell: CustomCell,
