@@ -51,6 +51,10 @@ const CustomCell = ({
             dataset[i].name,
             updatedOptions
           );
+          
+          setTimeout(function () {
+            window.location.reload();
+          }, 500);
         }
       }
     }
