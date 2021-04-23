@@ -244,6 +244,14 @@ export function setFeatures(datasetID, features) {
 export function AddImgs(datasetID, file, values, category) {
   InitDB(datasetID);
 
+  var filename = file.name.split(".")[0].replace("_0","");
+  if(file.name.split(".")[0].endsWith("_0")){
+    category = 0;
+    //console.log(file.name.split(".")[0].replace("_0",""));
+  } else if (file.name.split(".")[0].endsWith("_1")){
+    category = 1;
+  }
+
   let datasetValues = ls.get(datasetID);
   if(datasetValues == null){
     datasetValues = {};
@@ -260,7 +268,7 @@ export function AddImgs(datasetID, file, values, category) {
   reader.onload = function (e) {
     bits = e.target.result;
     add({
-      name: file.name,
+      name: filename,
       category: category,
       binarydata: bits,
       values: values,
