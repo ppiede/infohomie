@@ -10,7 +10,7 @@ import { setFeatures as setFeaturesInDB } from "../mock";
 
 const query = new URLSearchParams(window.location.search);
 const datasetID = query.get("id");
-const features = getFeatures(datasetID);
+const features = getFeatures(datasetID); // die schon existierenden Features
 
 /**
  * Ermöglicht den User die Erstellung neuer Features und deren Optionen
@@ -18,8 +18,8 @@ const features = getFeatures(datasetID);
  */
 const CreateLabels = () => {
 
- // Alle Features die wir besitzen
- const dataset = GetDataset(datasetID);
+  // Alle Features die wir besitzen
+  const dataset = GetDataset(datasetID);
   const [newFeatures, setFeatures] = useState([]); // neuen features(titel) die hinzugefügt werden
   const [featureOptions, setFeatureOptions] = useState([
     { id: v4(), option1: "", option2: "" },
@@ -147,7 +147,7 @@ const CreateLabels = () => {
     let theLowestID = dataset[0].id;
 
     for (let i = 1; i < dataset.length; i++) {
-      if(dataset[i].id < theLowestID) {
+      if (dataset[i].id < theLowestID) {
         theLowestID = dataset[i].id;
       }
     }
@@ -186,28 +186,32 @@ const CreateLabels = () => {
       ];
       allFeatures[`${Object.keys(features).length + i + 1}`] = element;
     }
-    setFeaturesInDB(datasetID, allFeatures); // Der Aufruf klappt nicht
+    setFeaturesInDB(datasetID, allFeatures);
 
     for (let i = 0; i < dataset.length; i++) {
       let element = {};
       for (const [key, value] of Object.entries(features)) {
-        element[`${key}`] = value.values[0];
+        if (key < Object.keys(features).length+1) {
+          element[`${key}`] = dataset[i].features[key];
+        } else {
+          element[`${key}`] = value.values[0];
+        }
       }
       for (let j = 0; j < newFeatures.length; j++) {
         element[`${Object.entries(features).length + j + 1}`] =
           featureOptions[j].option1;
       }
       let lowestID = getLowestID();
-      
+
       EditValues(datasetID, dataset[i].name, element);
-      //console.log(test);
     }
+
     alert("Kriterien wurden hinzugefügt");
 
     // Verzögerung zum richtigen Updaten der Daten
-    setTimeout(function(){
+    setTimeout(function () {
       window.location.href = "/label-pictures?id=" + datasetID;
-  }, 2000);
+    }, 2000);
   };
   return (
     <div>
