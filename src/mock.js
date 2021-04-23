@@ -43,8 +43,9 @@ export function InitDB(datasetID) {
 export function getDatasets() {
   let datasetList = ls.get("datasetList");
 
-  if (datasetList == null || datasetList == []) {
+  if (datasetList == null || datasetList === []) {
     //datasetList = [];
+    /*
     var hundeUndKatzen = {
       name: "Hunde und Katzen",
       features: featuresDogCat,
@@ -53,7 +54,7 @@ export function getDatasets() {
       name: "Tomaten und Gurken",
       features: featuresCucumberTomato,
     };
-    
+    */
     setFeatures("Hunde und Katzen", featuresDogCat);
     setFeatures("Tomaten und Gurken", featuresCucumberTomato);
   }
@@ -78,16 +79,39 @@ export function GetDataset(datasetID) {
   const [pictures, setPictures] = useState([]);
 
   if (datasetID === "Hunde und Katzen") {
-    return datasetDogCat;
+    copyValuesIntoLS(datasetID);
+    let tmp = []
+    for(var i = 0; i < datasetDogCat.length; i++){
+      let datasetValues = ls.get(datasetID);
+      tmp.push({
+        id: datasetDogCat[i].id,
+        url: datasetDogCat[i].url,
+        category: datasetDogCat[i].category,
+        name: datasetDogCat[i].name,
+        features: datasetValues[datasetDogCat[i].name],
+      });
+    }
+    return tmp;
   } else if (datasetID === "Tomaten und Gurken") {
-    return datasetCucumberTomato;
+    copyValuesIntoLS(datasetID);
+    let tmp = []
+    for(var j = 0; j < datasetCucumberTomato.length; j++){
+      let datasetValues = ls.get(datasetID);
+      tmp.push({
+        id: datasetCucumberTomato[j].id,
+        url: datasetCucumberTomato[j].url,
+        category: datasetCucumberTomato[j].category,
+        name: datasetCucumberTomato[j].name,
+        features: datasetValues[datasetCucumberTomato[j].name],
+      });
+    }
+    return tmp;
   }
 
   getAll().then((picturesFromDB) => {
     var tmp = [];
     for (var i = 0; i < picturesFromDB.length; i++) {
       var binarydata = picturesFromDB[i]["binarydata"];
-      //tmp.push(<img width="500" src={'data:image/jpeg;base64,' + btoa(test)}></img>)
       var name = picturesFromDB[i]["name"];
       let datasetValues = ls.get(datasetID);
       if(datasetValues == null){
@@ -97,7 +121,7 @@ export function GetDataset(datasetID) {
       var url = "data:image/jpeg;base64," + btoa(binarydata);
       var id = picturesFromDB[i]["id"];
       var category = picturesFromDB[i]["category"];
-      //var label = picturesFromDB[i]["values"];
+
       tmp.push({
         id: id,
         url: url,
@@ -107,10 +131,8 @@ export function GetDataset(datasetID) {
       });
     }
     setPictures(tmp);
-    //console.log("tmp: " + tmp);
   });
 
-  //console.log("pictures: "+ pictures);
   return pictures;
 }
 
@@ -122,28 +144,6 @@ export function EditValues(datasetID, name, newValues) {
   datasetValues[name] = newValues;
   ls.set(datasetID, datasetValues);
 
-  /*
-  const { getByID } = useIndexedDB(datasetID);
-  const { update } = useIndexedDB(datasetID);
-
-  getByID(id).then((pictureFromDB) => {
-    console.log("id" + id);
-    console.log(pictureFromDB);
-
-    let oldName = pictureFromDB["name"];
-    let oldBinary = pictureFromDB["binarydata"];
-    let oldCategory = pictureFromDB["category"];
-    update({
-      id: id,
-      name: oldName,
-      category: oldCategory,
-      binarydata: oldBinary,
-      values: newValues,
-    }).then((event) => {
-      alert("Edited!");
-    });
-  });
-  */
 }
 
 export function getFeatures(datasetID) {
@@ -164,15 +164,14 @@ export function getFeatures(datasetID) {
   }
 }
 
-// Diese Funktion funkioniert nicht
 export function setFeatures(datasetID, features) {
 
   let datasetList = ls.get("datasetList");
-
+  var newEntry;
 
   if (datasetList === null) {
     //Zusätzliche Fehlerbahandlung
-    var newEntry = {
+    newEntry = {
       name: datasetID,
       features: features,
     };
@@ -187,10 +186,10 @@ export function setFeatures(datasetID, features) {
     }
     if (index !== -1) {
       datasetList[index]["features"] = features;
-      ls.set("datasetList", datasetList); //<-- Diese Zeile hat gefehlt.
+      ls.set("datasetList", datasetList); 
 
     } else {
-      var newEntry = {
+      newEntry = {
         name: datasetID,
         features: features,
       };
@@ -217,15 +216,36 @@ export function AddImgs(datasetID, file, values, category) {
   var reader = new FileReader();
   reader.readAsBinaryString(file);
   reader.onload = function (e) {
-    //alert(e.target.result);
     bits = e.target.result;
-    //var values = getDefaultValues();
     add({
       name: file.name,
       category: category,
       binarydata: bits,
       values: values,
     });
-    //setFeatures(datasetID, '');
   };
+}
+
+function copyValuesIntoLS(datasetID){
+  
+  let datasetValues = ls.get(datasetID);
+  if(datasetValues !== null && datasetValues !== {}){
+    return;
+  }
+
+  datasetValues = {};
+  
+  if(datasetID === "Hunde und Katzen"){
+    for(var i = 0; i < datasetDogCat.length; i++){
+      datasetValues[datasetDogCat[i].name] = datasetDogCat[i].features;
+    }
+    ls.set(datasetID, datasetValues);
+
+  } else if (datasetID === "Tomaten und Gurken"){
+    for(var i = 0; i < datasetCucumberTomato.length; i++){
+      datasetValues[datasetCucumberTomato[i].name] = datasetCucumberTomato[i].features;
+    }
+    ls.set(datasetID, datasetValues);
+  }
+  
 }
