@@ -10,10 +10,11 @@ import Logo from "../img/YouChooseLogo.png";
 import Footer from "../components/Footer.js";
 import { Button } from "react-bootstrap";
 
+// Get id parameter from URL
 const query = new URLSearchParams(window.location.search);
 const datasetID = query.get("id");
 
-// Legt eine neue Datenbank an, falls noch keine vorhanden ist
+// Initialize correct Database according to id from URL
 if (datasetID !== null) {
   initDB({
     name: datasetID,
@@ -38,35 +39,36 @@ if (datasetID !== null) {
 }
 
 /**
- * Zeigt alle Dateneinträge an
- * @return gerendete Einträge
+ * Resturns all Pictures from the database in the URL as a html DataEntry Object
+ * @returns all Pictures from the database
  */
 function ShowAll() {
   const { getAll } = useIndexedDB(datasetID);
-  const [persons, setPersons] = useState();
+  const [pictures, setPictures] = useState();
 
   useEffect(() => {
-    getAll().then((personsFromDB) => {
+    getAll().then((picturesFromDB) => {
       var tmp = [];
-      for (var i = 0; i < personsFromDB.length; i++) {
-        var test = personsFromDB[i]["binarydata"];
+      for (var i = 0; i < picturesFromDB.length; i++) {
+        var picture = picturesFromDB[i]["binarydata"];
         tmp.push(
           <DataEntry
-            key={test.name}
-            url={"data:image/jpeg;base64," + btoa(test)}
+            key={picture.name}
+            url={"data:image/jpeg;base64," + btoa(picture)}
             size={150}
-            name={test.name}
+            name={picture.name}
           />
         );
       }
-      setPersons(tmp);
+      setPictures(tmp);
     });
   }, []);
-  return <div>{persons}</div>;
+  return <div>{pictures}</div>;
 }
 
 /**
- * Löscht alle Daten des aktuellen Datensatzes
+ * Clears all images from the database in the URL
+ * @returns A html Button element to clear all elements
  */
 function ClearAll() {
   const { clear } = useIndexedDB(datasetID);
@@ -97,12 +99,14 @@ function ClearAll() {
 }
 
 /**
- * Alle Dateneinträge
+ * The main body of the page, containing upload area and upload button
+ * @returns A html for the body of the page
  */
 const Edit = () => {
   const [files, setFiles] = useState([]);
   const [features, setFeatures] = useState([]);
 
+  // Handle drop in Dropzone
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
@@ -116,6 +120,7 @@ const Edit = () => {
     },
   });
 
+  // Create html Elements from files
   const acceptedFileImages = files.map((file) => {
     return (
       <DataEntry
@@ -135,7 +140,7 @@ const Edit = () => {
     [files]
   );
 
-  // Basisstyle für Dropzone
+  // Styling
   const baseStyle = {
     flex: 1,
     width: 800,
@@ -214,9 +219,7 @@ const Edit = () => {
     setData(makeData);
   }, [files, features]);
 
-  /**
-   * Lädt alle Bilder in die Datenbank
-   */
+  // This gets called when Upload button is pressed
   const handleUploadClick = (event) => {
     for (var i = 0; i < files.length; i++) {
       console.log(files);
@@ -302,12 +305,14 @@ const Edit = () => {
   );
 };
 
+/**
+ * Builds the page from the diffenent html elements the methods return
+ */
 const UploadPictures = () => {
   let page = [];
 
   const body = Edit();
 
-  //page.push(AddImgs());
   page.push(
     <img
       src={Logo}
