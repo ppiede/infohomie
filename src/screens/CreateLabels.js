@@ -191,8 +191,10 @@ const CreateLabels = () => {
     for (let i = 0; i < dataset.length; i++) {
       let element = {};
       for (const [key, value] of Object.entries(features)) {
+        // Falls Kriterium schon existierte
         if (key < Object.keys(features).length+1) {
           element[`${key}`] = dataset[i].features[key];
+        // Sonst setze neu - initial auf Option 1
         } else {
           element[`${key}`] = value.values[0];
         }
