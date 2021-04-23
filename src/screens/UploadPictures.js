@@ -263,7 +263,10 @@ const Edit = () => {
         <div>
           <p>Lade deine Bilder für den neuen Datensatz hoch. <br /> 
           Der Dateiname eines Bildes, welches ein Objekt der ersten Kategorie abbildet, muss
-            mit "_0" enden, <br /> ein Bild der zweiten Kategorie mit "_1". <br /> Bsp. "Gurke1_0.png".
+            mit "_0" enden, <br /> ein Bild der zweiten Kategorie mit "_1". 
+            <br /> Beispiel:
+            <br />GurkeA_0.png
+            <br />TomateA_1.jpg
           </p>
           <div {...getRootProps({ style })}>
             <input {...getInputProps()} />
