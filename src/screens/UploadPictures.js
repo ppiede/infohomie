@@ -10,9 +10,11 @@ import Logo from "../img/YouChooseLogo.png";
 import Footer from "../components/Footer.js";
 import { Button } from "react-bootstrap";
 
+// Get id parameter from URL
 const query = new URLSearchParams(window.location.search);
 const datasetID = query.get("id");
 
+// Initialize correct Database according to id from URL
 if (datasetID !== null) {
   initDB({
     name: datasetID,
@@ -36,44 +38,41 @@ if (datasetID !== null) {
   });
 }
 
+
+/**
+ * Resturns all Pictures from the database in the URL as a html DataEntry Object
+ * @returns all Pictures from the database
+ */
 function ShowAll() {
   const { getAll } = useIndexedDB(datasetID);
-  const [persons, setPersons] = useState();
+  const [pictures, setPictures] = useState();
 
   var personsFromDB;
 
   useEffect(() => {
-    getAll().then((personsFromDB) => {
+    getAll().then((picturesFromDB) => {
       var tmp = [];
-      for (var i = 0; i < personsFromDB.length; i++) {
-        var test = personsFromDB[i]["binarydata"];
+      for (var i = 0; i < picturesFromDB.length; i++) {
+        var picture = picturesFromDB[i]["binarydata"];
         tmp.push(
           <DataEntry
-            key={test.name}
-            url={"data:image/jpeg;base64," + btoa(test)}
+            key={picture.name}
+            url={"data:image/jpeg;base64," + btoa(picture)}
             size={150}
-            name={test.name}
+            name={picture.name}
           />
         );
       }
-      setPersons(tmp);
+      setPictures(tmp);
     });
   }, []);
-  return <div>{persons}</div>;
+  return <div>{pictures}</div>;
 }
 
-function redirect(event) {
-  console.log(event.target.value);
-  this.props.history.push("/create-labels?id=" + event.target.value);
-}
-
-function EditFirst() {
-  const handleClick = () => {
-    EditValues(datasetID, 1, getRandomValues());
-  };
-  return <Button onClick={handleClick}>Edit First</Button>;
-}
-
+/**
+ * Clears all images from the database in the URL
+ * @returns A html Button element to clear all elements
+ */
 function ClearAll() {
   const { clear } = useIndexedDB(datasetID);
 
@@ -102,29 +101,18 @@ function ClearAll() {
   return <Button onClick={handleClick}>Alle Daten löschen</Button>;
 }
 
-/*
-function AddImgs(file) {
 
-    let bits;
 
-    const { add } = useIndexedDB(datasetID);
-
-    var reader = new FileReader();
-    reader.readAsBinaryString(file);
-    reader.onload = function(e) {
-            //alert(e.target.result);
-        bits = e.target.result;
-        var values = getDefaultValues();
-        add({name: file.name, binarydata : bits, values: values});
-    }
-}
-*/
-
+/**
+ * The main body of the page, containing upload area and upload button
+ * @returns A html for the body of the page
+ */
 const Edit = () => {
   const [files, setFiles] = useState([]);
   const [featureName, setFeatureName] = useState("");
   const [features, setFeatures] = useState([]);
 
+  // Handle drop in Dropzone
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
@@ -138,6 +126,7 @@ const Edit = () => {
     },
   });
 
+  // Create html Elements from files
   const acceptedFileImages = files.map((file) => {
     return (
       <DataEntry
@@ -157,6 +146,7 @@ const Edit = () => {
     [files]
   );
 
+  // Styling
   const baseStyle = {
     flex: 1,
     width: 800,
@@ -227,13 +217,8 @@ const Edit = () => {
     setData(makeData);
   }, [files, features]);
 
-  const handleClick = () => {
-    let copy = [...features];
-    copy.push(featureName);
-    setFeatures(copy);
-    setFeatureName("");
-  };
 
+  // This gets called when Upload button is pressed
   const handleUploadClick = (event) => {
     for (var i = 0; i < files.length; i++) {
       console.log(files);
@@ -321,12 +306,14 @@ const Edit = () => {
   );
 };
 
+/**
+ * Builds the page from the diffenent html elements the methods return
+ */
 const UploadPictures = () => {
   let page = [];
 
   const body = Edit();
 
-  //page.push(AddImgs());
   page.push(
     <img
       src={Logo}

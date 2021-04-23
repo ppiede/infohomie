@@ -49,6 +49,10 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
       ? postSplitDataset.push(...splitDataSet(rightTree, level + 1))
       : postSplitDataset.push(rightTree);
 
+
+    // Because the calcInfGain is called recursivly, possibly multiple times
+    // for the same feature, some clever Maths is needed to link the information
+    // gain to the correct node in the tree.
     if (calledCounters[level] == null) {
       calledCounters[level] = 0;
     }
@@ -62,6 +66,7 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
     let hasBeenThere = false;
 
     for (let i = 1; i <= level; i++) {
+      // Clever Maths I am surprised I even came up with.
       if (
         Math.trunc(calledCounters[level] / Math.pow(4, level - i)) % 2 !==
         0
@@ -80,7 +85,20 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
     return postSplitDataset;
   };
 
+  /**
+   * Calculates the Informationgain of a feature. 
+   * For this, the dataset before and after splitting
+   * by the feature is required.
+   * @param {*} dataset Pre-Split Dataset
+   * @param {*} splitDataset Post-Split Dataset
+   * @returns The information gain (Number between 0 and 1)
+   */
   function calcInfGain(dataset, splitDataset) {
+    /**
+     * Calculates the entropy of a dataset
+     * @param {*} entropyDataset the dataset
+     * @returns The entropy of the dataset
+     */
     function entropy(entropyDataset) {
       var numPos = 0;
       var numNeg = 0;
@@ -104,12 +122,17 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
       return leftSide + rightSide;
     }
 
+    // If the splitDataset is only split by one feature, the information
+    // gain can be calculated directly, if it is split by more than one 
+    // feature it is merged and than called recursively.
     if (splitDataset.length === 2) {
       return (
         entropy(dataset) -
         ((splitDataset[0].length / dataset.length) * entropy(splitDataset[0]) +
           (splitDataset[1].length / dataset.length) * entropy(splitDataset[1]))
       );
+
+    
     } else if (splitDataset.length === 4) {
       let newLeft = [...splitDataset[0], ...splitDataset[1]];
       let newRight = [...splitDataset[2], ...splitDataset[3]];
