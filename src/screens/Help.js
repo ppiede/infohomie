@@ -1,6 +1,10 @@
 // Imports
 import { React } from "react";
 
+/**
+ * Seite in der Hilfe und Anleitungen stehen können
+ * @returns Hilfeseite
+ */
 const Help = () => {
   return (
     <div>

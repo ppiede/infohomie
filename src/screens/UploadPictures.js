@@ -1,11 +1,11 @@
 import { React, useState, useMemo, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import DataEntry from "../components/DataEntry";
-import { getRandomValues, getDefaultValues } from "./NewDataset";
+import { getDefaultValues } from "./NewDataset";
 import { initDB } from "react-indexed-db";
 import { useIndexedDB } from "react-indexed-db";
 import ls from "local-storage";
-import { EditValues, AddImgs } from "../mock";
+import { AddImgs } from "../mock";
 import Logo from "../img/YouChooseLogo.png";
 import Footer from "../components/Footer.js";
 import { Button } from "react-bootstrap";
@@ -13,6 +13,7 @@ import { Button } from "react-bootstrap";
 const query = new URLSearchParams(window.location.search);
 const datasetID = query.get("id");
 
+// Legt eine neue Datenbank an, falls noch keine vorhanden ist
 if (datasetID !== null) {
   initDB({
     name: datasetID,
@@ -36,11 +37,13 @@ if (datasetID !== null) {
   });
 }
 
+/**
+ * Zeigt alle Dateneinträge an
+ * @return gerendete Einträge
+ */
 function ShowAll() {
   const { getAll } = useIndexedDB(datasetID);
   const [persons, setPersons] = useState();
-
-  var personsFromDB;
 
   useEffect(() => {
     getAll().then((personsFromDB) => {
@@ -62,18 +65,9 @@ function ShowAll() {
   return <div>{persons}</div>;
 }
 
-function redirect(event) {
-  console.log(event.target.value);
-  this.props.history.push("/create-labels?id=" + event.target.value);
-}
-
-function EditFirst() {
-  const handleClick = () => {
-    EditValues(datasetID, 1, getRandomValues());
-  };
-  return <Button onClick={handleClick}>Edit First</Button>;
-}
-
+/**
+ * Löscht alle Daten des aktuellen Datensatzes
+ */
 function ClearAll() {
   const { clear } = useIndexedDB(datasetID);
 
@@ -102,27 +96,11 @@ function ClearAll() {
   return <Button onClick={handleClick}>Alle Daten löschen</Button>;
 }
 
-/*
-function AddImgs(file) {
-
-    let bits;
-
-    const { add } = useIndexedDB(datasetID);
-
-    var reader = new FileReader();
-    reader.readAsBinaryString(file);
-    reader.onload = function(e) {
-            //alert(e.target.result);
-        bits = e.target.result;
-        var values = getDefaultValues();
-        add({name: file.name, binarydata : bits, values: values});
-    }
-}
-*/
-
+/**
+ * Alle Dateneinträge
+ */
 const Edit = () => {
   const [files, setFiles] = useState([]);
-  const [featureName, setFeatureName] = useState("");
   const [features, setFeatures] = useState([]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -157,6 +135,7 @@ const Edit = () => {
     [files]
   );
 
+  // Basisstyle für Dropzone
   const baseStyle = {
     flex: 1,
     width: 800,
@@ -174,10 +153,12 @@ const Edit = () => {
     transition: "border .24s ease-in-out",
   };
 
+  // Aktiver Style für die Dropzone
   const activeStyle = {
     borderColor: "blue",
   };
 
+  // Setzt den Style für die Dropzone, je nachdem was gerade aktiv ist
   const style = useMemo(
     () => ({
       ...baseStyle,
@@ -186,6 +167,9 @@ const Edit = () => {
     [isDragActive]
   );
 
+  /**
+   * Alle Spalten für die Tabelle
+   */
   const makeColumns = () => {
     const columns = [];
     columns.push({
@@ -205,6 +189,9 @@ const Edit = () => {
 
   const columns = useMemo(() => makeColumns(), [features, files]);
 
+  /**
+   * Alle Daten für die Tabelle
+   */
   const makeData = () => {
     const data = [];
 
@@ -227,28 +214,18 @@ const Edit = () => {
     setData(makeData);
   }, [files, features]);
 
-  const handleClick = () => {
-    let copy = [...features];
-    copy.push(featureName);
-    setFeatures(copy);
-    setFeatureName("");
-  };
-
+  /**
+   * Lädt alle Bilder in die Datenbank
+   */
   const handleUploadClick = (event) => {
     for (var i = 0; i < files.length; i++) {
       console.log(files);
-      AddImgs(
-        datasetID,
-        files[i],
-        getDefaultValues(),
-        0
-      );
+      AddImgs(datasetID, files[i], getDefaultValues(), 0);
     }
     alert("Daten wurden hochgeladen.");
-    setTimeout(function(){
+    setTimeout(function () {
       window.location.href = "/create-labels?id=" + datasetID;
-  }, 2000);
-    
+    }, 2000);
   };
 
   return (
@@ -261,12 +238,16 @@ const Edit = () => {
     >
       {
         <div>
-          <p>Lade deine Bilder für den neuen Datensatz hoch. <br /> 
-          Der Dateiname eines Bildes, welches ein Objekt der ersten Kategorie abbildet, muss
-            mit "_0" enden, <br /> ein Bild der zweiten Kategorie mit "_1". 
+          <p>
+            Lade deine Bilder für den neuen Datensatz hoch. <br />
+            Der Dateiname eines Bildes, welches ein Objekt der ersten Kategorie
+            abbildet, muss mit "_0" enden, <br /> ein Bild der zweiten Kategorie
+            mit "_1".
             <br /> Beispiel:
-            <br />GurkeA_0.png
-            <br />TomateA_1.jpg
+            <br />
+            GurkeA_0.png
+            <br />
+            TomateA_1.jpg
           </p>
           <div {...getRootProps({ style })}>
             <input {...getInputProps()} />

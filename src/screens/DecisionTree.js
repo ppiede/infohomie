@@ -6,6 +6,10 @@ import { useLocation } from "react-router-dom";
 import Footer from "../components/Footer.js";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 
+/**
+ * Seite vom Entscheidungsbaum
+ * @returns Entscheidungsbaum
+ */
 const DecisionTree = () => {
   let page = [];
 
@@ -14,28 +18,47 @@ const DecisionTree = () => {
 
   const dataset = GetDataset(datasetID);
 
+  // Speicherung der Features und welche ausgewählt wurden
   const features = useMemo(() => getFeatures(datasetID), []);
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const button1 = useState("Kriterium 1 auswählen");
   const button2 = useState("Kriterium 2 auswählen");
   const button3 = useState("Kriterium 3 auswählen");
 
+  /**
+   * Event für den Dropdown vom ersten Merkmal
+   * @param {*} event Dropdownevent
+   */
   const handleChange1 = (event) => {
     let copy = [...selectedFeatures];
     copy[0] = event;
     setSelectedFeatures(copy);
   };
+
+  /**
+   * Event für den Dropdown vom ersten Merkmal
+   * @param {*} event Dropdownevent
+   */
   const handleChange2 = (event) => {
     let copy = [...selectedFeatures];
     copy[1] = event;
     setSelectedFeatures(copy);
   };
+
+  /**
+   * Event für den Dropdown vom ersten Merkmal
+   * @param {*} event Dropdownevent
+   */
   const handleChange3 = (event) => {
     let copy = [...selectedFeatures];
     copy[2] = event;
     setSelectedFeatures(copy);
   };
 
+  /**
+   * Rendert alle Dateneinträge am Anfang der Seite
+   * @returns Alle Dateneinträge
+   */
   const renderData = () => {
     return dataset.map((value, index) => {
       return (

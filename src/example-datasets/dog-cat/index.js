@@ -1,5 +1,8 @@
 import images from "./img";
 
+/**
+ * Datensatz. Jedes Objekt benötigt: id, name, category, features
+ */
 const dataset = [
   {
     id: 1,
@@ -195,6 +198,9 @@ const dataset = [
   },
 ];
 
+/**
+ *  Merkmale. Benötigt wird ein label und ein values Array mit zwei Optionen
+ */
 const features = {
   1: { label: "Ohren", values: ["Ja", "Nein"] },
   2: { label: "Haarlänge", values: ["Kurz", "Lang"] },

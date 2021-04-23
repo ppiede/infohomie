@@ -2,6 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card } from "react-bootstrap";
 
+/**
+ * Knoten für den Entscheidungsbaum
+ * @param {*} features Ausgewähltes Feature
+ * @param {*} values Optionen für die beiden Hälften des Entscheidungsbaums
+ * @param {*} gain Informationgain für den Knoten
+ * @returns Dateneintrag
+ */
 function Vertex({ features, values, gain }) {
   const valLeftTree = 0;
   const valRightTree = 1;

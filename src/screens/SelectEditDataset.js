@@ -5,16 +5,29 @@ import Logo from "../img/YouChooseLogo.png";
 import Footer from "../components/Footer.js";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 
+/**
+ * Seite um einen Datensatz auszuwählen
+ * @returns Auswählseite
+ */
 const SelectEditDataset = () => {
   let html = [];
 
   let dropDownOptions = getDatasets();
 
   class dropDownMenu extends Component {
+    /**
+     * Event für den Dropdown vom Datensatz
+     * @param {*} event Dropdownevent
+     */
     handleChange = (event) => {
       console.log(event);
       this.props.history.push("/create-labels?id=" + dropDownOptions[event]);
     };
+
+    /**
+     * Dropdownmenü
+     * @return gerendetes Dropdown
+     */
     render() {
       console.log(dropDownOptions);
       return (

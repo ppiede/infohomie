@@ -7,6 +7,10 @@ import Upload from "../img/upload.png";
 import Footer from "../components/Footer.js";
 import "./SelectEditMode.css";
 
+/**
+ * Seite in die Möglichkeiten für den Modus der Website angeboten werden
+ * @returns Seite für Modi
+ */
 const SelectEditMode = () => {
   let page = [];
 
@@ -29,12 +33,12 @@ const SelectEditMode = () => {
       >
         <div className="row-md-4">
           Willkommen auf unserer Seite.
-        <br />
-        Wählen Sie bitte die Option, mit welcher Sie einen Entscheidungsbaum
-        erstellen wollen.
-        <br />
-        &nbsp;
-      </div>
+          <br />
+          Wählen Sie bitte die Option, mit welcher Sie einen Entscheidungsbaum
+          erstellen wollen.
+          <br />
+          &nbsp;
+        </div>
         <div className="row-md-4">
           <CardGroup>
             <div className="col-md-4">
@@ -49,7 +53,7 @@ const SelectEditMode = () => {
                   <Card.Body>
                     <Card.Title style={{ textDecorationLine: "underline" }}>
                       Entscheidungsbaum erstellen
-                  </Card.Title>
+                    </Card.Title>
                     <img
                       src={Tree}
                       height="100"
@@ -60,7 +64,7 @@ const SelectEditMode = () => {
                     <Card.Text>
                       Einen Entscheidungsbaum aus einem gelabelten Bildersatz
                       erstellen
-                  </Card.Text>
+                    </Card.Text>
                   </Card.Body>
                 </Card>
               </a>
@@ -77,7 +81,7 @@ const SelectEditMode = () => {
                   <Card.Body>
                     <Card.Title style={{ textDecorationLine: "underline" }}>
                       Bestehenden Bildersatz labeln
-                  </Card.Title>
+                    </Card.Title>
                     <img
                       src={Pencil}
                       height="80"
@@ -89,7 +93,7 @@ const SelectEditMode = () => {
                     <Card.Text>Einen vorhandenen Bildersatz nutzen</Card.Text>
                     <Card.Text>
                       Kritierien editieren und Bilder klassifizieren
-                  </Card.Text>
+                    </Card.Text>
                   </Card.Body>
                 </Card>
               </a>
@@ -107,7 +111,7 @@ const SelectEditMode = () => {
                   <Card.Body>
                     <Card.Title style={{ textDecorationLine: "underline" }}>
                       Eigenen Bildersatz hochladen und labeln
-                  </Card.Title>
+                    </Card.Title>
                     <img
                       src={Upload}
                       height="80"
@@ -119,7 +123,7 @@ const SelectEditMode = () => {
                     <Card.Text>Bilder selber hochladen</Card.Text>
                     <Card.Text>
                       Kritierien aussuchen und Bilder klassifizieren
-                  </Card.Text>
+                    </Card.Text>
                   </Card.Body>
                 </Card>
               </a>

@@ -2,6 +2,13 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Image } from "react-bootstrap";
 
+/**
+ * Datenpunkt mit Bild und Untertitel
+ * @param {*} url URL zum Bild
+ * @param {*} name Untertitel des Bildes
+ * @param {*} size Größe des Bildes
+ * @returns Dateneintrag
+ */
 function DataEntry({ url, name, size }) {
   return (
     <div>

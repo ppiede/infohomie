@@ -5,16 +5,29 @@ import Logo from "../img/YouChooseLogo.png";
 import Footer from "../components/Footer.js";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 
+/**
+ * Auswahl eines Datensatz für den Entscheidungsbaum
+ * @returns Seite mit Dropdown
+ */
 const SelectTreeDataset = () => {
   let html = [];
 
   let dropDownOptions = getDatasets();
 
   class dropDownMenu extends Component {
+    /**
+     * Event für den Dropdown vom Entscheidungsbaum
+     * @param {*} event Dropdownevent
+     */
     handleChange = (event) => {
       console.log(event);
       this.props.history.push("/decision-tree?id=" + dropDownOptions[event]);
     };
+
+    /**
+     * Dropdownmenü
+     * @return gerendetes Dropdown
+     */
     render() {
       console.log(dropDownOptions);
       return (

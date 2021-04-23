@@ -3,6 +3,10 @@ import { React } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import Logo from "../img/YouChooseLogo1.png";
 
+/**
+ * Toolbar Komponente
+ * @returns Toolbar
+ */
 const Toolbar = () => {
   return (
     <>

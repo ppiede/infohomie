@@ -76,7 +76,6 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
     }
     calledCounters[level]++;
 
-
     return postSplitDataset;
   };
 
@@ -138,6 +137,13 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
     }
   }, [dataset, features, selectedFeatures]);
 
+  /**
+   * Rendert die Knoten für eine Reihe
+   * @param {*} numVertices Anzahl an Knoten, die gerendert werden
+   * @param {*} curFeature Ausgewähltes Feature bei der Tiefe
+   * @param {*} level Tiefe des Baumes
+   * @returns Knotenreige
+   */
   const renderVertices = (numVertices, curFeature, level) => {
     const vertices = [];
     // If the current feature is empty,
@@ -145,7 +151,6 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
     if (!curFeature) {
       return vertices;
     }
-
 
     for (let i = 0; i < numVertices; i++) {
       vertices.push(
@@ -161,6 +166,10 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
     return vertices;
   };
 
+  /**
+   * Rendert den Baum mit den Knoten
+   * @returns Baum
+   */
   const renderTree = () => {
     return selectedFeatures.map((value, index) => {
       return (
@@ -180,12 +189,15 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
     });
   };
 
+  /**
+   * Rendert alle Daten oben auf der Seite
+   * @returns Gerenderte Daten
+   */
   const renderData = () => {
     // If the first feature has been deseletced, done
     if (selectedFeatures[0] === "") {
       return;
     }
-
     return postSplitDataset.map((group, groupIndex) => {
       return (
         <div
@@ -213,7 +225,6 @@ function DecisionTreeVisualizer({ dataset, features, selectedFeatures = [] }) {
     });
   };
 
-  //
   return (
     <div
       style={{

@@ -9,6 +9,7 @@ import UploadPictures from "../screens/UploadPictures";
 import Help from "../screens/Help";
 import NewDataset from "../screens/NewDataset";
 
+// Verlinkungen aller Seiten für React Router
 const Routes = (props) => (
   <Router {...props}>
     <Route exact path="/" component={SelectEditMode} />
